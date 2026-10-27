@@ -1,0 +1,46 @@
+name: Validate and publish mod
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: node tests/check-item-hub-menus-v2.3.1.cjs
+      - run: node tests/check-item-hub-export-v2.3.1.cjs
+      - run: node tests/check-item-hub-removal-v2.3.1.cjs
+      - run: node tests/check-draft-upgrade-v2.3.1.cjs
+      - run: python scripts/build-release.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: item-repair-hub-release
+          path: dist/*
+  publish:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: item-repair-hub-release
+          path: dist
+      - name: Publish the checked commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          version=$(python -c 'import json; print(json.load(open("mod/mod.json"))["version"])')
+          gh release create "v$version" dist/* --target "$GITHUB_SHA" --title "Item Repair Hub v$version" --notes-file "RELEASE-NOTES-v$version.md" --latest

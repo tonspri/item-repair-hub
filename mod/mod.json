@@ -1,0 +1,175 @@
+{
+  "name": "item-repair-hub",
+  "version": "2.3.1",
+  "author": "DaggerHashimoto",
+  "description": "Give weapons and armor optional skills and attack autocasts, adjust class access and transfer rules, and build your own item-repair collection in game. Includes three starter examples and optional World Sync Extras v2.1.5 compatibility. Save & Export, replace the mod folder, then Apply & restart.",
+  "requires": {
+    "app": ">=1.7.0",
+    "era": "renewal"
+  },
+  "settingsPage": "settings/index.html",
+  "settings": [
+    {
+      "key": "legacy_trade",
+      "type": "boolean",
+      "default": true,
+      "label": "Previous grouped permission choice (upgrade migration only)"
+    },
+    {
+      "key": "agni_family",
+      "type": "boolean",
+      "default": true,
+      "label": "Agni Sword: Swordsman, Merchant and Thief families"
+    },
+    {
+      "key": "agni_trade_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: allow trading"
+    },
+    {
+      "key": "agni_trade_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: block trading"
+    },
+    {
+      "key": "agni_storage_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: allow personal storage"
+    },
+    {
+      "key": "agni_storage_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: block personal storage"
+    },
+    {
+      "key": "agni_guild_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: allow guild storage"
+    },
+    {
+      "key": "agni_guild_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: block guild storage"
+    },
+    {
+      "key": "agni_cart_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: allow cart"
+    },
+    {
+      "key": "agni_cart_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: block cart"
+    },
+    {
+      "key": "agni_mail_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: allow mail"
+    },
+    {
+      "key": "agni_mail_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Agni Sword: block mail"
+    },
+    {
+      "key": "cocytus_base",
+      "type": "boolean",
+      "default": true,
+      "label": "Cocytus Armor: bonuses and autocasts repair"
+    },
+    {
+      "key": "cocytus_trade_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: allow trading"
+    },
+    {
+      "key": "cocytus_trade_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: block trading"
+    },
+    {
+      "key": "cocytus_storage_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: allow personal storage"
+    },
+    {
+      "key": "cocytus_storage_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: block personal storage"
+    },
+    {
+      "key": "cocytus_guild_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: allow guild storage"
+    },
+    {
+      "key": "cocytus_guild_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: block guild storage"
+    },
+    {
+      "key": "cocytus_cart_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: allow cart"
+    },
+    {
+      "key": "cocytus_cart_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: block cart"
+    },
+    {
+      "key": "cocytus_mail_allow",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: allow mail"
+    },
+    {
+      "key": "cocytus_mail_block",
+      "type": "boolean",
+      "default": false,
+      "label": "Cocytus Armor: block mail"
+    },
+    {
+      "key": "individual_permissions_ready",
+      "type": "boolean",
+      "default": true,
+      "label": "Individual item choices saved (upgrade migration only)"
+    },
+    {
+      "key": "item_100906_permissions",
+      "type": "boolean",
+      "default": true,
+      "label": "All-in-One Buff Potion: transfer permission repair"
+    },
+    {
+      "key": "zz_native_exports",
+      "type": "boolean",
+      "default": true,
+      "label": "Enable exported item repairs"
+    }
+  ],
+  "tags": [
+    "equipment",
+    "bugfix",
+    "quality-of-life",
+    "renewal"
+  ]
+}

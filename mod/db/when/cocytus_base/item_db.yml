@@ -1,0 +1,53 @@
+# Item Repair Hub v1.1.0
+Header:
+  Type: ITEM_DB
+  Version: 3
+Body:
+  - Id: 450481
+    AegisName: Cocytus_Armor_US
+    Name: Cocytus Armor
+    Type: Armor
+    Weight: 2500
+    Defense: 150
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 2
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoStorage: true
+      NoCart: true
+    Script: |
+      .@r = getrefine();
+      .@g = getenchantgrade(EQI_ARMOR);
+      bonus bDefEle,Ele_Water;
+      bonus bUnbreakableArmor;
+      bonus bAspd,10;
+      skill "MG_COLDBOLT",10;
+      if (BaseLevel <= 99) {
+        bonus bBaseAtk,-200;
+        bonus bMatk,-200;
+        bonus2 bSubRace,RC_DemiHuman,-50;
+      }
+      .@lv = min(BaseLevel,250);
+      bonus2 bSkillAtk,"MG_COLDBOLT",10*.@lv;
+      bonus2 bSkillAtk,"WZ_STORMGUST",10*.@lv;
+      bonus bSpl,.@r;
+      bonus2 bMagicAddClass,Class_All,5*.@r;
+      bonus bWis,3*(.@r/2);
+      bonus bSta,3*(.@r/2);
+      bonus bMaxHPrate,10*(.@r/2);
+      if (.@r >= 10) bonus bAllStats,10;
+      if (.@r >= 11) bonus bInt,20;
+      if (.@r >= 13) bonus2 bMagicAddClass,Class_All,20;
+      if (.@r >= 14) {
+        bonus2 bSkillAtk,"WL_JACKFROST",50;
+        bonus2 bMagicAddClass,Class_All,20;
+      }
+      if (.@g >= ENCHANTGRADE_D) bonus bSpl,5;
+      if (.@g >= ENCHANTGRADE_C) bonus2 bIgnoreMdefRaceRate,RC_All,30;
+      if (.@g >= ENCHANTGRADE_B) bonus bSMatk,10;
+      if (.@g >= ENCHANTGRADE_A) bonus4 bAutoSpellOnSkill,"MG_COLDBOLT","WL_JACKFROST",5,1000;

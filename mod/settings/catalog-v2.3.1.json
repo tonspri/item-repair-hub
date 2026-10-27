@@ -1,0 +1,65 @@
+[
+  {
+    "key": "agni",
+    "id": 500118,
+    "name": "Agni Sword",
+    "category": "equipment",
+    "categoryLabel": "Equipment access",
+    "aliases": "Agni_Sword_US swordsman knight crusader merchant thief",
+    "summary": "Restore the Swordsman family alongside Merchant and Thief.",
+    "description": "Allows both Swordsman advancement branches, alongside Merchant and Thief families, through normal and advanced job tiers. The item keeps its existing level requirement, stats and effects.",
+    "toggles": [
+      {
+        "key": "agni_family",
+        "label": "Enable the class-family repair"
+      }
+    ],
+    "permissions": "agni",
+    "scope": "Agni Sword only",
+    "categories": [
+      "equipment",
+      "permissions"
+    ]
+  },
+  {
+    "key": "cocytus",
+    "id": 450481,
+    "name": "Cocytus Armor",
+    "category": "effects",
+    "categoryLabel": "Bonuses & autocasts",
+    "aliases": "Cocytus_Armor_US cold bolt storm gust jack frost grade refine armor",
+    "summary": "Keep the working bonuses, grade effects and +12 autocasts together.",
+    "description": "Restores refine and grade bonuses. At +12, normal melee attacks can trigger Cold Bolt and Storm Gust. Grade A adds Cold Bolt \u2192 Jack Frost. This switch enables the complete armor repair.",
+    "toggles": [
+      {
+        "key": "cocytus_base",
+        "label": "Enable bonuses and autocasts repair"
+      }
+    ],
+    "permissions": "cocytus",
+    "scope": "Cocytus Armor only",
+    "notice": "The supplied repair blocks dropping, trading, personal storage and cart by default. The menus below can override trading, storage and cart. Keep original adds no extra permission patch; the active armor repair and other mods still apply.",
+    "categories": [
+      "effects",
+      "permissions"
+    ]
+  },
+  {
+    "key": "item_100906",
+    "id": 100906,
+    "name": "All-in-One Buff Potion",
+    "category": "permissions",
+    "categoryLabel": "Trade & storage",
+    "aliases": " ",
+    "summary": "Individual transfer permission repair.",
+    "description": "Allows trading, personal storage, mail. Turn this repair off to inherit the server\u2019s restrictions after a restart. Other mods, item binding and server rules can still apply.",
+    "toggles": [
+      {
+        "key": "item_100906_permissions",
+        "label": "Enable transfer permission repair"
+      }
+    ],
+    "migratedPermissionKey": "item_100906_permissions",
+    "scope": "All-in-One Buff Potion only"
+  }
+]

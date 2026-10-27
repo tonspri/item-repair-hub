@@ -1,0 +1,9 @@
+# Item Repair Hub v1.1.0
+Header:
+  Type: ITEM_DB
+  Version: 3
+
+Body:
+  - Id: 500118
+    Trade:
+      NoMail: false

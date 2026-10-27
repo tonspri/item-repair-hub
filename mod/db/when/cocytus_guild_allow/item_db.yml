@@ -1,0 +1,8 @@
+# Item Repair Hub v1.1.0
+Header:
+  Type: ITEM_DB
+  Version: 3
+Body:
+  - Id: 450481
+    Trade:
+      NoGuildStorage: false

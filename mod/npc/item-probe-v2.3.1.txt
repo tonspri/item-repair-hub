@@ -1,0 +1,15 @@
+// Item Repair Hub v2.3.1: read-only ID/name baseline check; no app integration.
+-	script	IRHNativeProbeV21	-1,{
+OnInit:
+    bindatcmd "irhprobe", strnpcinfo(3) + "::OnProbe", 0, 99;
+    end;
+OnProbe:
+    .@req$ = .@atcmd_parameters$[0];
+    .@id = atoi(.@atcmd_parameters$[1]);
+    if (.@id <= 0 || getitemname(.@id) == "null") {
+        dispbottom "@@reply " + .@req$ + " 1/1 MISSING";
+        end;
+    }
+    dispbottom "@@reply " + .@req$ + " 1/1 OK|" + .@id + "|" + getiteminfo(.@id, ITEMINFO_AEGISNAME);
+    end;
+}

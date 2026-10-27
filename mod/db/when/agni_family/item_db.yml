@@ -1,0 +1,19 @@
+# Item Repair Hub v1.1.0
+Header:
+  Type: ITEM_DB
+  Version: 3
+
+Body:
+  - Id: 500118
+    Jobs:
+      Swordman: true
+      Knight: true
+      Crusader: true
+      Merchant: true
+      Blacksmith: true
+      Alchemist: true
+      Thief: true
+      Assassin: true
+      Rogue: true
+    Classes:
+      All: true
