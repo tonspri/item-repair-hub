@@ -42,6 +42,10 @@ Body:
       bonus bMaxHPrate,10*(.@r/2);
       if (.@r >= 10) bonus bAllStats,10;
       if (.@r >= 11) bonus bInt,20;
+      if (.@r >= 12) {
+        bonus5 bAutoSpell,"MG_COLDBOLT",10,200,BF_SHORT|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpell,"WZ_STORMGUST",10,200,BF_SHORT|BF_WEAPON|BF_NORMAL,1;
+      }
       if (.@r >= 13) bonus2 bMagicAddClass,Class_All,20;
       if (.@r >= 14) {
         bonus2 bSkillAtk,"WL_JACKFROST",50;

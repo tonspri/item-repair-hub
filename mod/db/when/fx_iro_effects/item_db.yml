@@ -1,0 +1,1051 @@
+# Item Repair Hub v2.7.0: iRO effect repairs (Script only; Jobs and Trade come from other layers)
+Header:
+  Type: ITEM_DB
+  Version: 3
+
+Body:
+  # Future Wolf King Hat: Adds the missing +11, +12 and +13 bonuses and autocasts.
+  - Id: 401012
+    AegisName: Great_Wolf_US
+    Script: |
+      bonus bUnbreakableHelm;
+      bonus bAspd,10;
+      bonus2 bMagicAddSize,Size_All,20;
+      if (eaclass()&EAJL_FOURTH && (BaseJob == Job_Kagerou || BaseJob == Job_Oboro)) {
+        bonus bMaxHP,50000;
+        bonus bMaxSP,5000;
+        bonus2 bExpAddRace,RC_All,50;
+      }
+      .@r = getrefine();
+      bonus bSpl,.@r/2;
+      bonus2 bMagicAddSize,Size_All,7*(.@r/2);
+      bonus bAllStats,7*(.@r/3);
+      if (.@r >= 10) {
+        bonus2 bMagicAddSize,Size_All,15;
+      }
+      if (.@r >= 11) {
+        bonus bAllTraitStats,7;
+        bonus bMatk,70;
+        bonus3 bAutoSpell,"HN_HELLS_DRIVE",10,50;
+      }
+      if (.@r >= 12) {
+        bonus bAllTraitStats,7;
+        bonus bMatk,70;
+        bonus3 bAutoSpell,"HN_METEOR_STORM_BUSTER",10,70;
+      }
+      if (.@r >= 13) {
+        bonus bAllStats,20;
+        bonus bMatk,200;
+        bonus3 bAutoSpell,"HN_JUPITEL_THUNDER_STORM",10,150;
+      }
+      if (.@r >= 14) {
+        bonus bMatk,250;
+        bonus bDelayrate,-25;
+        bonus bFixedCast,-500;
+      }
+  # Blighted Skullcap: Adds the missing +11, +12, +13 and +15 bonuses, cooldowns and autocasts.
+  - Id: 401544
+    AegisName: Blighted_Skullcap_US
+    Script: |
+      bonus bUnbreakableHelm;
+      bonus bMdef,10;
+      bonus2 bMagicAddEle,Ele_All,30;
+      .@r = getrefine();
+      bonus2 bSkillAtk,"EM_VENOM_SWAMP",12*.@r;
+      bonus2 bSkillAtk,"AG_DEADLY_PROJECTION",12*.@r;
+      bonus bAllStats,10*(.@r/3);
+      bonus4 bAutoSpellOnSkill,"AG_DEADLY_PROJECTION","AG_DEADLY_PROJECTION",5,300;
+      if (.@r >= 10) {
+        bonus2 bMagicAddEle,Ele_All,30;
+      }
+      if (.@r >= 11) {
+        bonus bSpl,30;
+        bonus2 bSkillCooldown,"EM_SUMMON_ELEMENTAL_SERPENS",-300000;
+        bonus bFixedCast,-500;
+      }
+      if (.@r >= 12) {
+        bonus bMatk,100;
+        bonus bAllTraitStats,10;
+        bonus2 bSkillCooldown,"EM_VENOM_SWAMP",-2000;
+        bonus3 bAutoSpell,"EM_VENOM_SWAMP",5,100;
+      }
+      if (.@r >= 13) {
+        bonus bMatk,100;
+        bonus bAllTraitStats,10;
+        bonus2 bSkillCooldown,"AG_DEADLY_PROJECTION",-2000;
+        bonus3 bAutoSpell,"AG_DEADLY_PROJECTION",5,100;
+      }
+      if (.@r >= 15) {
+        bonus2 bMagicAddClass,Class_All,40;
+        bonus bDelayrate,-25;
+        bonus bFixedCast,-500;
+      }
+  # Saint Knight Armor: Adds the class skills, +10 Tuna Belly autocast and +13 skill damage.
+  - Id: 450442
+    AegisName: Saint_Knight_US
+    Script: |
+      bonus bBaseAtk,150;
+      bonus bMatk,150;
+      bonus2 bSubClass,Class_All,20;
+      if ((eaclass()&(EAJL_THIRD|EAJL_FOURTH)) && BaseJob == Job_Crusader) {
+        skill "RK_HUNDREDSPEAR",10;
+      }
+      if ((eaclass()&(EAJL_THIRD|EAJL_FOURTH)) && BaseJob == Job_Knight) {
+        skill "LG_RAYOFGENESIS",10;
+      }
+      .@r = getrefine();
+      if (.@r >= 10) {
+        bonus4 bAutoSpellOnSkill,"RK_HUNDREDSPEAR","SU_TUNABELLY",2,300;
+        bonus4 bAutoSpellOnSkill,"LG_RAYOFGENESIS","SU_TUNABELLY",2,300;
+      }
+      if (.@r >= 11) {
+        bonus2 bSkillAtk,"LG_RAYOFGENESIS",BaseLevel/2;
+        bonus4 bAutoSpellOnSkill,"CR_HOLYCROSS","LG_RAYOFGENESIS",10,1000;
+      }
+      if (.@r >= 12) {
+        bonus bAllStats,20;
+        bonus bBaseAtk,200;
+        bonus bMatk,200;
+      }
+      if (.@r >= 13) {
+        bonus2 bSkillAtk,"IG_CROSS_RAIN",BaseLevel/3;
+        bonus2 bSkillAtk,"IG_JUDGEMENT_CROSS",BaseLevel/3;
+        bonus2 bSkillAtk,"DK_HACKANDSLASHER",BaseLevel/3;
+        bonus2 bSkillAtk,"DK_STORMSLASH",BaseLevel/3;
+      }
+      if (.@r >= 14) {
+        bonus2 bAddSize,Size_All,10*(.@r/2);
+        bonus2 bMagicAddSize,Size_All,10*(.@r/2);
+      }
+  # Dark Apostate Armor: Adds the Acolyte-class skills, +10 Tuna Belly autocast and +11 skill damage.
+  - Id: 450444
+    AegisName: Dark_Acolyte_US
+    Script: |
+      bonus bBaseAtk,150;
+      bonus bMatk,150;
+      bonus2 bSubClass,Class_All,20;
+      if (BaseClass == Job_Acolyte) {
+        skill "ASC_METEORASSAULT",10;
+        skill "WL_HELLINFERNO",5;
+      }
+      .@r = getrefine();
+      if (.@r >= 10) {
+        bonus4 bAutoSpellOnSkill,"ASC_METEORASSAULT","SU_TUNABELLY",2,500;
+      }
+      if (.@r >= 11) {
+        bonus bPow,5;
+        bonus bSpl,5;
+        bonus2 bSkillAtk,"ASC_METEORASSAULT",2*BaseLevel;
+        bonus2 bSkillAtk,"WL_HELLINFERNO",2*BaseLevel;
+      }
+      if (.@r >= 12) {
+        bonus bAllStats,20;
+        bonus bBaseAtk,200;
+        bonus bMatk,200;
+      }
+      if (.@r >= 13) {
+        bonus2 bSkillAtk,"IQ_EXPOSION_BLASTER",BaseLevel/2;
+        bonus2 bSkillAtk,"CD_FRAMEN",BaseLevel/2;
+      }
+      if (.@r >= 14) {
+        bonus2 bAddSize,Size_All,10*(.@r/2);
+        bonus2 bMagicAddSize,Size_All,10*(.@r/2);
+      }
+  # Stormy December: Adds the +12, +13 and +14 cooldowns and chain autocasts.
+  - Id: 450601
+    AegisName: Stormy_December_US
+    Script: |
+      bonus bUnbreakableArmor;
+      bonus bMdef,20;
+      bonus bMaxHP,20000;
+      bonus bAllStats,20;
+      bonus2 bMagicAtkEle,Ele_Water,20;
+      .@r = getrefine();
+      bonus2 bSkillAtk,"SS_REIKETSUHOU",10*.@r;
+      bonus2 bSkillAtk,"EM_DIAMOND_STORM",10*.@r;
+      bonus bSpl,3*(.@r/2);
+      bonus2 bSkillAtk,"HN_JACK_FROST_NOVA",20*(.@r/2);
+      if (.@r >= 11) {
+        bonus2 bMagicAtkEle,Ele_Water,30;
+      }
+      if (.@r >= 12) {
+        bonus2 bSkillCooldown,"SS_REIKETSUHOU",-500;
+        bonus4 bAutoSpellOnSkill,"SS_REIKETSUHOU","EM_DIAMOND_STORM",5,200;
+      }
+      if (.@r >= 13) {
+        bonus2 bSkillCooldown,"EM_DIAMOND_STORM",-1000;
+        bonus4 bAutoSpellOnSkill,"EM_DIAMOND_STORM","HN_JACK_FROST_NOVA",10,200;
+      }
+      if (.@r >= 14) {
+        bonus2 bSkillCooldown,"HN_JACK_FROST_NOVA",-3000;
+        bonus4 bAutoSpellOnSkill,"HN_JACK_FROST_NOVA","SS_REIKETSUHOU",10,200;
+      }
+      if (.@r >= 15) {
+        bonus2 bMagicAtkEle,Ele_Water,50;
+      }
+  # November Rain Robe: Adds the +13 and +14 Crystal Rain autocasts.
+  - Id: 450566
+    AegisName: November_Rain_US
+    Script: |
+      bonus bUnbreakableArmor;
+      bonus bMdef,15;
+      bonus bMaxHP,20000;
+      bonus bAllStats,20;
+      bonus2 bSkillAtk,"AG_RAIN_OF_CRYSTAL",5*(BaseLevel/10);
+      .@r = getrefine();
+      bonus2 bMagicAtkEle,Ele_Water,10*(.@r/2);
+      bonus bSpl,5*(.@r/3);
+      if (.@r >= 11) {
+        bonus2 bMagicAtkEle,Ele_Water,20;
+      }
+      if (.@r >= 12) {
+        bonus2 bSkillCooldown,"AG_RAIN_OF_CRYSTAL",-3000;
+      }
+      if (.@r >= 13) {
+        bonus4 bAutoSpellOnSkill,"AG_RAIN_OF_CRYSTAL","AG_RAIN_OF_CRYSTAL",5,200;
+      }
+      if (.@r >= 14) {
+        bonus4 bAutoSpellOnSkill,"AG_RAIN_OF_CRYSTAL","AG_FROZEN_SLASH",5,100;
+      }
+      if (.@r >= 15) {
+        bonus2 bSkillCooldown,"AG_FROZEN_SLASH",-300;
+        bonus2 bSkillAtk,"AG_FROZEN_SLASH",100;
+      }
+  # Iron Will: Adds the missing +11, +13 and +14 bonuses.
+  - Id: 450464
+    AegisName: Iron_Will_US
+    Script: |
+      .@r = getrefine();
+      .@lv = min(BaseLevel,250);
+      bonus bStr,5*(.@r/2);
+      bonus bPow,3*(.@r/2);
+      bonus bMaxHPrate,10*(.@r/3);
+      bonus bDelayrate,-4*(.@r/3);
+      if (.@r >= 9) {
+        bonus bStr,30;
+      }
+      if (.@r >= 10) {
+        bonus2 bAddSize,Size_All,15;
+      }
+      if (.@r >= 11) {
+        bonus2 bAddSize,Size_All,20;
+      }
+      if (.@r >= 12) {
+        bonus bPow,15;
+      }
+      if (.@r >= 13) {
+        bonus2 bSkillAtk,"NC_COLDSLOWER",.@lv;
+        bonus2 bSkillAtk,"NC_FLAMELAUNCHER",.@lv;
+        bonus2 bSkillAtk,"NC_SELFDESTRUCTION",.@lv;
+      }
+      if (.@r >= 14) {
+        bonus2 bSkillAtk,"NC_ARMSCANNON",.@lv/2;
+        if (BaseClass == Job_Merchant) {
+          bonus2 bAddClass,Class_All,.@lv/5;
+        }
+      }
+  # Spin Ball: Adds the +12 and +13 autocasts and fixes the +7 After Cast Delay.
+  - Id: 491013
+    AegisName: Spin_Ball_US
+    Script: |
+      bonus bPow,15;
+      bonus bCon,15;
+      bonus bFlee2,50;
+      bonus2 bSkillAtk,"RK_WINDCUTTER",50;
+      .@r = getrefine();
+      bonus bPow,3*(.@r/2);
+      bonus bCon,3*(.@r/2);
+      if (.@r >= 7) {
+        bonus bVariableCastrate,-15;
+        bonus bDelayrate,-15;
+      }
+      if (.@r >= 8) {
+        bonus2 bAddSize,Size_All,20;
+        bonus2 bSkillAtk,"GC_ROLLINGCUTTER",50;
+      }
+      if (.@r >= 9) {
+        bonus bDelayrate,-15;
+        bonus2 bSkillAtk,"NC_AXETORNADO",50;
+      }
+      if (.@r >= 10) {
+        bonus2 bAddEle,Ele_All,25;
+        bonus2 bSkillAtk,"GN_CART_TORNADO",50;
+      }
+      if (.@r >= 11) {
+        bonus bPow,8;
+        bonus bCon,8;
+      }
+      if (.@r >= 12) {
+        bonus4 bAutoSpellOnSkill,"GC_ROLLINGCUTTER","GC_ROLLINGCUTTER",5,800;
+        bonus4 bAutoSpellOnSkill,"NC_AXETORNADO","NC_AXETORNADO",5,800;
+        bonus4 bAutoSpellOnSkill,"GN_CART_TORNADO","GN_CART_TORNADO",10,800;
+      }
+      if (.@r >= 13) {
+        bonus4 bAutoSpellOnSkill,"GC_ROLLINGCUTTER","RK_WINDCUTTER",5,400;
+        bonus4 bAutoSpellOnSkill,"NC_AXETORNADO","RK_WINDCUTTER",5,400;
+        bonus4 bAutoSpellOnSkill,"GN_CART_TORNADO","RK_WINDCUTTER",5,400;
+      }
+      if (.@r >= 14) {
+        bonus2 bSkillAtk,"RK_WINDCUTTER",120;
+      }
+  # Robotic Valkyrie Hairband: Adds the +9, +12 and +13 bonuses and fixes the Merchant-class bonus.
+  - Id: 400948
+    AegisName: Robotic_Valk_US
+    Script: |
+      bonus bLongAtkRate,30;
+      .@r = getrefine();
+      bonus bPow,.@r/2;
+      bonus bLongAtkRate,5*(.@r/2);
+      bonus2 bSkillAtk,"MT_TRIPLE_LASER",7*(.@r/3);
+      bonus2 bSkillAtk,"MT_SPARK_BLASTER",7*(.@r/3);
+      if (BaseClass == Job_Merchant) {
+        bonus bStr,50;
+        bonus bInt,50;
+      }
+      if (.@r >= 9) {
+        bonus bLongAtkRate,15;
+      }
+      if (.@r >= 10) {
+        bonus bBaseAtk,150;
+      }
+      if (.@r >= 11) {
+        bonus bAllTraitStats,10;
+      }
+      if (.@r >= 12) {
+        bonus2 bSkillAtk,"MT_TRIPLE_LASER",15;
+        bonus2 bSkillAtk,"MT_SPARK_BLASTER",15;
+      }
+      if (.@r >= 13) {
+        bonus bLongAtkRate,25;
+      }
+      if (.@r >= 14) {
+        bonus bDelayrate,-20;
+        bonus bFixedCast,-500;
+      }
+  # Legendary Stone Shield: Adds the per-refine stats and the +12, +13 and +14 bonuses.
+  - Id: 460130
+    AegisName: Stone_Shield_US
+    Script: |
+      bonus bUnbreakableShield;
+      bonus bWis,5;
+      bonus bSta,5;
+      skill "LG_EARTHDRIVE",5;
+      bonus2 bSkillAtk,"LG_EARTHDRIVE",10*(BaseLevel/5);
+      .@r = getrefine();
+      bonus bWis,2*.@r;
+      bonus bSta,2*.@r;
+      bonus2 bAddSize,Size_All,5*.@r;
+      bonus bStr,5*(.@r/2);
+      bonus bVit,5*(.@r/2);
+      bonus bDef,50*(.@r/2);
+      bonus bMaxHPrate,10*(.@r/2);
+      if (.@r >= 10) {
+        bonus bMaxHPrate,25;
+        bonus bMaxSPrate,25;
+      }
+      if (.@r >= 11) {
+        bonus bStr,20;
+        bonus bVit,20;
+      }
+      if (.@r >= 12) {
+        bonus bWis,7;
+        bonus bSta,7;
+        bonus bNoGemStone;
+      }
+      if (.@r >= 13) {
+        bonus2 bSubEle,Ele_All,30;
+      }
+      if (.@r >= 14) {
+        bonus2 bSkillAtk,"LG_EARTHDRIVE",100;
+        bonus2 bSkillCooldown,"LG_EARTHDRIVE",-2500;
+      }
+  # Thundershell Ward: Adds the Base Level effects and the +12 autocasts.
+  - Id: 460136
+    AegisName: Wind_Insect_Shield_US
+    Script: |
+      bonus bAspd,10;
+      skill "MG_LIGHTNINGBOLT",10;
+      if (BaseLevel < 100) {
+        bonus bBaseAtk,-200;
+        bonus bMatk,-200;
+        bonus2 bSubSize,Size_Medium,-50;
+      }
+      .@lv = min(BaseLevel,250);
+      bonus2 bSkillAtk,"MG_LIGHTNINGBOLT",10*.@lv;
+      bonus2 bSkillAtk,"WZ_VERMILION",10*.@lv;
+      .@r = getrefine();
+      bonus bSpl,.@r;
+      bonus2 bMagicAddClass,Class_All,7*.@r;
+      bonus bWis,3*(.@r/2);
+      bonus bSta,3*(.@r/2);
+      bonus bMaxHPrate,15*(.@r/2);
+      if (.@r >= 10) {
+        bonus bAllStats,15;
+      }
+      if (.@r >= 11) {
+        bonus bInt,25;
+        bonus bDex,25;
+      }
+      if (.@r >= 12) {
+        bonus5 bAutoSpell,"MG_LIGHTNINGBOLT",10,200,BF_SHORT|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpell,"WZ_VERMILION",10,200,BF_SHORT|BF_WEAPON|BF_NORMAL,1;
+      }
+      if (.@r >= 13) {
+        bonus2 bMagicAddClass,Class_All,25;
+      }
+      if (.@r >= 14) {
+        bonus2 bSkillAtk,"WL_CHAINLIGHTNING",50;
+        bonus2 bMagicAddClass,Class_All,20;
+      }
+  # Agni Sword: Adds the Base Level effects and the +12 autocasts.
+  - Id: 500118
+    AegisName: Agni_Sword_US
+    Script: |
+      bonus bAtkEle,Ele_Fire;
+      bonus bUnbreakableWeapon;
+      bonus bMatk,300;
+      bonus bAspd,10;
+      skill "MG_FIREBOLT",10;
+      skill "SM_MAGNUM",10;
+      if (BaseLevel <= 99) {
+        bonus2 bSubRace,RC_DemiHuman,-70;
+        bonus2 bSubRace,RC_Player_Human,-70;
+      }
+      .@lv = min(BaseLevel,250);
+      bonus2 bSkillAtk,"MG_FIREBOLT",10*.@lv;
+      bonus2 bSkillAtk,"SM_MAGNUM",10*.@lv;
+      .@r = getrefine();
+      bonus bPow,.@r;
+      bonus bSpl,.@r;
+      bonus2 bAddClass,Class_All,12*.@r;
+      bonus2 bMagicAddClass,Class_All,12*.@r;
+      if (.@r >= 10) {
+        bonus bAllStats,10;
+      }
+      if (.@r >= 11) {
+        bonus bStr,25;
+        bonus bInt,25;
+      }
+      if (.@r >= 12) {
+        bonus5 bAutoSpell,"MG_FIREBOLT",10,500,BF_SHORT|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpell,"SM_MAGNUM",10,500,BF_SHORT|BF_WEAPON|BF_NORMAL,0;
+      }
+      if (.@r >= 13) {
+        bonus2 bAddClass,Class_All,25;
+        bonus2 bMagicAddClass,Class_All,25;
+      }
+      if (.@r >= 14) {
+        bonus2 bSkillAtk,"RK_IGNITIONBREAK",60;
+        bonus2 bSkillAtk,"WL_CRIMSONROCK",60;
+      }
+      if (.@r >= 15) {
+        skill "MG_ENERGYCOAT",1;
+        bonus2 bAddClass,Class_All,40;
+        bonus2 bMagicAddClass,Class_All,40;
+      }
+  # Dark Chaser Boots: Adds the missing +9 and +11 autocasts; +10 now works for ranged attacks too.
+  - Id: 470349
+    AegisName: Dark_Chaser_US
+    Script: |
+      bonus2 bMagicAtkEle,Ele_All,15;
+      .@r = getrefine();
+      bonus bSpl,.@r/2;
+      bonus bMatk,30*(.@r/2);
+      bonus2 bMagicAtkEle,Ele_All,10*(.@r/3);
+      if (.@r >= 8) {
+        bonus2 bMagicAtkEle,Ele_All,15;
+      }
+      if (.@r >= 9) {
+        bonus5 bAutoSpell,"AB_JUDEX",7,100,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpell,"LG_RAYOFGENESIS",7,100,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,1;
+      }
+      if (.@r >= 10) {
+        bonus5 bAutoSpell,"ABC_FROM_THE_ABYSS",4,100,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,0;
+      }
+      if (.@r >= 11) {
+        bonus5 bAutoSpell,"WL_TETRAVORTEX",10,100,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpell,"WL_SUMMONFB",1,300,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,0;
+        bonus5 bAutoSpell,"WL_SUMMONBL",1,300,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,0;
+        bonus5 bAutoSpell,"WL_SUMMONWB",1,300,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,0;
+        bonus5 bAutoSpell,"WL_SUMMONSTONE",1,300,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,0;
+      }
+      if (.@r >= 12) {
+        bonus bMatk,200;
+        bonus bSpl,10;
+        bonus bAspd,10;
+      }
+  # Starry Sky Twin Prime: Uses iRO refine tiers (+10/+12/+14) and per-refine bonuses.
+  - Id: 470180
+    AegisName: Starry_Sky_Twin_Prime
+    Script: |
+      bonus bMdef,15;
+      bonus2 bSubClass,Class_Normal,5;
+      bonus2 bSubClass,Class_Boss,5;
+      bonus2 bSubRace,RC_Player_Human,10;
+      bonus2 bSubRace,RC_Player_Doram,10;
+      .@r = getrefine();
+      bonus bPerfectHitAddRate,5*.@r;
+      bonus2 bSubEle,Ele_Holy,3*.@r;
+      if (.@r >= 10) {
+        bonus bAllStats,10;
+        bonus2 bAddEle,Ele_All,15;
+        bonus2 bMagicAddEle,Ele_All,15;
+      }
+      if (.@r >= 12) {
+        bonus bAspdRate,20;
+        bonus2 bAddEle,Ele_All,25;
+        bonus2 bMagicAddEle,Ele_All,25;
+      }
+      if (.@r >= 14) {
+        bonus bMaxHPrate,20;
+        bonus bDelayrate,-30;
+      }
+  # Kshatra Vairya: Moves the refine tiers to iRO's +10/+11/+12/+13.
+  - Id: 470312
+    AegisName: Kshatra_Vairya
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,15;
+      bonus2 bSubClass,Class_Boss,5;
+      bonus2 bSubClass,Class_Normal,5;
+      bonus2 bSubRace,RC_Player_Doram,10;
+      bonus2 bSubRace,RC_Player_Human,10;
+      bonus2 bAddClass,Class_All,40;
+      bonus2 bMagicAddClass,Class_All,40;
+      bonus bAllStats,3*.@r;
+      if (.@r >= 10) {
+        bonus bMaxHPrate,15;
+        bonus bDelayrate,-15;
+      }
+      if (.@r >= 11) {
+        bonus bMaxHPrate,25;
+        bonus bDelayrate,-25;
+      }
+      if (.@r >= 12) {
+        bonus2 bAddClass,Class_All,30;
+        bonus2 bMagicAddClass,Class_All,30;
+      }
+      if (.@r >= 13) {
+        bonus2 bAddSize,Size_All,15;
+        bonus2 bMagicAddSize,Size_All,15;
+        autobonus "{ bonus bAllStats,BaseLevel/10; bonus bMaxHPrate,BaseLevel/10; bonus bFlee,10*(BaseLevel/10); bonus bBaseAtk,10*(BaseLevel/10); bonus bMatk,10*(BaseLevel/10); }",10,10000,BF_WEAPON|BF_MAGIC;
+      }
+  # Save the King: Adds MATK +130 and the +11/+12 tiers; heal tiers move to +9/+10.
+  - Id: 13465
+    AegisName: Save_The_King
+    Script: |
+      .@r = getrefine();
+      bonus bAtkEle,Ele_Ghost;
+      bonus bMatk,130;
+      if (getskilllv("KN_RIDING") < 1) {
+        bonus bNoSizeFix;
+        bonus bFlee,2*getskilllv("CR_SPEARQUICKEN");
+        bonus bCritical,3*getskilllv("CR_SPEARQUICKEN");
+        bonus bAspdRate,3*getskilllv("CR_SPEARQUICKEN");
+        bonus2 bSkillAtk,"CR_GRANDCROSS",20*.@r;
+        bonus2 bSkillAtk,"SM_BASH",20*.@r;
+        bonus2 bSkillAtk,"CR_HOLYCROSS",20*.@r;
+      }
+      if (.@r >= 9) {
+        bonus bHealPower,40;
+        bonus bHealPower2,15;
+        bonus bAddItemHealRate,15;
+      }
+      if (.@r >= 10) {
+        bonus bHealPower,40;
+        bonus bHealPower2,15;
+        bonus bAddItemHealRate,15;
+      }
+      if (.@r >= 11) {
+        bonus bAllStats,10;
+      }
+      if (.@r >= 12) {
+        bonus bBaseAtk,120;
+        bonus bMatk,120;
+      }
+  # Squirrel Ear Hat: Moves the refine tiers to iRO's +10/+11/+12.
+  - Id: 19140
+    AegisName: Squirrel_Ear_Hat
+    Script: |
+      .@r = getrefine();
+      bonus bAspd,1;
+      bonus bCriticalLong,5;
+      bonus bCritAtkRate,10;
+      bonus2 bIgnoreDefRaceRate,RC_All,10;
+      if (.@r >= 10) {
+        bonus bAspd,1;
+        bonus bCriticalLong,10;
+        bonus bCritAtkRate,2;
+        bonus2 bIgnoreDefRaceRate,RC_All,20;
+      }
+      if (.@r >= 11) {
+        bonus bAspd,1;
+        bonus bCriticalLong,15;
+        bonus bCritAtkRate,6;
+        bonus2 bIgnoreDefRaceRate,RC_All,30;
+      }
+      if (.@r >= 12) {
+        bonus bAspd,1;
+        bonus bCriticalLong,20;
+        bonus bCritAtkRate,12;
+        bonus2 bIgnoreDefRaceRate,RC_All,40;
+        autobonus "{ bonus bCritAtkRate,100; }",70,5000;
+      }
+  # Brilliant: Uses iRO tiers (+7/+9/+11) and adds the +12 and +13 bonuses.
+  - Id: 450247
+    AegisName: Brilliant
+    Script: |
+      .@r = getrefine();
+      .@l = min(BaseLevel,250);
+      bonus bAspdRate,10;
+      bonus2 bAddRace,RC_All,7*getskilllv("SR_KNUCKLEARROW");
+      if (getskilllv("SR_LIGHTNINGWALK") == 5)
+        bonus2 bSkillAtk,"SR_RIDEINLIGHTNING",2*.@l;
+      if (getskilllv("SR_RAISINGDRAGON") == 10) {
+        bonus bVariableCastrate,-15;
+        bonus bHPGainValue,150;
+        bonus bSPGainValue,15;
+      }
+      if (.@r >= 7) {
+        bonus bBaseAtk,.@l/2;
+      }
+      if (.@r >= 9) {
+        bonus bBaseAtk,.@l/2;
+      }
+      if (.@r >= 11) {
+        bonus bPerfectHitAddRate,25;
+        bonus bUnbreakableArmor;
+      }
+      if (.@r >= 12) {
+        bonus bPow,10;
+      }
+      if (.@r >= 13) {
+        bonus bAtkRate,30;
+      }
+  # Mad Linker Glove: Adds the Base Level 99-or-below and 100-or-above effects.
+  - Id: 490794
+    AegisName: Soul_Glove_US
+    Script: |
+      bonus bSpl,5;
+      bonus bSta,5;
+      bonus bMatk,50;
+      bonus2 bMagicAtkEle,Ele_All,15;
+      if (BaseLevel <= 99) {
+        bonus bMaxHP,20000;
+        bonus2 bSubSize,Size_Medium,15;
+        bonus2 bSubRace,RC_DemiHuman,15;
+        skill "MG_SOULSTRIKE",10;
+        bonus2 bSkillAtk,"MG_SOULSTRIKE",300;
+        bonus4 bAutoSpellOnSkill,"MG_SOULSTRIKE","WL_SOULEXPANSION",5,500;
+        bonus4 bAutoSpellOnSkill,"WL_SOULEXPANSION","KO_SETSUDAN",5,100;
+      } else {
+        bonus bSpl,10;
+        bonus bSta,10;
+        bonus2 bMagicAtkEle,Ele_All,BaseLevel/5;
+        bonus2 bSkillAtk,"SOA_TALISMAN_OF_WHITE_TIGER",3*(BaseLevel/10);
+      }
+  # Infinity Blade: Uses iRO tiers: Soul Destroyer Lv.5 and no size penalty at +11, ATK +20% at +12.
+  - Id: 500005
+    AegisName: Magic_Sword_J
+    Script: |
+      .@r = getrefine();
+      bonus bAgi,20;
+      bonus bCritical,50;
+      bonus bFlee2,20;
+      bonus2 bAddRace,RC_Demon,50;
+      bonus2 bAddRace,RC_Undead,50;
+      bonus3 bAutoSpell,"ASC_BREAKER",max(getskilllv("ASC_BREAKER"),3),100+(30*.@r);
+      if (.@r >= 11) {
+        skill "ASC_BREAKER",5;
+        bonus bNoSizeFix;
+      }
+      if (.@r >= 12) {
+        bonus bAtkRate,20;
+      }
+  # Thorn Armor: Adds Earth property, 30% reflect and the +13 Striking skill and buff.
+  - Id: 450516
+    AegisName: Thorn_Armor_US
+    Script: |
+      bonus bDefEle,Ele_Earth;
+      bonus bShortWeaponDamageReturn,30;
+      bonus bPatk,7*getrefine();
+      bonus bPow,1*(getrefine()/2);
+      bonus bCon,1*(getrefine()/2);
+      bonus2 bAddEle,Ele_All,7*(getrefine()/2);
+      bonus bBaseAtk,70*(getrefine()/3);
+      if (getrefine() >= 10) {
+        bonus bPow,5;
+        bonus bCon,5;
+        bonus bFlee2,20;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bSkillAtk,"BO_MAYHEMIC_THORNS",20;
+        bonus2 bSkillAtk,"TR_ROSEBLOSSOM",30;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bAddEle,Ele_All,15;
+      }
+      if (getrefine() >= 13) {
+        skill "SO_STRIKING",5;
+        autobonus3 "{ bonus2 bAddEle,Ele_All,30; }",1000,20000,"SO_STRIKING";
+      }
+      if (getrefine() >= 14) {
+        bonus bLongAtkRate,25;
+        bonus2 bSkillCooldown,"TR_ROSEBLOSSOM",-400;
+        bonus2 bSkillCooldown,"BO_MAYHEMIC_THORNS",-400;
+      }
+  # Awakened Old King's Double Edge: Uses iRO tiers: extra skill damage at +11 and +13, penetration and cooldown at +14, capped at Base Lv 240.
+  - Id: 610029
+    AegisName: Kings_Double_Edge_A
+    Script: |
+      .@r = getrefine();
+      .@b = min(BaseLevel,240);
+      if (.@r >= 13) {
+        .@b *= 3;
+      } else if (.@r >= 11) {
+        .@b *= 2;
+      }
+      bonus2 bSubRace,RC_Player_Human,30;
+      bonus2 bSkillAtk,"GC_CROSSIMPACT",.@b;
+      bonus2 bSkillAtk,"GC_CROSSRIPPERSLASHER",.@b;
+      bonus2 bSkillAtk,"GC_ROLLINGCUTTER",.@b;
+      if (.@r >= 14) {
+        bonus bDefRatioAtkClass,Class_All;
+        bonus2 bSkillCooldown,"GC_ROLLINGCUTTER",-200;
+      }
+  # Vayu Follower Bow: Adds the missing +13, +14 and +15 bonuses.
+  - Id: 700144
+    AegisName: Vayu_Follower_US
+    Script: |
+      bonus bUnbreakableWeapon;
+      bonus bMatk,350;
+      bonus2 bSkillAtk,"WH_CRESCIVE_BOLT",40;
+      bonus2 bSkillAtk,"WH_GALESTORM",40;
+      bonus4 bAutoSpellOnSkill,"WH_CRESCIVE_BOLT","WH_GALESTORM",10,300;
+      bonus2 bSkillAtk,"WH_CRESCIVE_BOLT",12*getrefine();
+      bonus2 bSkillAtk,"WH_GALESTORM",12*getrefine();
+      bonus bCon,5*(getrefine()/2);
+      bonus2 bAddSize,Size_All,20*(getrefine()/2);
+      if (getrefine() >= 10) {
+        bonus bLongAtkRate,30;
+      }
+      if (getrefine() >= 11) {
+        bonus bAllStats,25;
+        bonus bBaseAtk,250;
+        bonus bMaxHPrate,25;
+      }
+      if (getrefine() >= 12) {
+        bonus bAllTraitStats,15;
+        bonus bLongAtkRate,50;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bSkillAtk,"WH_CRESCIVE_BOLT",70;
+        bonus2 bSkillCooldown,"WH_CRESCIVE_BOLT",-350;
+      }
+      if (getrefine() >= 14) {
+        bonus2 bSkillAtk,"WH_GALESTORM",70;
+        bonus2 bSkillCooldown,"WH_GALESTORM",-1200;
+      }
+      if (getrefine() >= 15) {
+        bonus2 bAddClass,Class_All,40;
+        bonus bDelayrate,-20;
+      }
+  # Poison Shoes: Adds per-refine stats, Meteor Assault scaling and +11 bonuses; class bonus only for Acolyte and Thief.
+  - Id: 470382
+    AegisName: Poison_Shoes_US
+    Script: |
+      bonus bMaxHPrate,15;
+      bonus bMaxSPrate,15;
+      bonus2 bAddSize,Size_All,30;
+      bonus2 bMagicAddSize,Size_All,30;
+      if (BaseClass == Job_Acolyte || BaseClass == Job_Thief) {
+        bonus bPow,10;
+        bonus bSpl,10;
+        bonus bBaseAtk,200;
+        bonus bMatk,200;
+      }
+      bonus2 bSkillAtk,"ASC_METEORASSAULT",2*BaseLevel;
+      bonus bAllStats,getrefine();
+      bonus bAllTraitStats,getrefine();
+      bonus bStr,10*(getrefine()/2);
+      bonus bInt,10*(getrefine()/2);
+      if (getrefine() >= 10) {
+        skill "SO_POISON_BUSTER",5;
+        skill "SO_CLOUD_KILL",5;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bVariableCastrate,"ASC_METEORASSAULT",-100;
+        bonus2 bSkillCooldown,"ASC_METEORASSAULT",-500;
+      }
+      if (getrefine() >= 12) {
+        bonus bDelayrate,-15;
+        bonus bAllStats,15;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bMagicAtkEle,Ele_Poison,100;
+      }
+      if (getrefine() >= 14) {
+        bonus2 bAddSize,Size_All,30;
+        bonus2 bMagicAddSize,Size_All,30;
+      }
+  # Purple Haze: Adds the HP drain, the Reproduce/Weapon Blocking buff, the +10 Poison Burst autocast and the when-hit Venom Swamp.
+  - Id: 491057
+    AegisName: Purple_Haze_US
+    Script: |
+      bonus2 bHPLossRate,666,5000;
+      bonus bMdef,25;
+      bonus bPow,15;
+      bonus bSpl,15;
+      bonus2 bSkillAtk,"GC_CROSSIMPACT",50;
+      bonus2 bSkillAtk,"SC_FATALMENACE",50;
+      autobonus3 "{ bonus bSpeedRate,25; bonus bPatk,20; bonus bSmatk,20; }",1000,20000,"SC_REPRODUCE";
+      autobonus3 "{ bonus bSpeedRate,25; bonus bPatk,20; bonus bSmatk,20; }",1000,20000,"GC_WEAPONBLOCKING";
+      bonus bPow,3*(getrefine()/2);
+      bonus bSpl,3*(getrefine()/2);
+      if (getrefine() >= 8) {
+        bonus bVariableCastrate,-15;
+        bonus bDelayrate,-15;
+        bonus bAspd,3;
+      }
+      if (getrefine() >= 9) {
+        bonus2 bAddSize,Size_All,20;
+        bonus2 bMagicAddSize,Size_All,20;
+        bonus2 bMagicAtkEle,Ele_Poison,20;
+        bonus2 bSkillAtk,"GC_CROSSIMPACT",50;
+        bonus2 bSkillAtk,"SC_FATALMENACE",50;
+      }
+      if (getrefine() >= 10) {
+        bonus4 bAutoSpellOnSkill,"GC_CROSSIMPACT","SO_POISON_BUSTER",5,600;
+        bonus4 bAutoSpellOnSkill,"SC_FATALMENACE","SO_POISON_BUSTER",5,600;
+      }
+      if (getrefine() >= 11) {
+        bonus5 bAutoSpell,"EM_VENOM_SWAMP",5,100,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpellWhenHit,"EM_VENOM_SWAMP",5,100,BF_SHORT|BF_WEAPON,1;
+      }
+      if (getrefine() >= 12) {
+        bonus bPow,8;
+        bonus bSpl,8;
+        bonus4 bAutoSpellOnSkill,"EM_VENOM_SWAMP","SO_CLOUD_KILL",5,1000;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bAddEle,Ele_All,30;
+        bonus2 bMagicAddEle,Ele_All,30;
+        bonus2 bMagicAtkEle,Ele_Poison,30;
+      }
+      if (getrefine() >= 14) {
+        bonus2 bSkillAtk,"GC_CROSSIMPACT",70;
+        bonus2 bSkillAtk,"SC_FATALMENACE",70;
+      }
+  # Blood Ruby Dagger: Adds the HP drain and the missing +12 stats and Crimson Rock autocast.
+  - Id: 510222
+    AegisName: Ruby_Dagger_US
+    Script: |
+      bonus bMatk,250;
+      skill "WL_CRIMSONROCK",5;
+      bonus2 bHPDrainRate,500,2;
+      bonus2 bSkillAtk,"WL_CRIMSONROCK",50;
+      bonus2 bSkillAtk,"RK_DRAGONBREATH",50;
+      bonus2 bSkillAtk,"GN_CARTCANNON",50;
+      bonus2 bSubClass,Class_Normal,30;
+      bonus2 bSkillAtk,"WL_CRIMSONROCK",15*getrefine();
+      bonus2 bSkillAtk,"RK_DRAGONBREATH",15*getrefine();
+      bonus2 bSkillAtk,"GN_CARTCANNON",15*getrefine();
+      if (getrefine() >= 11) {
+        bonus bMaxHPrate,20;
+        bonus bMaxSPrate,20;
+      }
+      if (getrefine() >= 12) {
+        bonus bAllStats,20;
+        bonus bBaseAtk,200;
+        bonus bMatk,200;
+        bonus5 bAutoSpell,"WL_CRIMSONROCK",5,70,BF_SHORT|BF_WEAPON|BF_NORMAL,1;
+      }
+      if (getrefine() >= 13) {
+        bonus bPatk,15;
+        bonus bSmatk,15;
+        bonus2 bSkillCooldown,"WL_CRIMSONROCK",-4800;
+        bonus bFixedCast,-500;
+      }
+      if (getrefine() >= 14) {
+        bonus bPatk,15;
+        bonus bSmatk,15;
+      }
+      if (getrefine() >= 15) {
+        bonus bLongAtkRate,40;
+        bonus2 bMagicAtkEle,Ele_Fire,40;
+      }
+  # Mesarthim: Adds POW/SPL +15 and uses iRO tiers (+9 Ghost, +11 Poison resistance).
+  - Id: 460079
+    AegisName: Mesarthim
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableShield;
+      bonus bMdef,15;
+      bonus bPow,15;
+      bonus bSpl,15;
+      bonus2 bSubClass,Class_Boss,40;
+      bonus2 bSubClass,Class_Normal,40;
+      bonus bMaxHPrate,3*.@r;
+      bonus bMaxSPrate,3*.@r;
+      if (.@r >= 9)
+        bonus2 bSubEle,Ele_Ghost,25;
+      if (.@r >= 11)
+        bonus2 bSubEle,Ele_Poison,15;
+  # Royal Morroc Cape: Adds knockback immunity, the +9 and +12 damage and the +14 Dancing Knife autocast.
+  - Id: 480597
+    AegisName: Royal_Morroc_US
+    Script: |
+      bonus bNoKnockback;
+      bonus bAtkRate,20;
+      bonus bBaseAtk,30*(getrefine()/2);
+      bonus bCon,3*(getrefine()/2);
+      bonus bPow,3*(getrefine()/2);
+      bonus bShortAtkRate,10*(getrefine()/3);
+      bonus bCritAtkRate,10*(getrefine()/3);
+      if (getrefine() >= 7) {
+        bonus bAtkRate,15;
+        bonus bAspdRate,20;
+      }
+      if (getrefine() >= 9) {
+        bonus2 bAddEle,Ele_All,20;
+      }
+      if (getrefine() >= 10) {
+        bonus bCritical,30;
+        bonus bCritAtkRate,15;
+      }
+      if (getrefine() >= 11) {
+        bonus bAllStats,15;
+      }
+      if (getrefine() >= 12) {
+        bonus bShortAtkRate,15;
+        bonus bCritAtkRate,15;
+        bonus bCrate,10;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bSkillAtk,"GC_CROSSIMPACT",50;
+        bonus2 bSkillAtk,"SC_FATALMENACE",50;
+        skill "SHC_DANCING_KNIFE",5;
+      }
+      if (getrefine() >= 14) {
+        skill "LG_SHIELDSPELL",3;
+        bonus2 bSkillAtk,"SHC_DANCING_KNIFE",100;
+        bonus5 bAutoSpellWhenHit,"SHC_DANCING_KNIFE",5,50,BF_SHORT|BF_WEAPON,0;
+      }
+  # Howling Tiger Pajama: Adds the missing +10 and +12 bonuses.
+  - Id: 450368
+    AegisName: Howling_Tiger_Pajama
+    Script: |
+      .@r = getrefine();
+      bonus2 bSubRace,RC_Player_Doram,7;
+      bonus2 bSubRace,RC_Player_Human,7;
+      bonus2 bSkillAtk,"SH_CHUL_HO_SONIC_CLAW",BaseLevel/10;
+      bonus2 bSkillAtk,"SH_HOWLING_OF_CHUL_HO",BaseLevel/10;
+      bonus2 bSkillAtk,"SH_HOGOGONG_STRIKE",BaseLevel/10;
+      bonus2 bAddSize,Size_All,.@r*7;
+      if (.@r >= 7) {
+        bonus bAspdRate,10;
+        bonus bNoKnockback;
+      }
+      if (.@r >= 9) {
+        bonus2 bSkillCooldown,"SU_HISS",-45000;
+        bonus bUnbreakableArmor;
+      }
+      if (.@r >= 10) {
+        bonus2 bAddEle,Ele_All,15;
+      }
+      if (.@r >= 12) {
+        bonus bBaseAtk,150;
+        bonus bPow,15;
+      }
+  # Legendary Performer Manteau: Adds the Voice Lessons bonus and the +11 and +12 bonuses.
+  - Id: 480455
+    AegisName: Performer_Manteau_US
+    Script: |
+      bonus2 bSubClass,Class_All,5;
+      .@l = getskilllv("WM_LESSON");
+      bonus bInt,3*.@l;
+      bonus bMatk,15*.@l;
+      if (getskilllv("WM_REVERBERATION") >= 5) {
+        bonus2 bSkillAtk,"WM_METALICSOUND",25;
+        bonus2 bMagicAddEle,Ele_All,10;
+      }
+      if (getrefine() >= 11) {
+        bonus bMatkRate,10;
+        bonus2 bSkillAtk,"WM_METALICSOUND",25;
+      }
+      if (getrefine() >= 12) {
+        bonus bAllStats,10;
+        bonus2 bSkillAtk,"WM_METALICSOUND",75;
+      }
+  # Boreas Wings: Adds the +10 Frost Diver autocast and the Base Level damage scaling.
+  - Id: 480639
+    AegisName: Boreas_Wings_US
+    Script: |
+      bonus bBaseAtk,250;
+      bonus bMatk,250;
+      skill "MG_FROSTDIVER",10;
+      bonus2 bSkillAtk,"SO_DIAMONDDUST",20;
+      bonus2 bSkillAtk,"MG_FROSTDIVER",20*BaseLevel;
+      bonus bBaseAtk,30*(getrefine()/2);
+      bonus bMatk,30*(getrefine()/2);
+      bonus bPow,1*(getrefine()/2);
+      bonus bSpl,1*(getrefine()/2);
+      if (getrefine() >= 10) {
+        bonus5 bAutoSpell,"MG_FROSTDIVER",10,200,BF_SHORT|BF_LONG|BF_WEAPON|BF_NORMAL,1;
+        bonus5 bAutoSpellWhenHit,"MG_FROSTDIVER",10,200,BF_SHORT|BF_WEAPON,1;
+      }
+      if (getrefine() >= 11) {
+        bonus bPow,15;
+        bonus bSpl,15;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bSkillAtk,"SO_DIAMONDDUST",BaseLevel/2;
+        bonus4 bAutoSpellOnSkill,"MG_FROSTDIVER","SO_DIAMONDDUST",5,1000;
+      }
+      if (getrefine() >= 13) {
+        bonus bAllStats,25;
+        bonus bBaseAtk,250;
+        bonus bMatk,250;
+      }
+      if (getrefine() >= 14) {
+        skill "LG_SHIELDSPELL",3;
+        bonus2 bSkillAtk,"SO_DIAMONDDUST",50;
+      }
+  # Novice Follower Suit: Adds the Super/Hyper Novice bonus and the +14 Cart Tornado effects.
+  - Id: 450536
+    AegisName: Novice_Follower1_US
+    Script: |
+      bonus bMdef,15;
+      bonus bBaseAtk,200;
+      bonus bAspd,10;
+      bonus bDelayrate,-10;
+      if (BaseJob == Job_SuperNovice) {
+        bonus bMaxHPrate,20;
+        bonus bMaxSPrate,20;
+        bonus2 bExpAddRace,RC_All,20;
+      }
+      bonus bStr,7*(getrefine()/2);
+      bonus bVit,7*(getrefine()/2);
+      bonus bMaxHPrate,7*(getrefine()/2);
+      bonus2 bAddSize,Size_All,10*(getrefine()/3);
+      if (getrefine() >= 9) {
+        bonus bPow,5;
+      }
+      if (getrefine() >= 10) {
+        bonus2 bAddSize,Size_All,20;
+      }
+      if (getrefine() >= 11) {
+        skill "GN_CART_TORNADO",10;
+        bonus2 bSkillCooldown,"GN_CART_TORNADO",-1000;
+      }
+      if (getrefine() >= 12) {
+        bonus bPow,10;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bSkillAtk,"GN_CART_TORNADO",50;
+        bonus2 bSkillCooldown,"GN_CART_TORNADO",-1000;
+      }
+      if (getrefine() >= 14) {
+        bonus2 bSkillAtk,"GN_CART_TORNADO",100;
+        bonus4 bAutoSpellOnSkill,"GN_CART_TORNADO","GN_CART_TORNADO",5,200;
+      }

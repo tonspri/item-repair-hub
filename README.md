@@ -1,7 +1,7 @@
 # Item Repair Hub
-By **DaggerHashimoto** · **Renewal only** · v2.3.1
+By **DaggerHashimoto** · **Renewal only** · v2.7.0
 
-Give weapons and armor optional **manual-use skills or attack autocasts**, and build your own item-repair collection inside Ragnarok Offline. No custom app build is required.
+Restores **iRO item effects** for 32 items, lets you change the gear you wear **live, with no restart**, and gives weapons and armor optional **manual-use skills or attack autocasts**, all inside Ragnarok Offline. No custom app build is required.
 
 Click the draggable **Item Repairs** button in game to open the editor.
 
@@ -12,13 +12,27 @@ Click the draggable **Item Repairs** button in game to open the editor.
 - Remove unwanted repairs. Removing a repair never deletes inventory items.
 - Start with Agni Sword (500118), Cocytus Armor (450481), and All-in-One Buff Potion (100906).
 
+## iRO effect repairs
+
+32 items get the refine tiers, autocasts and Base Level bonuses their official iRO descriptions promise, on by default behind one Mod Settings switch, **iRO effect repairs**. The list, with what changed on each item, is in the editor under **Included repairs → iRO effect repairs** and in [RELEASE-NOTES-v2.7.0.md](RELEASE-NOTES-v2.7.0.md). Some items move to iRO's higher refine levels, so they are weaker at low refine.
+
+## Live changes
+
+The **Live changes** tab changes the gear you are wearing while the game runs, from an ordinary player account:
+
+- **Scan my equipment** (with refine and cards), read each item's effects in plain English at your refine, and run a **description check** against the in-game description (**Copy report** to share what it finds).
+- Add stats or advanced bonus lines, save **presets**, **Apply now**, and **Undo** (or **Undo all**).
+- Live changes stay after restarts and are not exported, unless you choose **Keep in my saved edit**.
+
+Every live script is checked against an allow-list in the editor and again by the server NPC (`@irhapply`, bound at level 0). Requests are at most 200 characters each, a game client limit, so scripts are sent in 180-character parts.
+
 ## Download and install
 
-Download **ItemRepairHub-v2.3.1.zip** from [Releases](https://github.com/tonspri/item-repair-hub/releases). Use this asset, not GitHub's Source code ZIP, which also includes development files.
+Install it from **Find Mods** in the app, or download **ItemRepairHub-v2.7.0.zip** from [Releases](https://github.com/tonspri/item-repair-hub/releases). Use this asset, not GitHub's Source code ZIP, which also includes development files.
 
 Extract its `item-repair-hub` folder into the app's `state/mods` folder, or use the app's mod import. Enable it, **Apply & restart**, and reopen the game client. Back up an existing installation first.
 
-The Find Mods listing is being submitted for review; creating this repository does not mean it is already approved or listed.
+Item Repair Hub is listed in Find Mods ([registry PR 723](https://github.com/Flux159/ragnarokoffline.app/pull/723)). Installing from Find Mods enrolls the copy in updates from this repository's releases.
 
 ## Save your repairs
 
@@ -37,7 +51,9 @@ An app-managed update replaces the installed mod files with the new starter pack
 
 Drafts use the app's client preferences, not the mod directory. A different client/profile or cleared preferences may not have your draft. If it is missing, retain your backup; do not overwrite it with an empty export. There is no general collection-import button in this release.
 
-Find Mods installations also have an app-created `.source.json` file for update tracking. The editor's ZIP does not contain that file. Preserve the existing `.source.json` separately and put it back when replacing the folder with your personalized export. Do not invent one for a manually installed copy. Manual Discord ZIP installs are not automatically enrolled in repository updates; install through Find Mods once the listing is accepted, after backing up your repairs.
+Find Mods installations also have an app-created `.source.json` file for update tracking. The editor's ZIP does not contain that file. Preserve the existing `.source.json` separately and put it back when replacing the folder with your personalized export. Do not invent one for a manually installed copy. Manual Discord ZIP installs are not automatically enrolled in repository updates; to enroll, back up your repairs and install through Find Mods.
+
+Live changes (kept in the mod's server store) and presets (kept in your client preferences) survive an update.
 
 The draft-selection behavior has been checked in a simulated backend test. A full two-release update/re-export cycle in the live app has not yet been tested.
 
@@ -53,19 +69,26 @@ The catalog contains **1,107 selectable player skills**, plus disabled passive/i
 
 Manual grants use bundled item scripts and can overwrite script changes from other mods. Optional autocasts run on successful normal attacks, not every attempted hit. The editor does not automatically diagnose or repair every item's intended bonuses.
 
-The package declares app >=1.7.0; package validation was performed with official app 1.7.4 on Windows. Item/skill snapshots are from the 1.7.0 baseline. Exact skill parity with later app versions is not guaranteed. The author reports successful in-game use and Discord recipients installing v2.3.1. Linux/macOS and a full registry update cycle have not been tested.
+The package declares app >=1.7.0; v2.7.0 was checked with official app 1.7.6 `mod-check` on Windows. Item definitions are from app 1.7.4 and skills from 1.7.0; exact skill parity with later app versions is not guaranteed. Linux/macOS and a full registry update cycle have not been tested.
+
+The mod ships client skill rows only for skills the client lacks (Equip Switch, and Return To Lighthalzen's description), so stock skills keep the client's own names, descriptions and skill-tree requirements.
 
 ## Source, tests and release build
 
-`mod/` contains the complete distributed mod. The initial source is byte-for-byte the working v2.3.1 starter package. Repository documentation and tools are excluded from the ZIP.
+`mod/` contains the complete distributed mod, built by the author's build scripts. Repository documentation and tools are excluded from the ZIP.
 
 ```sh
-node tests/check-item-hub-menus-v2.3.1.cjs
-node tests/check-item-hub-export-v2.3.1.cjs
-node tests/check-item-hub-removal-v2.3.1.cjs
-node tests/check-draft-upgrade-v2.3.1.cjs
+node tests/check-features-v2.7.0.cjs
+node tests/check-item-hub-effects-v2.7.0.cjs
+node tests/check-item-hub-skills-v2.7.0.cjs
+node tests/check-passive-v2.7.0.cjs
+node tests/check-item-hub-export-v2.7.0.cjs
+node tests/check-item-hub-removal-v2.7.0.cjs
+node tests/check-draft-upgrade-v2.7.0.cjs
 python scripts/build-release.py
 ```
+
+Browser tests of the editor (Edge, with a simulated game client and NPC) run on the author's machine and are not part of CI.
 
 The release workflow builds the ZIP from the public commit after running these tests. Its ZIP timestamps are fixed for repeatable packaging. Files inside match `mod/` exactly.
 

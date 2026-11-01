@@ -1,10 +1,10 @@
 {
   "name": "item-repair-hub",
-  "version": "2.3.1",
+  "version": "2.7.0",
   "author": "DaggerHashimoto",
-  "description": "Give weapons and armor optional skills and attack autocasts, adjust class access and transfer rules, and build your own item-repair collection in game. Includes three starter examples and optional World Sync Extras v2.1.5 compatibility. Save & Export, replace the mod folder, then Apply & restart.",
+  "description": "Restores iRO item effects (missing refine tiers, autocasts and Base Level bonuses) for 33 items, and lets you give weapons and armor optional skills and attack autocasts, adjust class access and transfer rules, and build your own item-repair collection in game. Apply edits live in game with no restart under Live changes, or Save & Export, replace the mod folder, then Apply & restart.",
   "requires": {
-    "app": ">=1.7.0",
+    "app": ">=1.7.4",
     "era": "renewal"
   },
   "settingsPage": "settings/index.html",
@@ -158,6 +158,12 @@
       "type": "boolean",
       "default": true,
       "label": "All-in-One Buff Potion: transfer permission repair"
+    },
+    {
+      "key": "fx_iro_effects",
+      "type": "boolean",
+      "default": true,
+      "label": "iRO effect repairs (32 items)"
     },
     {
       "key": "zz_native_exports",

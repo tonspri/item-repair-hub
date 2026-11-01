@@ -1,0 +1,38 @@
+// Item Repair Hub v2.7.0: temporary visible falcon; player login timer only.
+-	script	IRHVisibleFalcon	-1,{
+OnPCLoginEvent:
+    if (IRH_FalconOwned) {
+        if (checkfalcon()) setfalcon 0;
+        IRH_FalconOwned = 0;
+    }
+    deltimer strnpcinfo(3) + "::OnCheck";
+    addtimer 1500, strnpcinfo(3) + "::OnCheck";
+    end;
+OnPCLogoutEvent:
+    deltimer strnpcinfo(3) + "::OnCheck";
+    if (IRH_FalconOwned) {
+        if (checkfalcon()) setfalcon 0;
+        IRH_FalconOwned = 0;
+    }
+    end;
+OnCheck:
+    .@eligible = 0;
+    setarray .@slots[0], EQI_HAND_R, EQI_HAND_L, EQI_ARMOR, EQI_SHOES, EQI_GARMENT, EQI_HEAD_TOP, EQI_HEAD_MID, EQI_HEAD_LOW, EQI_ACC_R, EQI_ACC_L, EQI_SHADOW_ARMOR, EQI_SHADOW_WEAPON, EQI_SHADOW_SHIELD, EQI_SHADOW_SHOES, EQI_SHADOW_ACC_R, EQI_SHADOW_ACC_L;
+    for (.@n = 0; .@n < getarraysize(.@slots); .@n++) {
+        .@id = getequipid(.@slots[.@n]);
+
+    }
+    if (getoption() & (OPTION_WUG|OPTION_WUGRIDER|OPTION_RIDING|OPTION_DRAGON|OPTION_MADOGEAR)) .@eligible = 0;
+    if (getstatus(SC_ALL_RIDING)) .@eligible = 0;
+    if (!.@eligible || getskilllv("HT_FALCON") < 1) {
+        if (IRH_FalconOwned) {
+            if (checkfalcon()) setfalcon 0;
+            IRH_FalconOwned = 0;
+        }
+    } else if (!checkfalcon()) {
+        setfalcon 1;
+        if (checkfalcon()) IRH_FalconOwned = 1;
+    }
+    addtimer 1500, strnpcinfo(3) + "::OnCheck";
+    end;
+}
