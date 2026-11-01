@@ -1,12 +1,14 @@
 {
   "name": "item-repair-hub",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "author": "DaggerHashimoto",
-  "description": "Restores iRO item effects (missing refine tiers, autocasts and Base Level bonuses) for 33 items, and lets you give weapons and armor optional skills and attack autocasts, adjust class access and transfer rules, and build your own item-repair collection in game. Apply edits live in game with no restart under Live changes, or Save & Export, replace the mod folder, then Apply & restart.",
+  "description": "Renewal and pre-renewal. Give weapons and armor optional skills and attack autocasts, adjust class access and transfer rules, and change the gear you wear live in game with no restart (Live changes). In renewal it also restores iRO item effects (missing refine tiers, autocasts and Base Level bonuses) for 33 items. Save & Export, replace the mod folder, then Apply & restart for lasting edits.",
   "requires": {
     "app": ">=1.7.4",
-    "era": "renewal"
+    "era": "any"
   },
+  "renewalFolder": "renewal",
+  "prerenewalFolder": "pre-renewal",
   "settingsPage": "settings/index.html",
   "settings": [
     {

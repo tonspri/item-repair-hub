@@ -1,7 +1,11 @@
-// Item Repair Hub v2.7.0: native game window and Save & Export workflow.
-import {movableLauncher} from './launcher-v2.7.0.js';
+// Item Repair Hub v2.8.0: native game window and Save & Export workflow.
+import {movableLauncher} from './launcher-v2.8.0.js';
 export default function init(parameters,api){
   if(api?.version!==1)throw Error('Item Repair Hub requires Client API 1.');
+  // One draft per era. The server says which era runs once the player is on a map (the page loads before login).
+  const draftKey=era=>era==='pre-renewal'?'editor-draft-pre-renewal-v2.8.0':'editor-draft-v2.3.0';
+  const onMap=new Promise(resolve=>{try{api.on('map:enter',()=>resolve(),{replay:true});}catch{resolve();}});
+  async function serverEra(){await onMap;try{const r=await api.server.request('irhprobe','era',{timeout:5000});return r==='OK|era|pre-renewal'?'pre-renewal':r==='OK|era|renewal'?'renewal':null;}catch{return null;}}
   const win=api.ui.window({id:'item-repair-hub-editor',title:'Item Repair Hub',width:740,height:640,resizable:true});
   const frame=document.createElement('iframe');frame.src=new URL('./editor/index.html',import.meta.url).href;frame.title='Item Repair Hub editor';frame.style.cssText='width:100%;height:100%;border:0;display:block';frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-downloads');
   async function receive(event){
@@ -9,8 +13,9 @@ export default function init(parameters,api){
     const {id,op,value}=event.data;if(!Number.isSafeInteger(id)||id<1)return;
     try{
       let result;
-      if(op==='load')result={parameters,draft:await api.preferences.get('editor-draft-v2.3.0',null)};
-      else if(op==='save'){if(!value||value.schema!==1||!Array.isArray(value.entries)||JSON.stringify(value).length>1024*1024)throw Error('Invalid or oversized draft.');await api.preferences.set('editor-draft-v2.3.0',value);result={saved:true};}
+      if(op==='load'){const era=await serverEra();result={parameters,era,draft:era?await api.preferences.get(draftKey(era),null):null};}
+      else if(op==='draft'){if(value!=='renewal'&&value!=='pre-renewal')throw Error('Invalid era.');result=await api.preferences.get(draftKey(value),null);}
+      else if(op==='save'){if(!value||value.schema!==1||!Array.isArray(value.entries)||JSON.stringify(value).length>1024*1024)throw Error('Invalid or oversized draft.');await api.preferences.set(draftKey(value.era),value);result={saved:true};}
       else if(op==='probe'){if(!Number.isSafeInteger(value)||value<1||value>2147483647)throw Error('Invalid item ID.');result=await api.server.request('irhprobe',String(value),{timeout:5000});}
       else if(op==='live'){if(typeof value!=='string'||value.length>200)throw Error('Invalid live request.');result=await api.server.request('irhapply',value,{timeout:6000});}
       // Names, descriptions and icons from the client's own item tables (Live changes, Included repairs).

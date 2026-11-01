@@ -12,10 +12,12 @@ manifest = json.loads((mod / 'mod.json').read_text(encoding='utf-8'))
 version = manifest['version']
 assert re.fullmatch(r'\d+\.\d+\.\d+', version), 'Use a stable numeric version'
 assert manifest['name'] == 'item-repair-hub'
-assert manifest['requires']['era'] == 'renewal'
-seed = json.loads((mod / f'client/seed-config-v{version}.json').read_text())
-assert seed['entries'] == [] and seed['removedIds'] == [] and seed['revision'] == 0
-assert seed['worldSyncCompat'] is False
+assert manifest['requires']['era'] == 'any' and manifest['renewalFolder'] == 'renewal' and manifest['prerenewalFolder'] == 'pre-renewal'
+# Starter seeds only: one per era, no personal collection.
+for name, era in ((f'seed-config-v{version}.json', 'renewal'), (f'seed-config-pre-v{version}.json', 'pre-renewal')):
+    seed = json.loads((mod / 'client' / name).read_text())
+    assert seed['era'] == era and seed['entries'] == [] and seed['removedIds'] == [] and seed['revision'] == 0
+    assert seed['worldSyncCompat'] is False
 bundle = json.loads((mod / f'client/package-files-v{version}.json').read_text())
 for name, encoded in bundle['static'].items():
     assert (mod / name).read_bytes() == base64.b64decode(encoded), f'Stale export template: {name}'

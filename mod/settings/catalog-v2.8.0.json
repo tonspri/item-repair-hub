@@ -1,0 +1,357 @@
+[
+  {
+    "key": "agni",
+    "id": 500118,
+    "name": "Agni Sword",
+    "category": "equipment",
+    "categoryLabel": "Equipment access",
+    "aliases": "Agni_Sword_US swordsman knight crusader merchant thief",
+    "summary": "Restore the Swordsman family alongside Merchant and Thief.",
+    "description": "Allows both Swordsman advancement branches, alongside Merchant and Thief families, through normal and advanced job tiers. The item keeps its existing level requirement, stats and effects.",
+    "toggles": [
+      {
+        "key": "agni_family",
+        "label": "Enable the class-family repair"
+      }
+    ],
+    "permissions": "agni",
+    "scope": "Agni Sword only",
+    "categories": [
+      "equipment",
+      "permissions"
+    ],
+    "eras": [
+      "renewal"
+    ]
+  },
+  {
+    "key": "cocytus",
+    "id": 450481,
+    "name": "Cocytus Armor",
+    "category": "effects",
+    "categoryLabel": "Bonuses & autocasts",
+    "aliases": "Cocytus_Armor_US cold bolt storm gust jack frost grade refine armor",
+    "summary": "Keep the working bonuses, grade effects and +12 autocasts together.",
+    "description": "Restores refine and grade bonuses. At +12, normal melee attacks can trigger Cold Bolt and Storm Gust (20% each, rolled separately). Grade A adds Cold Bolt → Jack Frost. This switch enables the complete armor repair.",
+    "toggles": [
+      {
+        "key": "cocytus_base",
+        "label": "Enable bonuses and autocasts repair"
+      }
+    ],
+    "permissions": "cocytus",
+    "scope": "Cocytus Armor only",
+    "notice": "The supplied repair blocks dropping, trading, personal storage and cart by default. The menus below can override trading, storage and cart. Keep original adds no extra permission patch; the active armor repair and other mods still apply.",
+    "categories": [
+      "effects",
+      "permissions"
+    ],
+    "eras": [
+      "renewal"
+    ]
+  },
+  {
+    "key": "item_100906",
+    "id": 100906,
+    "name": "All-in-One Buff Potion",
+    "category": "permissions",
+    "categoryLabel": "Trade & storage",
+    "aliases": " ",
+    "summary": "Individual transfer permission repair.",
+    "description": "Allows trading, personal storage, mail. Turn this repair off to inherit the server’s restrictions after a restart. Other mods, item binding and server rules can still apply.",
+    "toggles": [
+      {
+        "key": "item_100906_permissions",
+        "label": "Enable transfer permission repair"
+      }
+    ],
+    "migratedPermissionKey": "item_100906_permissions",
+    "scope": "All-in-One Buff Potion only",
+    "eras": [
+      "renewal"
+    ]
+  },
+  {
+    "key": "iro_effects",
+    "name": "iRO effect repairs",
+    "category": "effects",
+    "categoryLabel": "Bonuses & autocasts",
+    "aliases": "Future Wolf King Hat Great_Wolf_US hyper novice hells drive meteor storm buster jupitel shinkiro shiranui Blighted Skullcap Blighted_Skullcap_US venom swamp deadly projection serpens elemental master abyss chaser Saint Knight Armor Saint_Knight_US royal guard imperial guard rune knight dragon knight hundred spear genesis ray tuna belly Dark Apostate Armor Dark_Acolyte_US acolyte meteor assault hell inferno tuna belly Stormy December Stormy_December_US cold blooded cannon reiketsuhou diamond storm jack frost nova November Rain Robe November_Rain_US crystal rain rain of crystal frozen slash abyss chaser Iron Will Iron_Will_US mechanic meister ice launcher cold slower flame launcher self destruction arm cannon merchant Spin Ball Spin_Ball_US rolling cutter axe tornado cart tornado wind cutter accessory Robotic Valkyrie Hairband Robotic_Valk_US meister triple laser spark blaster merchant ranged Legendary Stone Shield Stone_Shield_US earth drive royal guard gemstone shield Thundershell Ward Wind_Insect_Shield_US lightning bolt lord of vermilion chain lightning shield Agni Sword Agni_Sword_US  Dark Chaser Boots Dark_Chaser_US judex genesis ray from the abyss tetra vortex summon ball shoes Starry Sky Twin Prime Starry_Sky_Twin_Prime shoes constellation perfect hit holy Kshatra Vairya Kshatra_Vairya shoes divine blessing Save the King Save_The_King royal guard sword holy cross grand cross heal Squirrel Ear Hat Squirrel_Ear_Hat headgear critical ranged Brilliant Brilliant sura armor knuckle arrow lightning ride rising dragon Mad Linker Glove Soul_Glove_US soul linker soul strike soul expansion soul cutter talisman white tiger Infinity Blade Magic_Sword_J soul destroyer asc breaker size penalty Thorn Armor Thorn_Armor_US earth property reflect striking mayhemic thorns rose blossom Awakened Old King's Double Edge Kings_Double_Edge_A guillotine cross cross impact cross ripper slasher rolling cutter occult impaction Vayu Follower Bow Vayu_Follower_US windhawk crescive bolt gale storm Poison Shoes Poison_Shoes_US acolyte thief meteor assault poison burst killing cloud Purple Haze Purple_Haze_US guillotine cross shadow chaser reproduce weapon blocking poison burst venom swamp killing cloud Blood Ruby Dagger Ruby_Dagger_US crimson rock dragon breath cart cannon hp drain Mesarthim Mesarthim royal guard shield aries ghost poison resist Royal Morroc Cape Royal_Morroc_US knockback dancing knife cross impact fatal menace shield spell Howling Tiger Pajama Howling_Tiger_Pajama spirit handler doram chulho hogogong hiss Legendary Performer Manteau Performer_Manteau_US minstrel wanderer troubadour trouvere voice lessons reverberation metallic sound Boreas Wings Boreas_Wings_US frost diver diamond dust sorcerer elemental master Novice Follower Suit Novice_Follower1_US super novice hyper novice cart tornado exp iro refine autocast",
+    "summary": "Restores missing iRO refine tiers, autocasts and Base Level effects on 32 items.",
+    "description": "Matches the official iRO item descriptions. Future Wolf King Hat: Adds the missing +11, +12 and +13 bonuses and autocasts. Blighted Skullcap: Adds the missing +11, +12, +13 and +15 bonuses, cooldowns and autocasts. Saint Knight Armor: Adds the class skills, +10 Tuna Belly autocast and +13 skill damage. Dark Apostate Armor: Adds the Acolyte-class skills, +10 Tuna Belly autocast and +11 skill damage. Stormy December: Adds the +12, +13 and +14 cooldowns and chain autocasts. November Rain Robe: Adds the +13 and +14 Crystal Rain autocasts. Iron Will: Adds the missing +11, +13 and +14 bonuses. Spin Ball: Adds the +12 and +13 autocasts and fixes the +7 After Cast Delay. Robotic Valkyrie Hairband: Adds the +9, +12 and +13 bonuses and fixes the Merchant-class bonus. Legendary Stone Shield: Adds the per-refine stats and the +12, +13 and +14 bonuses. Thundershell Ward: Adds the Base Level effects and the +12 autocasts. Agni Sword: Adds the Base Level effects and the +12 autocasts. Dark Chaser Boots: Adds the missing +9 and +11 autocasts; +10 now works for ranged attacks too. Starry Sky Twin Prime: Uses iRO refine tiers (+10/+12/+14) and per-refine bonuses. Kshatra Vairya: Moves the refine tiers to iRO's +10/+11/+12/+13. Save the King: Adds MATK +130 and the +11/+12 tiers; heal tiers move to +9/+10. Squirrel Ear Hat: Moves the refine tiers to iRO's +10/+11/+12. Brilliant: Uses iRO tiers (+7/+9/+11) and adds the +12 and +13 bonuses. Mad Linker Glove: Adds the Base Level 99-or-below and 100-or-above effects. Infinity Blade: Uses iRO tiers: Soul Destroyer Lv.5 and no size penalty at +11, ATK +20% at +12. Thorn Armor: Adds Earth property, 30% reflect and the +13 Striking skill and buff. Awakened Old King's Double Edge: Uses iRO tiers: extra skill damage at +11 and +13, penetration and cooldown at +14, capped at Base Lv 240. Vayu Follower Bow: Adds the missing +13, +14 and +15 bonuses. Poison Shoes: Adds per-refine stats, Meteor Assault scaling and +11 bonuses; class bonus only for Acolyte and Thief. Purple Haze: Adds the HP drain, the Reproduce/Weapon Blocking buff, the +10 Poison Burst autocast and the when-hit Venom Swamp. Blood Ruby Dagger: Adds the HP drain and the missing +12 stats and Crimson Rock autocast. Mesarthim: Adds POW/SPL +15 and uses iRO tiers (+9 Ghost, +11 Poison resistance). Royal Morroc Cape: Adds knockback immunity, the +9 and +12 damage and the +14 Dancing Knife autocast. Howling Tiger Pajama: Adds the missing +10 and +12 bonuses. Legendary Performer Manteau: Adds the Voice Lessons bonus and the +11 and +12 bonuses. Boreas Wings: Adds the +10 Frost Diver autocast and the Base Level damage scaling. Novice Follower Suit: Adds the Super/Hyper Novice bonus and the +14 Cart Tornado effects.",
+    "toggles": [
+      {
+        "key": "fx_iro_effects",
+        "label": "Enable iRO effect repairs for all 32 items"
+      }
+    ],
+    "notice": "Starry Sky Twin Prime, Kshatra Vairya, Save the King, Squirrel Ear Hat, Brilliant, Infinity Blade, Awakened Old King's Double Edge, Mesarthim use iRO's refine levels, which are higher than before, so lower refines get weaker. To turn off one item only, add it under Add items in the in-game Item Repairs editor, choose Remove item, then Save & Export.",
+    "affected": [
+      401012,
+      401544,
+      450442,
+      450444,
+      450601,
+      450566,
+      450464,
+      491013,
+      400948,
+      460130,
+      460136,
+      500118,
+      470349,
+      470180,
+      470312,
+      13465,
+      19140,
+      450247,
+      490794,
+      500005,
+      450516,
+      610029,
+      700144,
+      470382,
+      491057,
+      510222,
+      460079,
+      480597,
+      450368,
+      480455,
+      480639,
+      450536
+    ],
+    "scope": "the 32 items listed",
+    "categories": [
+      "effects"
+    ],
+    "items": [
+      {
+        "id": 401012,
+        "name": "Future Wolf King Hat",
+        "summary": "Adds the missing +11, +12 and +13 bonuses and autocasts.",
+        "slot": "Headgear",
+        "retier": false
+      },
+      {
+        "id": 401544,
+        "name": "Blighted Skullcap",
+        "summary": "Adds the missing +11, +12, +13 and +15 bonuses, cooldowns and autocasts.",
+        "slot": "Headgear",
+        "retier": false
+      },
+      {
+        "id": 450442,
+        "name": "Saint Knight Armor",
+        "summary": "Adds the class skills, +10 Tuna Belly autocast and +13 skill damage.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 450444,
+        "name": "Dark Apostate Armor",
+        "summary": "Adds the Acolyte-class skills, +10 Tuna Belly autocast and +11 skill damage.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 450601,
+        "name": "Stormy December",
+        "summary": "Adds the +12, +13 and +14 cooldowns and chain autocasts.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 450566,
+        "name": "November Rain Robe",
+        "summary": "Adds the +13 and +14 Crystal Rain autocasts.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 450464,
+        "name": "Iron Will",
+        "summary": "Adds the missing +11, +13 and +14 bonuses.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 491013,
+        "name": "Spin Ball",
+        "summary": "Adds the +12 and +13 autocasts and fixes the +7 After Cast Delay.",
+        "slot": "Accessory",
+        "retier": false
+      },
+      {
+        "id": 400948,
+        "name": "Robotic Valkyrie Hairband",
+        "summary": "Adds the +9, +12 and +13 bonuses and fixes the Merchant-class bonus.",
+        "slot": "Headgear",
+        "retier": false
+      },
+      {
+        "id": 460130,
+        "name": "Legendary Stone Shield",
+        "summary": "Adds the per-refine stats and the +12, +13 and +14 bonuses.",
+        "slot": "Shield",
+        "retier": false
+      },
+      {
+        "id": 460136,
+        "name": "Thundershell Ward",
+        "summary": "Adds the Base Level effects and the +12 autocasts.",
+        "slot": "Shield",
+        "retier": false
+      },
+      {
+        "id": 500118,
+        "name": "Agni Sword",
+        "summary": "Adds the Base Level effects and the +12 autocasts.",
+        "slot": "Weapon",
+        "retier": false
+      },
+      {
+        "id": 470349,
+        "name": "Dark Chaser Boots",
+        "summary": "Adds the missing +9 and +11 autocasts; +10 now works for ranged attacks too.",
+        "slot": "Shoes",
+        "retier": false
+      },
+      {
+        "id": 470180,
+        "name": "Starry Sky Twin Prime",
+        "summary": "Uses iRO refine tiers (+10/+12/+14) and per-refine bonuses.",
+        "slot": "Shoes",
+        "retier": true
+      },
+      {
+        "id": 470312,
+        "name": "Kshatra Vairya",
+        "summary": "Moves the refine tiers to iRO's +10/+11/+12/+13.",
+        "slot": "Shoes",
+        "retier": true
+      },
+      {
+        "id": 13465,
+        "name": "Save the King",
+        "summary": "Adds MATK +130 and the +11/+12 tiers; heal tiers move to +9/+10.",
+        "slot": "Weapon",
+        "retier": true
+      },
+      {
+        "id": 19140,
+        "name": "Squirrel Ear Hat",
+        "summary": "Moves the refine tiers to iRO's +10/+11/+12.",
+        "slot": "Headgear",
+        "retier": true
+      },
+      {
+        "id": 450247,
+        "name": "Brilliant",
+        "summary": "Uses iRO tiers (+7/+9/+11) and adds the +12 and +13 bonuses.",
+        "slot": "Armor",
+        "retier": true
+      },
+      {
+        "id": 490794,
+        "name": "Mad Linker Glove",
+        "summary": "Adds the Base Level 99-or-below and 100-or-above effects.",
+        "slot": "Accessory",
+        "retier": false
+      },
+      {
+        "id": 500005,
+        "name": "Infinity Blade",
+        "summary": "Uses iRO tiers: Soul Destroyer Lv.5 and no size penalty at +11, ATK +20% at +12.",
+        "slot": "Weapon",
+        "retier": true
+      },
+      {
+        "id": 450516,
+        "name": "Thorn Armor",
+        "summary": "Adds Earth property, 30% reflect and the +13 Striking skill and buff.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 610029,
+        "name": "Awakened Old King's Double Edge",
+        "summary": "Uses iRO tiers: extra skill damage at +11 and +13, penetration and cooldown at +14, capped at Base Lv 240.",
+        "slot": "Weapon",
+        "retier": true
+      },
+      {
+        "id": 700144,
+        "name": "Vayu Follower Bow",
+        "summary": "Adds the missing +13, +14 and +15 bonuses.",
+        "slot": "Weapon",
+        "retier": false
+      },
+      {
+        "id": 470382,
+        "name": "Poison Shoes",
+        "summary": "Adds per-refine stats, Meteor Assault scaling and +11 bonuses; class bonus only for Acolyte and Thief.",
+        "slot": "Shoes",
+        "retier": false
+      },
+      {
+        "id": 491057,
+        "name": "Purple Haze",
+        "summary": "Adds the HP drain, the Reproduce/Weapon Blocking buff, the +10 Poison Burst autocast and the when-hit Venom Swamp.",
+        "slot": "Accessory",
+        "retier": false
+      },
+      {
+        "id": 510222,
+        "name": "Blood Ruby Dagger",
+        "summary": "Adds the HP drain and the missing +12 stats and Crimson Rock autocast.",
+        "slot": "Weapon",
+        "retier": false
+      },
+      {
+        "id": 460079,
+        "name": "Mesarthim",
+        "summary": "Adds POW/SPL +15 and uses iRO tiers (+9 Ghost, +11 Poison resistance).",
+        "slot": "Shield",
+        "retier": true
+      },
+      {
+        "id": 480597,
+        "name": "Royal Morroc Cape",
+        "summary": "Adds knockback immunity, the +9 and +12 damage and the +14 Dancing Knife autocast.",
+        "slot": "Garment",
+        "retier": false
+      },
+      {
+        "id": 450368,
+        "name": "Howling Tiger Pajama",
+        "summary": "Adds the missing +10 and +12 bonuses.",
+        "slot": "Armor",
+        "retier": false
+      },
+      {
+        "id": 480455,
+        "name": "Legendary Performer Manteau",
+        "summary": "Adds the Voice Lessons bonus and the +11 and +12 bonuses.",
+        "slot": "Garment",
+        "retier": false
+      },
+      {
+        "id": 480639,
+        "name": "Boreas Wings",
+        "summary": "Adds the +10 Frost Diver autocast and the Base Level damage scaling.",
+        "slot": "Garment",
+        "retier": false
+      },
+      {
+        "id": 450536,
+        "name": "Novice Follower Suit",
+        "summary": "Adds the Super/Hyper Novice bonus and the +14 Cart Tornado effects.",
+        "slot": "Armor",
+        "retier": false
+      }
+    ],
+    "eras": [
+      "renewal"
+    ]
+  }
+]
