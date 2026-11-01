@@ -1,8 +1,8 @@
-/* Item Repair Hub v2.8.0 — contextual guide; no filesystem access. */
+/* Item Repair Hub v2.8.1 — contextual guide; no filesystem access. */
 (() => {
   const card=document.createElement('section');card.className='repair-guide';card.setAttribute('aria-label','Repair assistant');
   const portrait=document.createElement('div');portrait.className='guide-portrait';
-  const image=document.createElement('img');image.src='guide-character-v2.8.0.png';image.alt='Purple-haired repair assistant reading a book';portrait.append(image);
+  const image=document.createElement('img');image.src='guide-character-v2.8.1.png';image.alt='Purple-haired repair assistant reading a book';portrait.append(image);
   const bubble=document.createElement('div');bubble.className='guide-bubble';
   const title=document.createElement('strong');title.textContent='Your repair assistant';
   const text=document.createElement('p');text.setAttribute('role','status');text.setAttribute('aria-live','polite');bubble.append(title,text);card.append(portrait,bubble);

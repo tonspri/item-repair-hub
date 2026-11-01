@@ -1,5 +1,5 @@
-/* Item Repair Hub v2.8.0: allow-list check for live item scripts sent from a normal player account.
-   npc/live-apply-v2.8.0.txt (L_Guard) runs the same steps in rAthena script; keep the two in step.
+/* Item Repair Hub v2.8.1: allow-list check for live item scripts sent from a normal player account.
+   npc/live-apply-v2.8.1.txt (L_Guard) runs the same steps in rAthena script; keep the two in step.
    rAthena matches names case-insensitively, so every identifier is compared lowercased. */
 (function(root){
 'use strict';

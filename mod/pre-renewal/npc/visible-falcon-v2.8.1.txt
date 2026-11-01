@@ -1,4 +1,4 @@
-// Item Repair Hub v2.8.0: temporary visible falcon; player login timer only.
+// Item Repair Hub v2.8.1: temporary visible falcon; player login timer only.
 -	script	IRHVisibleFalcon	-1,{
 OnPCLoginEvent:
     if (IRH_FalconOwned) {

@@ -1,12 +1,12 @@
-/* Item Repair Hub v2.8.0: ordinary-client draft/export backend; no Electron bridge.
+/* Item Repair Hub v2.8.1: ordinary-client draft/export backend; no Electron bridge.
    Renewal and pre-renewal: the launcher asks the server which era runs (@irhprobe era, checkre(0)). Each era has
    its own item and skill data, its own draft (client preference) and its own exported repairs, written to the
    mod's renewal/ or pre-renewal/ folder, which the app reads only in that era. One Save & Export carries both. */
 (function(){'use strict';
-  const VERSION='2.8.0';
+  const VERSION='2.8.1';
   const ERAS={
-    renewal:{items:'items-v1.7.4.json',skills:'skills-v1.7.0.json',seed:'seed-config-v2.8.0.json',folder:'renewal',label:'bundled-items-1.7.4'},
-    'pre-renewal':{items:'items-pre-v1.7.6.json',skills:'skills-pre-v1.7.6.json',seed:'seed-config-pre-v2.8.0.json',folder:'pre-renewal',label:'bundled-items-pre-1.7.6'},
+    renewal:{items:'items-v1.7.4.json',skills:'skills-v1.7.0.json',seed:'seed-config-v2.8.1.json',folder:'renewal',label:'bundled-items-1.7.4'},
+    'pre-renewal':{items:'items-pre-v1.7.6.json',skills:'skills-pre-v1.7.6.json',seed:'seed-config-pre-v2.8.1.json',folder:'pre-renewal',label:'bundled-items-pre-1.7.6'},
   };
   const other=era=>era==='renewal'?'pre-renewal':'renewal';
   const replies=new Map();let serial=0;
@@ -74,9 +74,9 @@
   let manifest,packageFiles,documentState,current,compiler,base,skills;
   const baseline=id=>baselineIn(current,documentState,id);
   const loaded=(async()=>{
-    const [bundle,host]=await Promise.all([json('../package-files-v2.8.0.json'),remote('load')]);
+    const [bundle,host]=await Promise.all([json('../package-files-v2.8.1.json'),remote('load')]);
     packageFiles=bundle;manifest=JSON.parse(decodeText(bundle.static['mod.json']));
-    // A launcher from before v2.8.0 (and the tests' stand-in) says nothing about the era: that is renewal.
+    // A launcher from before v2.8.1 (and the tests' stand-in) says nothing about the era: that is renewal.
     const era=host?.era===undefined?'renewal':host.era;
     if(!ERAS[era])throw Error('The game server did not say whether it runs renewal or pre-renewal. Open Item Repairs in game while the server is running.');
     current=await eraData(era);({compiler,base,skills}=current);

@@ -192,3 +192,11 @@ Item Repair Hub now installs in renewal and pre-renewal.
 - Live changes and presets are per era as well (pre-renewal has its own server database).
 - In pre-renewal the Live changes stat picker leaves out trait stats (POW, STA, WIS, SPL, CON, CRT, P.ATK,
   S.MATK), which pre-renewal does not use.
+
+
+## v2.8.1: custom skills on items with no script
+
+Items with no script of their own (Main Gauche and over 4,000 other weapons and armor in renewal, 500+ in
+pre-renewal) stopped Save & Export with "Missing baseline script for custom skills" once they had a custom
+skill or autocast. They now start from an empty script. Only an item whose script the editor could not read at
+all is still refused, with a message saying so.

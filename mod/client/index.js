@@ -1,5 +1,5 @@
-// Item Repair Hub v2.8.0: native game window and Save & Export workflow.
-import {movableLauncher} from './launcher-v2.8.0.js';
+// Item Repair Hub v2.8.1: native game window and Save & Export workflow.
+import {movableLauncher} from './launcher-v2.8.1.js';
 export default function init(parameters,api){
   if(api?.version!==1)throw Error('Item Repair Hub requires Client API 1.');
   // One draft per era. The server says which era runs once the player is on a map (the page loads before login).

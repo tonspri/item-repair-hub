@@ -1,4 +1,4 @@
-/* Item Repair Hub v2.8.0 — shared item-effect helpers (browser and Node).
+/* Item Repair Hub v2.8.1 — shared item-effect helpers (browser and Node).
    STATS: the Live tab's stat pickers and saved stat bonuses (one table, so the live and exported lines match).
    explain(script, {refine, skills}): an item script as plain-English lines; with a refine level, refine
      conditions are marked active or not and refine formulas are worked out.

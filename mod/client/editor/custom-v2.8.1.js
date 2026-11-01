@@ -1,4 +1,4 @@
-/* Item Repair Hub v2.8.0 — server-backed custom collection */
+/* Item Repair Hub v2.8.1 — server-backed custom collection */
 'use strict';
 (() => {
   const panel = document.createElement('section'); panel.className = 'custom-panel';

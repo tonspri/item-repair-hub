@@ -1,8 +1,8 @@
-// Item Repair Hub v2.8.0 in pre-renewal: the editor backend loads pre-renewal items and skills when the launcher
+// Item Repair Hub v2.8.1 in pre-renewal: the editor backend loads pre-renewal items and skills when the launcher
 // says the server runs pre-renewal, keeps its own draft, refuses renewal-only items and skills and World Sync
 // compatibility, and Save & Export writes both eras' repairs (this era's draft and the other era's saved one).
 // The manifest and layout put renewal-only files in renewal/. Node only (runs in the mod repository's CI too).
-// Usage: node check-pre-renewal-v2.8.0.cjs [mod folder]   (default: mod, as in the repository)
+// Usage: node check-pre-renewal-v2.8.1.cjs [mod folder]   (default: mod, as in the repository)
 const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert/strict');
 const root = path.resolve(process.argv[2] || 'mod'), ed = path.join(root, 'client/editor');
 const pre = new Map(JSON.parse(fs.readFileSync(path.join(ed, 'items-pre-v1.7.6.json'))).map(i => [i.id, i]));
@@ -15,8 +15,8 @@ async function backend(host) {
   const ctx = {console, Map, Set, Blob, TextEncoder, TextDecoder, Uint8Array, structuredClone, atob, btoa, setTimeout: (f, t) => t === 60000 ? 0 : setTimeout(f, t), clearTimeout,
     URL: class extends URL { static createObjectURL() { return 'blob:test'; } static revokeObjectURL() {} },
     location: {href: 'http://test/client/editor/index.html', origin: 'http://test'},
-    ItemRepairCompiler: require(path.join(ed, 'compiler-v2.8.0.js')), HubCompat: require(path.join(ed, 'compat-v2.8.0.js')),
-    HubEffects: require(path.join(ed, 'effects-v2.8.0.js')), HubLiveGuard: require(path.join(ed, 'live-guard-v2.8.0.js')),
+    ItemRepairCompiler: require(path.join(ed, 'compiler-v2.8.1.js')), HubCompat: require(path.join(ed, 'compat-v2.8.1.js')),
+    HubEffects: require(path.join(ed, 'effects-v2.8.1.js')), HubLiveGuard: require(path.join(ed, 'live-guard-v2.8.1.js')),
     HubZip: {pack: f => { files = f; return new Uint8Array(1); }}, document: {createElement: () => ({click() {}, remove() {}}), body: {append() {}}}};
   ctx.window = {addEventListener: (n, f) => { events[n] = f; }, parent: {postMessage: r => queueMicrotask(() => {
     let value;
@@ -28,7 +28,7 @@ async function backend(host) {
     events.message({source: ctx.window.parent, origin: 'http://test', data: {type: 'irh-native-reply', id: r.id, value}});
   })}};
   ctx.fetch = async url => { const u = new URL(String(url), 'http://test/client/editor/'); const bytes = fs.readFileSync(path.join(root, decodeURIComponent(u.pathname))); return {ok: true, json: async () => JSON.parse(bytes), arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)}; };
-  vm.runInNewContext(fs.readFileSync(path.join(ed, 'native-backend-v2.8.0.js'), 'utf8'), ctx);
+  vm.runInNewContext(fs.readFileSync(path.join(ed, 'native-backend-v2.8.1.js'), 'utf8'), ctx);
   return {ctx, saves, files: () => files};
 }
 
@@ -40,12 +40,12 @@ async function backend(host) {
   assert.equal(manifest.prerenewalFolder, 'pre-renewal');
   assert(!fs.existsSync(path.join(root, 'db')) && !fs.existsSync(path.join(root, 'data')), 'nothing era-specific at the top');
   assert(fs.existsSync(path.join(root, 'renewal/db/when/fx_iro_effects/item_db.yml')));
-  for (const era of ['renewal', 'pre-renewal']) assert(fs.existsSync(path.join(root, `${era}/npc/visible-falcon-v2.8.0.txt`)));
-  assert.match(fs.readFileSync(path.join(root, 'npc/item-probe-v2.8.0.txt'), 'utf8'), /checkre\(0\) \? "renewal" : "pre-renewal"/);
+  for (const era of ['renewal', 'pre-renewal']) assert(fs.existsSync(path.join(root, `${era}/npc/visible-falcon-v2.8.1.txt`)));
+  assert.match(fs.readFileSync(path.join(root, 'npc/item-probe-v2.8.1.txt'), 'utf8'), /checkre\(0\) \? "renewal" : "pre-renewal"/);
   const index = fs.readFileSync(path.join(root, 'client/index.js'), 'utf8');
   assert.match(index, /api\.on\('map:enter'/, 'the launcher waits for a map before asking the server');
-  assert.match(index, /'editor-draft-pre-renewal-v2\.8\.0':'editor-draft-v2\.3\.0'/, 'one draft per era; the renewal key is unchanged');
-  for (const catalog of ['client/editor/catalog-v2.8.0.json', 'settings/catalog-v2.8.0.json']) assert(JSON.parse(fs.readFileSync(path.join(root, catalog))).every(c => c.eras?.join() === 'renewal'));
+  assert.match(index, /'editor-draft-pre-renewal-v2\.8\.0':'editor-draft-v2\.3\.0'/, 'one draft per era; both keys stay as earlier versions saved them');
+  for (const catalog of ['client/editor/catalog-v2.8.1.json', 'settings/catalog-v2.8.1.json']) assert(JSON.parse(fs.readFileSync(path.join(root, catalog))).every(c => c.eras?.join() === 'renewal'));
 
   // 2. Pre-renewal data: its own items and skills.
   assert(pre.size > 6000 && !pre.has(500118), 'Agni Sword is a renewal item');
@@ -74,6 +74,16 @@ async function backend(host) {
   const live = (await api({op: 'liveInfo', ids: [1132]})).items[0];
   assert(live.hasEdit && live.script.includes('bonus2 bAddEff,Eff_Curse,30;') && live.script.includes('"MG_FIREBOLT",5,100'), 'live script is the pre-renewal item plus the edit');
 
+  // 3b. Items with no script of their own (Main Gauche) take custom skills (v2.8.1 fix for "Missing baseline script").
+  assert.equal(typeof pre.get(1208).Script, 'undefined');
+  state = await api({op: 'list'});
+  await api({op: 'save', revision: state.revision, entry: {id: 1208, enabled: true, autocasts: [
+    {skill: 'MO_TRIPLEATTACK', enabled: false, manual: false, passive: true, level: 10, chance: 5, trigger: 'both', target: 'auto', minRefine: 0},
+    cast('HT_BLITZBEAT', 5, {manual: true})]}});
+  const gauche = (await api({op: 'liveInfo', ids: [1208]})).items[0];
+  assert(gauche.hasEdit && /skill "MO_TRIPLEATTACK",10,1;/.test(gauche.script) && /bonus5 bAutoSpell,"HT_BLITZBEAT",5,100/.test(gauche.script));
+  assert(b.ctx.HubLiveGuard.guard(b.ctx.HubLiveGuard.normalize(gauche.script)) === '', 'the live script passes the guard');
+
   // 4. Save & Export: this era's repairs and the renewal ones in their own folders, both seeds, no live data.
   await b.ctx.window.HubNative.exportZip();
   const files = b.files(), text = name => { const v = files.get('item-repair-hub/' + name); return typeof v === 'string' ? v : new TextDecoder().decode(v); };
@@ -82,15 +92,16 @@ async function backend(host) {
   assert.doesNotMatch(text('renewal/db/when/zz_native_exports/item_db.yml'), /Id: 1132/);
   assert(files.has('item-repair-hub/renewal/db/when/fx_iro_effects/item_db.yml'), 'renewal repairs still ship');
   assert(![...files.keys()].some(k => /^item-repair-hub\/(db|data)\//.test(k)), 'nothing era-specific at the top');
-  const preSeed = JSON.parse(text('client/seed-config-pre-v2.8.0.json')), reSeed = JSON.parse(text('client/seed-config-v2.8.0.json'));
+  const preSeed = JSON.parse(text('client/seed-config-pre-v2.8.1.json')), reSeed = JSON.parse(text('client/seed-config-v2.8.1.json'));
   assert.equal(preSeed.era, 'pre-renewal');
-  assert.deepEqual(preSeed.entries.map(e => e.id), [1132]);
+  assert.deepEqual(preSeed.entries.map(e => e.id), [1132, 1208]);
+  assert.match(text('pre-renewal/db/when/zz_native_exports/item_db.yml'), /- Id: 1208\n    Script: \|\n      \/\/ IRH_TEMP_SKILL_BEGIN[\s\S]*IRH_TEMP_SKILL_END\n/);
   assert.equal(reSeed.era, 'renewal');
   assert.equal(reSeed.worldSyncCompat, true);
   assert.deepEqual(reSeed.entries.map(e => e.id), [500118]);
   assert(!('liveApplied' in preSeed) && !('livePresets' in reSeed));
-  assert.match(text('renewal/npc/visible-falcon-v2.8.0.txt'), /IRHVisibleFalcon/);
-  assert.match(text('pre-renewal/npc/visible-falcon-v2.8.0.txt'), /IRHVisibleFalcon/);
+  assert.match(text('renewal/npc/visible-falcon-v2.8.1.txt'), /IRHVisibleFalcon/);
+  assert.match(text('pre-renewal/npc/visible-falcon-v2.8.1.txt'), /IRHVisibleFalcon/);
 
   // 5. A server that cannot say its era: the editor does not guess.
   const lost = await backend({load: {parameters: {}, era: null, draft: null}, drafts: {}});

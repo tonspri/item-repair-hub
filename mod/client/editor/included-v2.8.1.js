@@ -1,9 +1,9 @@
-/* Item Repair Hub v2.8.0 — Included repairs: item icons from the game client, a searchable item list with a
+/* Item Repair Hub v2.8.1 — Included repairs: item icons from the game client, a searchable item list with a
    slot filter for groups such as the iRO effect repairs, and the "What's new" panel. */
 'use strict';
 (() => {
   const make = (tag, text, cls) => { const n = document.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
-  const VERSION = '2.8.0', SEEN = 'irh-whats-new-seen';
+  const VERSION = '2.8.1', SEEN = 'irh-whats-new-seen';
 
   // Icons and names come from the game client in batches; outside the game there are none.
   const meta = new Map(), waiting = new Map();

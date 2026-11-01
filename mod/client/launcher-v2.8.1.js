@@ -1,4 +1,4 @@
-// Item Repair Hub v2.8.0 — movable launcher; ordinary client preferences only.
+// Item Repair Hub v2.8.1 — movable launcher; ordinary client preferences only.
 export function movableLauncher(button,api,toggle){
   const key='launcher-position-v1';let point=null,drag=null,moved=false,disposed=false,positionChanged=false;
   const clamp=(value,max)=>Math.max(0,Math.min(value,Math.max(0,max)));
