@@ -1,4 +1,4 @@
-# Item Repair Hub v2.8.1: iRO effect repairs (Script only; Jobs and Trade come from other layers)
+# Item Repair Hub v2.9.0: iRO effect repairs (Script only; Jobs and Trade come from other layers)
 Header:
   Type: ITEM_DB
   Version: 3
@@ -1049,3 +1049,525 @@ Body:
         bonus2 bSkillAtk,"GN_CART_TORNADO",100;
         bonus4 bAutoSpellOnSkill,"GN_CART_TORNADO","GN_CART_TORNADO",5,200;
       }
+  # Gate of Netherworld: Fixes the +7 and +9 bonuses, which never applied, and uses damage to all properties.
+  - Id: 400101
+    AegisName: GatesofNetherworld
+    Script: |
+      .@r = getrefine();
+      bonus bAgi,5;
+      bonus bInt,5;
+      bonus bDef,3;
+      bonus bMdef,10;
+      bonus2 bAddEle,Ele_All,10;
+      bonus2 bMagicAddEle,Ele_All,10;
+      if (.@r >= 7) {
+        bonus2 bAddEle,Ele_All,15;
+        bonus2 bMagicAddEle,Ele_All,15;
+        bonus bFixedCastrate,-50;
+      }
+      if (.@r >= 9) {
+        bonus bAspdRate,15;
+        bonus bFixedCastrate,-70;
+      }
+  # Bear Aimed Bag: Adds the Main Ranger bonus and the missing +12 and +13 effects.
+  - Id: 480417
+    AegisName: Bear_Aimed_Bag_TH
+    Script: |
+      bonus2 bAddSize,Size_All,10;
+      bonus bLongAtkRate,20;
+      bonus bPerfectHitAddRate,10*getskilllv("RA_RANGERMAIN");
+      bonus2 bSkillAtk,"RA_ARROWSTORM",1*(BaseLevel/10);
+      bonus2 bSkillAtk,"RA_AIMEDBOLT",1*(BaseLevel/10);
+      if (getrefine() >= 7) {
+        bonus2 bSkillUseSP,"RA_AIMEDBOLT",20;
+      }
+      if (getrefine() >= 9) {
+        bonus bDelayrate,-12;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bAddClass,Class_Boss,15;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bSkillAtk,"RA_ARROWSTORM",20;
+        bonus2 bSkillAtk,"RA_AIMEDBOLT",20;
+      }
+      if (getrefine() >= 13) {
+        bonus bNoSizeFix;
+      }
+  # Melody Wing: Adds the missing +7 SP reduction and +13 no size penalty.
+  - Id: 480465
+    AegisName: Melody_Wing_TH
+    Script: |
+      bonus2 bAddSize,Size_All,10;
+      bonus bPerfectHitAddRate,10*getskilllv("WM_LESSON");
+      bonus2 bSkillAtk,"WM_SEVERE_RAINSTORM",2*(BaseLevel/10);
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",2*(BaseLevel/10);
+      if (getrefine() >= 7) {
+        bonus2 bSkillUseSP,"WM_SEVERE_RAINSTORM",20;
+      }
+      if (getrefine() >= 9) {
+        bonus bDelayrate,-12;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bAddClass,Class_Boss,15;
+      }
+      if (getrefine() >= 13) {
+        bonus bNoSizeFix;
+      }
+  # Screaming Ghost Party: Adds the missing +12 and +13 bonuses.
+  - Id: 450338
+    AegisName: Screaming_Ghoost_Party
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableArmor;
+      bonus2 bSubClass,Class_Normal,5;
+      bonus2 bSubClass,Class_Boss,5;
+      bonus2 bSubRace,RC_Player_Doram,7;
+      bonus2 bSubRace,RC_Player_Human,7;
+      bonus bBaseAtk,30*.@r;
+      bonus bMatk,30*.@r;
+      if (.@r >= 7) {
+        bonus bAspdRate,10;
+        bonus2 bAddRace,RC_All,15;
+        bonus2 bMagicAddRace,RC_All,15;
+      }
+      if (.@r >= 9) {
+        bonus bPerfectHitAddRate,25;
+        bonus2 bAddRace,RC_All,25;
+        bonus2 bMagicAddRace,RC_All,25;
+      }
+      if (.@r >= 12) {
+        bonus bAllStats,15;
+      }
+      if (.@r >= 13) {
+        bonus bBaseAtk,150;
+        bonus bMatk,150;
+        bonus bDelayrate,-20;
+      }
+  # Orc Ancestor Armor: Makes the size damage scale with First Faith Power at +12, and adds the +13 Rampage Blast damage.
+  - Id: 450374
+    AegisName: Orc_Ancestor_US
+    Script: |
+      bonus bAtkRate,10;
+      bonus bStr,3*(getrefine()/2);
+      bonus bBaseAtk,30*(getrefine()/2);
+      bonus bLongAtkRate,5*(getrefine()/3);
+      if (getrefine() >= 11) {
+        bonus bAspdRate,10;
+        bonus2 bSkillAtk,"SR_RAMPAGEBLASTER",30;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bAddSize,Size_All,8*getskilllv("IQ_FIRST_FAITH_POWER");
+      }
+      if (getrefine() >= 13) {
+        bonus2 bSkillAtk,"SR_RAMPAGEBLASTER",50;
+      }
+  # Giant Shield: Adds the +9 cooldown and +11 delay, and moves critical damage to +11.
+  - Id: 460107
+    AegisName: Giant_Shield_TH
+    Script: |
+      bonus bCritical,5;
+      bonus2 bSubClass,Class_Normal,10;
+      if (getrefine() >= 7) {
+        bonus bAspd,2;
+      }
+      if (getrefine() >= 9) {
+        bonus2 bSkillCooldown,"IQ_EXPOSION_BLASTER",-100;
+      }
+      if (getrefine() >= 11) {
+        bonus bDelayrate,-5;
+        bonus bCritAtkRate,10;
+      }
+  # Archangel Aegis: Adds the missing +12 Tiger Cannon skill and cooldown.
+  - Id: 460118
+    AegisName: Arc_A_G_Shield
+    Script: |
+      if (BaseLevel <= 200) {
+        bonus bMaxHP,15000;
+      }
+      bonus bAtkRate,1*getskilllv("BS_WEAPONRESEARCH");
+      bonus bMaxHP,500*getskilllv("BS_WEAPONRESEARCH");
+      bonus bBaseAtk,10*(getrefine()/2);
+      if (getrefine() >= 7) {
+        bonus bAspdRate,10;
+      }
+      if (getrefine() >= 9) {
+        bonus bBaseAtk,30;
+        bonus bAtkRate,5;
+      }
+      if (getrefine() >= 11) {
+        bonus bShortAtkRate,8;
+        bonus bLongAtkRate,8;
+      }
+      if (getrefine() >= 12) {
+        skill "SR_TIGERCANNON",10;
+        bonus2 bSkillCooldown,"SR_TIGERCANNON",-1000;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bSkillAtk,"HN_DOUBLEBOWLINGBASH",15;
+        bonus2 bSkillAtk,"HN_SHIELD_CHAIN_RUSH",15;
+        bonus2 bSkillAtk,"HN_MEGA_SONIC_BLOW",15;
+        bonus2 bSkillAtk,"HN_SPIRAL_PIERCE_MAX",15;
+      }
+  # Ignis Flame Guard: Adds the +9 cooldowns, the +11 HP and SP drain, and the +12 skill damage.
+  - Id: 460178
+    AegisName: Ignis_Guard_TH
+    Script: |
+      bonus bAspdRate,10;
+      bonus bMaxHP,100*getrefine();
+      bonus2 bMagicAtkEle,Ele_All,4*(getrefine()/3);
+      if (getrefine() >= 7) {
+        bonus bAspd,2;
+      }
+      if (getrefine() >= 9) {
+        bonus2 bSkillCooldown,"AG_FLORAL_FLARE_ROAD",-300;
+        bonus2 bSkillCooldown,"AG_ALL_BLOOM",-300;
+      }
+      if (getrefine() >= 11) {
+        autobonus "{ bonus bInt,150; bonus2 bHPLossRate,100,1000; bonus2 bSPLossRate,100,1000; }",40,10000,BF_MAGIC;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bSkillAtk,"AG_CRIMSON_ARROW",15;
+        bonus2 bSkillAtk,"AG_CRIMSON_ARROW_ATK",15;
+        bonus2 bSkillAtk,"AG_FLORAL_FLARE_ROAD",15;
+        bonus2 bSkillAtk,"AG_ALL_BLOOM",15;
+        bonus2 bSkillAtk,"AG_ALL_BLOOM_ATK",15;
+        bonus2 bSkillAtk,"AG_ALL_BLOOM_ATK2",15;
+      }
+  # Ancient Royal Guard Greaves: Adds the per-3-refine, +10 and +11 bonuses, and moves Genesis Ray and Earth Drive damage to +13.
+  - Id: 470352
+    AegisName: Ancient_Royal_US
+    Script: |
+      bonus bMdef,10;
+      bonus bSpl,3*(getrefine()/2);
+      bonus bPow,3*(getrefine()/2);
+      bonus bMaxHPrate,4*(getrefine()/3);
+      bonus bDelayrate,-3*(getrefine()/3);
+      if (getrefine() >= 9) {
+        bonus bAtkRate,10;
+      }
+      if (getrefine() >= 10) {
+        bonus2 bAddEle,Ele_All,15;
+        bonus2 bMagicAddEle,Ele_All,15;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bAddEle,Ele_All,15;
+        bonus2 bMagicAddEle,Ele_All,15;
+      }
+      if (getrefine() >= 12) {
+        bonus bSpeedRate,25;
+        bonus bPow,5;
+        bonus bSpl,5;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bSkillCooldown,"LG_RAYOFGENESIS",-2000;
+        bonus2 bSkillCooldown,"LG_EARTHDRIVE",-2000;
+        bonus2 bVariableCastrate,"LG_RAYOFGENESIS",-100;
+        bonus2 bVariableCastrate,"LG_EARTHDRIVE",-100;
+        bonus2 bSkillAtk,"LG_RAYOFGENESIS",100;
+        bonus2 bSkillAtk,"LG_EARTHDRIVE",100;
+      }
+      if (getrefine() >= 14) {
+        bonus2 bSkillAtk,"LG_RAYOFGENESIS",1*(BaseLevel/2);
+        bonus2 bSkillAtk,"LG_EARTHDRIVE",1*(BaseLevel/2);
+      }
+  # Constellation Blessing: Makes all stats and trait stats scale per refine, and adds the +11 and +12 bonuses.
+  - Id: 480527
+    AegisName: Constell_Blessing_US
+    Script: |
+      bonus2 bSubClass,Class_All,5;
+      bonus2 bSubRace,RC_Player_Human,5;
+      bonus2 bSubRace,RC_Player_Doram,5;
+      bonus bMaxHPrate,2*getrefine();
+      bonus bMaxSPrate,2*getrefine();
+      bonus bAllStats,getrefine();
+      bonus bAllTraitStats,getrefine();
+      if (getrefine() >= 11) {
+        bonus2 bAddEle,Ele_All,15;
+        bonus2 bMagicAddEle,Ele_All,15;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bAddEle,Ele_All,25;
+        bonus2 bMagicAddEle,Ele_All,25;
+        bonus bHPGainValue,250;
+        bonus bSPGainValue,25;
+        bonus bLongHPGainValue,250;
+        bonus bLongSPGainValue,25;
+        bonus bMagicHPGainValue,250;
+        bonus bMagicSPGainValue,25;
+      }
+      if (getrefine() >= 13) {
+        bonus bDelayrate,-20;
+        bonus bBaseAtk,150;
+        bonus bMatk,150;
+      }
+  # Coatneis Knuckle: Adds indestructible, per-2-refine skill damage, and the missing +13 and +15 bonuses.
+  - Id: 560077
+    AegisName: Coatneis_Knuckle_US
+    Script: |
+      bonus bUnbreakableWeapon;
+      bonus bAspd,10;
+      bonus bDelayrate,-10;
+      bonus2 bSubClass,Class_All,30;
+      bonus2 bAddSize,Size_All,30;
+      bonus2 bAddSize,Size_All,12*getrefine();
+      bonus bPow,3*(getrefine()/2);
+      bonus bMaxHPrate,3*(getrefine()/2);
+      bonus2 bSkillAtk,"SR_EARTHSHAKER",20*(getrefine()/2);
+      bonus2 bSkillAtk,"SR_RAMPAGEBLASTER",20*(getrefine()/2);
+      bonus2 bSkillAtk,"SR_GATEOFHELL",20*(getrefine()/2);
+      if (getrefine() >= 10) {
+        bonus bPow,15;
+        bonus bDelayrate,-20;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bSkillCooldown,"SR_RAMPAGEBLASTER",-10000;
+        bonus2 bSkillCooldown,"SR_EARTHSHAKER",-3000;
+      }
+      if (getrefine() >= 12) {
+        bonus2 bSkillAtk,"IQ_EXPOSION_BLASTER",30;
+        bonus2 bSkillCooldown,"IQ_EXPOSION_BLASTER",-1000;
+      }
+      if (getrefine() >= 13) {
+        bonus bAllStats,25;
+        bonus bBaseAtk,250;
+        bonus bMaxHPrate,25;
+      }
+      if (getrefine() >= 14) {
+        bonus bLongAtkRate,30;
+        bonus bAllTraitStats,13;
+      }
+      if (getrefine() >= 15) {
+        bonus bLongAtkDef,40;
+        bonus2 bSubEle,Ele_All,40;
+      }
+  # Kuraokami's Feather Robe: Uses iRO values: ASPD +1% per 2 refines, damage at +8 and +10.
+  - Id: 15421
+    AegisName: Triad_God_Mail_J_
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,10;
+      bonus bMaxHPrate,15;
+      bonus bMaxSPrate,15;
+      bonus bAspdRate,.@r/2;
+      if (.@r >= 8)
+        bonus2 bAddRace,RC_All,10;
+      if (.@r >= 10)
+        bonus2 bAddRace,RC_All,10;
+  # Fairy of Eden: Uses iRO tiers: +9 stats and no knockback, +11 Energy Coat.
+  - Id: 20991
+    AegisName: Fairy_Of_Eden
+    Script: |
+      .@r = getrefine();
+      bonus2 bSubClass,Class_Normal,5;
+      bonus2 bSubClass,Class_Boss,5;
+      bonus2 bSubRace,RC_Player_Human,5;
+      bonus2 bSubRace,RC_Player_Doram,5;
+      bonus bAspdRate,.@r;
+      bonus bMatkRate,2*.@r;
+      if (.@r >= 9) {
+        bonus bAllStats,10;
+        bonus bNoKnockback;
+      }
+      if (.@r >= 11) {
+        if (getskilllv("MG_ENERGYCOAT") == 1) {
+          bonus bDef,300;
+          bonus bMdef,15;
+        }
+        skill "MG_ENERGYCOAT",1;
+      }
+  # Authority Sandals: Uses iRO tiers: all stats +10 at +10 and +11.
+  - Id: 22214
+    AegisName: Authority_Sandals
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,10;
+      bonus bAllStats,10;
+      bonus2 bIgnoreDefRaceRate,RC_All,50;
+      bonus2 bIgnoreMdefRaceRate,RC_All,50;
+      if (.@r >= 10)
+        bonus bAllStats,10;
+      if (.@r >= 11)
+        bonus bAllStats,10;
+  # Stylish Silent Shoes: Uses iRO tiers: Greed and damage at +10, more damage at +11.
+  - Id: 22244
+    AegisName: Chic_Silent_Shoes
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddEle,Ele_All,10;
+      bonus2 bMagicAddEle,Ele_All,10;
+      bonus bHPGainValue,150;
+      bonus bSPGainValue,15;
+      if (.@r >= 10) {
+        skill "BS_GREED",1;
+        bonus2 bAddEle,Ele_All,10;
+        bonus2 bMagicAddEle,Ele_All,10;
+      }
+      if (.@r >= 11) {
+        bonus2 bAddEle,Ele_All,10;
+        bonus2 bMagicAddEle,Ele_All,10;
+      }
+  # Legacy of Wise One: Uses iRO effects: After Cast Delay -20%, +10 damage and player resist, +12 Max HP and SP.
+  - Id: 400287
+    AegisName: Legacy_of_Wise_One_J
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,10;
+      bonus bDelayrate,-20;
+      bonus2 bSubClass,Class_Boss,20;
+      bonus2 bSubClass,Class_Normal,20;
+      if (.@r >= 10) {
+        bonus2 bAddRace,RC_All,30;
+        bonus2 bMagicAddRace,RC_All,30;
+        bonus2 bSubRace,RC_Player_Human,13;
+        bonus2 bSubRace,RC_Player_Doram,13;
+      }
+      if (.@r >= 12) {
+        bonus bMaxHPrate,30;
+        bonus bMaxSPrate,30;
+      }
+  # Ghost Whisper: Uses iRO tiers: skill damage at +11 and +12, capped at Base Lv 210; delay capped at +12.
+  - Id: 400396
+    AegisName: Ghost_Whisper
+    Script: |
+      .@r = getrefine();
+      .@l = min(BaseLevel,210);
+      .@b = .@l;
+      if (.@r >= 12) {
+        .@b *= 3;
+        bonus2 bSkillAtk,"ASC_BREAKER",.@l*2;
+      } else if (.@r >= 11) {
+        .@b *= 2;
+        bonus2 bSkillAtk,"ASC_BREAKER",.@l;
+      }
+      bonus bMdef,10;
+      bonus bAspdRate,10;
+      bonus bDelayrate,-3*min(.@r,12);
+      bonus2 bSkillAtk,"ASC_METEORASSAULT",.@b;
+      if (getskilllv("GC_WEAPONCRUSH") == 5)
+        bonus2 bAddEle,Ele_All,25;
+      if (getskilllv("GC_WEAPONBLOCKING") == 5)
+        bonus bDelayrate,-20;
+      if (getskilllv("GC_COUNTERSLASH") == 10)
+        bonus bWeaponAtkRate,25;
+      if (getskilllv("GC_HALLUCINATIONWALK") == 5) {
+        bonus2 bSubClass,Class_Normal,20;
+        bonus2 bSubClass,Class_Boss,20;
+      }
+  # Awaking Bloom: Uses iRO tiers: +10 and +12.
+  - Id: 400566
+    AegisName: Awaking_Bloom
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,10;
+      bonus2 bSubClass,Class_Normal,20;
+      bonus2 bSubClass,Class_Boss,20;
+      bonus2 bSubRace,RC_Player_Human,13;
+      bonus2 bSubRace,RC_Player_Doram,13;
+      bonus bDelayrate,-2*.@r;
+      if (.@r >= 10) {
+        bonus2 bAddEle,Ele_All,15;
+        bonus2 bMagicAddEle,Ele_All,15;
+        bonus bMaxHPrate,10;
+        bonus bMaxSPrate,10;
+      }
+      if (.@r >= 12) {
+        bonus2 bAddEle,Ele_All,25;
+        bonus2 bMagicAddEle,Ele_All,25;
+        bonus bAllStats,10;
+      }
+  # Twinhead Dragon Mail: Uses iRO tiers: +9, +10 and +12.
+  - Id: 450216
+    AegisName: Twinhead_dragon_Mail_J
+    Script: |
+      .@r = getrefine();
+      .@a = getskilllv("RK_DRAGONBREATH_WATER");
+      .@b = getskilllv("RK_DRAGONBREATH");
+      bonus bMaxHPrate,10+(.@a*4);
+      bonus bMaxSPrate,10+(.@a*4);
+      bonus2 bSkillAtk,"RK_DRAGONBREATH_WATER",10*.@a;
+      bonus bDelayrate,-6*getskilllv("RK_DRAGONTRAINING");
+      bonus bLongAtkRate,7*.@b;
+      bonus2 bSkillAtk,"RK_DRAGONBREATH",10*.@b;
+      if (.@r >= 9)
+        bonus2 bSubClass,Class_Boss,5;
+      if (.@r >= 10) {
+        bonus bNoKnockback;
+        bonus bUnbreakableArmor;
+      }
+      if (.@r >= 12) {
+        bonus bDef,300;
+        bonus2 bSkillAtk,"RK_DRAGONBREATH_WATER",50;
+        bonus2 bSkillAtk,"RK_DRAGONBREATH",50;
+      }
+  # Four of a Kind: Uses iRO tiers: +10, +11 and +12, with Neutral magic damage added.
+  - Id: 450226
+    AegisName: Four_of_a_kind
+    Script: |
+      .@r = getrefine();
+      bonus bInt,10*getskilllv("WL_RADIUS");
+      bonus bMatk,50*getskilllv("WL_RADIUS");
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bMagicAddRace,RC_All,7*getskilllv("WL_TETRAVORTEX");
+      if (getskilllv("WL_COMET") == 5) {
+        bonus2 bFixedCastrate,"WL_TETRAVORTEX",-100;
+      }
+      if (.@r >= 10)
+        bonus bMdef,25;
+      if (.@r >= 11)
+        bonus bMdef,25;
+      if (.@r >= 12) {
+        bonus2 bMagicAtkEle,Ele_Earth,15;
+        bonus2 bMagicAtkEle,Ele_Fire,15;
+        bonus2 bMagicAtkEle,Ele_Water,15;
+        bonus2 bMagicAtkEle,Ele_Wind,15;
+        bonus2 bMagicAtkEle,Ele_Neutral,15;
+        bonus bUnbreakableArmor;
+      }
+  # Loud Park: Uses iRO effects: ASPD +10%, DEF from Deep Sleep Lullaby, kill recovery, Metallic Sound at +9 and +11.
+  - Id: 450258
+    AegisName: Loud_Park
+    Script: |
+      .@r = getrefine();
+      bonus bAspdRate,10;
+      bonus bInt,6*getskilllv("WM_FRIGG_SONG");
+      bonus bMatk,30*getskilllv("WM_FRIGG_SONG");
+      bonus2 bMagicAddRace,RC_All,14*getskilllv("WM_GLOOMYDAY");
+      if (getskilllv("WM_LULLABY_DEEPSLEEP") == 5)
+        bonus bDef,300;
+      bonus bMagicHPGainValue,200;
+      bonus bMagicSPGainValue,20;
+      if (.@r >= 9)
+        bonus2 bSkillAtk,"WM_METALICSOUND",50;
+      if (.@r >= 11)
+        bonus2 bSkillAtk,"WM_METALICSOUND",50;
+  # Spenta Armaiti: Uses iRO tiers: Holy resistance at +9, Neutral at +11.
+  - Id: 460057
+    AegisName: Spenta_Armaiti
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableShield;
+      bonus2 bSubClass,Class_Boss,40;
+      bonus2 bSubClass,Class_Normal,40;
+      bonus bMaxHPrate,3*.@r;
+      bonus bMaxSPrate,3*.@r;
+      if (.@r >= 9)
+        bonus2 bSubEle,Ele_Holy,25-(getskilllv("CR_TRUST") > 0 ? 25 : 0);
+      if (.@r >= 11)
+        bonus2 bSubEle,Ele_Neutral,15;
+  # Gracies Aranea: Uses iRO tiers: movement speed at +11, fixed cast at +14.
+  - Id: 460074
+    AegisName: Glacies_Aranea
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableShield;
+      bonus2 bSubClass,Class_Boss,40;
+      bonus2 bSubRace,RC_Player_Doram,35;
+      bonus2 bSubRace,RC_Player_Human,35;
+      bonus bMaxHPrate,3*.@r;
+      bonus bMaxSPrate,3*.@r;
+      if (.@r >= 11)
+        bonus bSpeedRate,25;
+      if (.@r >= 14)
+        bonus bFixedCastrate,-70;

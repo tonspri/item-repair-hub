@@ -1,0 +1,35 @@
+const assert=require('node:assert/strict');
+const root='../mod/client/editor/';
+const c=require(root+'compiler-v2.9.0.js').create(require(root+'skills-v1.7.0.json'));
+const item=require(root+'items-v1.7.4.json').find(i=>i.id===500118);
+const skill=(skill,minRefine=0)=>({skill,enabled:true,manual:true,level:1,chance:10,trigger:'melee',target:'auto',minRefine});
+const e=c.validateEntry({id:item.id,autocasts:[skill('MG_FIREBOLT',12),skill('SM_MAGNUM',10),skill('MG_COLDBOLT')],equipLevelMin:99},item);
+const yaml=c.compile([e]),lua=c.compileLua([e]);
+// v2.9.0: autocasts are item bonuses in the script, each rolling on its own; no Lua.
+assert.doesNotMatch(lua,/c:cast|item\(/);
+const script=c.parseTable(yaml).get(item.id).Script;
+assert.equal((script.match(/bonus5 bAutoSpell,/g)||[]).length,3);
+assert.match(script,/if \(getrefine\(\) >= 12\) bonus5 bAutoSpell,"MG_FIREBOLT",1,100,BF_SHORT\|BF_WEAPON\|BF_NORMAL,1;/);
+assert.match(script,/if \(getrefine\(\) >= 10\) bonus5 bAutoSpell,"SM_MAGNUM",1,100,BF_SHORT\|BF_WEAPON\|BF_NORMAL,0;/);
+assert.match(script,/\nbonus5 bAutoSpell,"MG_COLDBOLT",1,100,BF_SHORT\|BF_WEAPON\|BF_NORMAL,1;/);
+assert(script.indexOf('bAutoSpell')<script.indexOf('// IRH_TEMP_SKILL_END'),'autocasts sit inside the replaceable block');
+const again=c.parseTable(c.compile([c.validateEntry({id:e.id,autocasts:e.autocasts,equipLevelMin:e.equipLevelMin},{...item,Script:script})])).get(item.id).Script;
+assert.equal((again.match(/bonus5 bAutoSpell,/g)||[]).length,3,'re-editing does not duplicate autocasts');
+const ranged=c.parseTable(c.compile([c.validateEntry({id:item.id,autocasts:[{...skill('MG_COLDBOLT'),manual:false,trigger:'ranged',chance:37}]},item)])).get(item.id).Script;
+assert.match(ranged,/bonus5 bAutoSpell,"MG_COLDBOLT",1,370,BF_LONG\|BF_WEAPON\|BF_NORMAL,1;/);
+assert.match(c.compileFalcon([]),/checkoption\(OPTION_WUG/);assert.doesNotMatch(c.compileFalcon([]),/getoption/);
+assert.match(yaml,/EquipLevelMin: 99/);assert.match(yaml,/if \(getrefine\(\) >= 12\) skill "MG_FIREBOLT"/);
+assert.equal(c.parseTable(yaml).get(item.id).EquipLevelMin,99);
+assert.equal(c.validateEntry({id:e.id,autocasts:e.autocasts,equipLevelMin:e.equipLevelMin},item).autocasts.length,3);
+const legacy=c.validateEntry({id:item.id,autocast:{enabled:true,manual:false,skill:'MG_COLDBOLT',level:1,chance:5,trigger:'both',target:'auto'}},item);
+assert.equal(legacy.autocasts.length,1);assert.equal(legacy.autocasts[0].minRefine,0);
+assert.throws(()=>c.validateEntry({id:item.id,autocasts:Array(4).fill(skill('MG_COLDBOLT'))},item),/at most three/);
+assert.throws(()=>c.validateEntry({id:item.id,autocasts:[skill('MG_COLDBOLT'),skill('MG_COLDBOLT')]},item),/only once/);
+assert.throws(()=>c.validateEntry({id:item.id,autocasts:[skill('MG_COLDBOLT',21)]},item),/0–20/);
+assert.throws(()=>c.validateEntry({id:1,equipLevelMin:5},{id:1,Type:'Usable'}),/Only equipment/);
+assert.throws(()=>c.validateEntry({id:1,autocasts:[skill('MG_COLDBOLT')]},{id:1,Type:'Usable'}),/equipment/);
+assert.equal(c.compileLua([{...e,enabled:false}]).includes('c:cast'),false);
+assert.equal(c.compile([{...e,enabled:false}]).includes('Id:'),false);
+assert.equal(c.parseTable(c.compile([c.validateEntry({id:item.id,permissions:{trade:'allow'}},item)])).get(item.id).Trade.NoTrade,false);
+console.log('PASS autocasts as independent item bonuses (melee/ranged, self/enemy, no duplicates on re-edit), falcon uses checkoption, thresholds, manual grants, level export, round trip, legacy migration, limits, duplicate rejection, consumable validation, disabled items, permission export');
+

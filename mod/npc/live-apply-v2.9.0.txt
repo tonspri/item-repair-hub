@@ -1,0 +1,368 @@
+//===== Item Repair Hub v2.9.0: live item changes ============================
+//= Applies an item's compiled script while the server runs, from a normal
+//= (non-GM) player account, with no restart. The editor's Live changes tab
+//= sends it through @irhapply, bound at level 0 so ordinary players can use it.
+//= An item script can run any script command when stats are worked out, so
+//= every script is checked against an allow-list first (bonuses, temporary
+//= skill grants, refine/level reads, .@ variables); client/editor/
+//= live-guard-v2.9.0.js runs the same steps and must stay in step with L_Guard.
+//=
+//= Live scripts and minimum equip levels are kept in this mod's store
+//= (global "live.<item id>", "lvl.<item id>") and put back in OnInit, so they
+//= survive a restart. Undo sends back what the item has at server start and
+//= forgets them. "equip" lists worn item IDs for the editor's equipment scan;
+//= "gear <slot>" gives one slot's refine and cards.
+//===========================================================================
+-	script	IRHLiveApply	-1,{
+	end;
+
+OnInit:
+	bindatcmd "irhapply", strnpcinfo(3) + "::OnCmd", 0, 99;
+	.allowed$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_ .@,;(){}+-*/<>=!&|?:\"%";
+	.idchars$ = "abcdefghijklmnopqrstuvwxyz0123456789_";
+	.words$ = "|";
+	.words$ += "if|else|bonus|bonus2|bonus3|bonus4|bonus5|skill|autobonus|autobonus2|autobonus3|getrefine|";
+	.words$ += "getskilllv|getenchantgrade|getequiprefinerycnt|getequipid|getequipweaponlv|isequipped|isequippedcnt|readparam|min|max|cap_value|rand|";
+	.words$ += "eaclass|baselevel|joblevel|basejob|baseclass|class|upper|sex|pow|sta|wis|spl|";
+	.words$ += "con|crt|vip_status|gettime|getitempos|getpetinfo|hateffect|specialeffect2|vip_status_active|true|false|babsorbdmgmaxhp|";
+	.words$ += "babsorbdmgmaxhp2|baddclass|baddclassdropitem|baddclassdropitemgroup|badddamageclass|badddefmonster|baddeff|baddeff2|baddeffonskill|baddeffwhenhit|baddele|baddgetzenynum|";
+	.words$ += "badditemgrouphealrate|badditemgroupsphealrate|badditemhealrate|badditemsphealrate|baddmagicdamageclass|baddmaxweight|baddmdefmonster|baddmonsterdropitem|baddmonsterdropitemgroup|baddmonsteriddropitem|baddrace|baddrace2|";
+	.words$ += "baddsize|baddskillblow|baddstealrate|bagi|bagidexstr|bagivit|ballstats|balltraitstats|baspd|baspdrate|batk|batk2|";
+	.words$ += "batkele|batkrange|batkrate|bautospell|bautospellonskill|bautospellwhenhit|bbaseatk|bbreakarmorrate|bbreakweaponrate|bcraterate|bcastrate|bclasschange|";
+	.words$ += "bcomaclass|bcomarace|bcon|bcrate|bcritatkrate|bcritdefrate|bcritical|bcriticaladdrace|bcriticaldef|bcriticallong|bcriticalrate|bcrt|";
+	.words$ += "bdef|bdef2|bdef2rate|bdefele|bdefrate|bdefratioatkclass|bdefratioatkele|bdefratioatkrace|bdelayrate|bdex|bdoubleaddrate|bdoublerate|";
+	.words$ += "bdropaddclass|bdropaddrace|bexpaddclass|bexpaddrace|bfame|bfixedcast|bfixedcastrate|bflee|bflee2|bflee2rate|bfleerate|bgetzenynum|";
+	.words$ += "bhpdrainrate|bhpdrainvalue|bhpdrainvalueclass|bhpdrainvaluerace|bhpgainvalue|bhplossrate|bhpregenrate|bhpvanishracerate|bhpvanishrate|bhplusrate|bhprecovrate|bhealpower|";
+	.words$ += "bhealpower2|bhit|bhitrate|bhplus|bignoredefclass|bignoredefclassrate|bignoredefele|bignoredefrace|bignoredefracerate|bignoremresracerate|bignoremdefclassrate|bignoremdefele|";
+	.words$ += "bignoremdefrace|bignoremdefrace2rate|bignoremdefracerate|bignoreresracerate|bint|bintravision|blongatkdef|blongatkrate|blonghpgainvalue|blongspgainvalue|blongweapondamagereturn|bluk|";
+	.words$ += "bmresrate|bmagicaddclass|bmagicaddele|bmagicaddrace|bmagicaddrace2|bmagicaddsize|bmagicatkdef|bmagicatkele|bmagicdamagereturn|bmagichpgainvalue|bmagicspgainvalue|bmagicsubdefele|";
+	.words$ += "bmagicsubsize|bmatk|bmatk2|bmatkrate|bmaxap|bmaxaprate|bmaxhp|bmaxhprate|bmaxsp|bmaxsprate|bmdef|bmdef2|";
+	.words$ += "bmdef2rate|bmdefrate|bmiscatkdef|bmres|bnearatkdef|bnocastcancel|bnocastcancel2|bnogemstone|bnoknockback|bnomadofuel|bnomagicdamage|bnomiscdamage|";
+	.words$ += "bnoregen|bnosizefix|bnowalkdelay|bnoweapondamage|bnoncritatkrate|bnoncritdefrate|bpatkrate|bpatk|bperfecthide|bperfecthitaddrate|bperfecthitrate|bpow|";
+	.words$ += "breducedamagereturn|bregenpercenthp|bregenpercentsp|bres|breseff|bresrate|brestartfullrecover|bsmatkrate|bspdrainrate|bspdrainvalue|bspdrainvalueclass|bspdrainvaluerace|";
+	.words$ += "bspgainrace|bspgainvalue|bsplossrate|bspregenrate|bspvanishracerate|bspvanishrate|bsprecovrate|bsetdefrace|bsetmdefrace|bshortatkrate|bshortweapondamagereturn|bskillatk|";
+	.words$ += "bskillcooldown|bskilldelay|bskillfixedcast|bskillheal|bskillheal2|bskillratio|bskillusesp|bskillusesprate|bskillvariablecast|bsmatk|bspeedaddrate|bspeedrate|";
+	.words$ += "bspl|bsplashaddrange|bsplashrange|bsta|bstatenorecoverrace|bstr|bsubclass|bsubdefele|bsubele|bsubrace|bsubrace2|bsubsize|";
+	.words$ += "bsubskill|bunbreakable|bunbreakablearmor|bunbreakablegarment|bunbreakablehelm|bunbreakableshield|bunbreakableshoes|bunbreakableweapon|bunstripable|bunstripablearmor|bunstripablehelm|bunstripableshield|";
+	.words$ += "bunstripableweapon|busesprate|bvariablecast|bvariablecastrate|bvit|bweaponatk|bweaponatkrate|bweaponcomaclass|bweaponcomaele|bweaponcomarace|bweapondamagerate|bweaponmatkrate|";
+	.words$ += "bweaponsubclass|bweaponsubsize|bwis|";
+	setarray .prefix$[0], "ele_", "rc_", "class_", "size_", "bf_", "eajl_", "eaj_", "job_", "enchantgrade_", "eff_", "eqi_", "atf_", "rc2_", "w_", "ig_", "ef_", "hat_ef_", "eqp_", "petinfo_", "dt_", "pet_intimate_";
+	setarray .punct$[0], ",", ";", "(", ")", "{", "}", "+", "-", "*", "/", "<", ">", "=", "!", "&", "|", "?", ":", "%";
+	setarray .compound$[0], "+=", "-=", "*=", "/=", "%=", "|=", "&=";
+	setarray .compare$[0], "==", "!=", ">=", "<=";
+	.@n = modstore_keys("live", .@ids$);
+	.@done = 0;
+	for (.@i = 0; .@i < .@n; .@i++) {
+		.@s$ = modstore_get("live." + .@ids$[.@i], "");
+		.@e$ = callsub(L_Guard, .@s$);
+		if (.@e$ == "") {
+			if (setitemscript(atoi(.@ids$[.@i]), "{" + .@s$ + "}"))
+				.@done++;
+			else
+				.@e$ = "the server could not set it";
+		}
+		if (.@e$ != "") {
+			debugmes "item-repair-hub live: dropped stored script for item " + .@ids$[.@i] + ": " + .@e$;
+			modstore_delete "live." + .@ids$[.@i];
+		}
+	}
+	if (.@n)
+		debugmes "item-repair-hub live: re-applied " + .@done + " live item script(s)";
+	.@n = modstore_keys("lvl", .@ids$);
+	for (.@i = 0; .@i < .@n; .@i++)
+		setiteminfo(atoi(.@ids$[.@i]), ITEMINFO_EQUIPLEVELMIN, modstore_get("lvl." + .@ids$[.@i], 0));
+	end;
+
+OnCmd:
+	.@req$ = .@atcmd_parameters$[0];
+	.@op$ = .@atcmd_parameters$[1];
+	if (.@op$ == "equip") {
+		// What the player wears, slot by slot, for the editor's equipment scan.
+		setarray .@slot[0], EQI_HAND_R, EQI_HAND_L, EQI_ARMOR, EQI_GARMENT, EQI_SHOES, EQI_HEAD_TOP, EQI_HEAD_MID, EQI_HEAD_LOW, EQI_ACC_L, EQI_ACC_R;
+		.@r$ = "OK";
+		for (.@i = 0; .@i < getarraysize(.@slot); .@i++)
+			.@r$ += "|" + getequipid(.@slot[.@i]);
+		dispbottom "@@reply " + .@req$ + " 1/1 " + .@r$;
+		end;
+	}
+	if (.@op$ == "gear") {
+		// One worn slot for the scan: item ID, refine and its four card slots.
+		setarray .@slot[0], EQI_HAND_R, EQI_HAND_L, EQI_ARMOR, EQI_GARMENT, EQI_SHOES, EQI_HEAD_TOP, EQI_HEAD_MID, EQI_HEAD_LOW, EQI_ACC_L, EQI_ACC_R;
+		.@i = atoi(.@atcmd_parameters$[2]);
+		if (.@atcmd_numparameters < 3 || .@i < 0 || .@i >= getarraysize(.@slot)) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|Unknown slot.";
+			end;
+		}
+		.@s = .@slot[.@i];
+		.@r$ = "OK|" + getequipid(.@s);
+		if (getequipid(.@s) > 0) {
+			.@r$ += "|" + getequiprefinerycnt(.@s);
+			for (.@c = 0; .@c < 4; .@c++)
+				.@r$ += "|" + getequipcardid(.@s, .@c);
+		}
+		dispbottom "@@reply " + .@req$ + " 1/1 " + .@r$;
+		end;
+	}
+	if (.@op$ == "list") {
+		.@n = modstore_keys("live", .@ids$);
+		.@r$ = "OK";
+		for (.@i = 0; .@i < .@n; .@i++)
+			.@r$ += "|" + .@ids$[.@i];
+		dispbottom "@@reply " + .@req$ + " 1/1 " + .@r$;
+		end;
+	}
+	if (.@op$ == "begin") {
+		.@id = atoi(.@atcmd_parameters$[2]);
+		.@parts = atoi(.@atcmd_parameters$[3]);
+		// Minimum equip level to set, or -1 to leave it as it is.
+		.@level = -1;
+		if (.@atcmd_numparameters > 4)
+			.@level = atoi(.@atcmd_parameters$[4]);
+		if (.@level < -1 || .@level > 275) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|The equip level must be 1 to 275.";
+			end;
+		}
+		.@type = getiteminfo(.@id, ITEMINFO_TYPE);
+		if (.@type != IT_WEAPON && .@type != IT_ARMOR && .@type != IT_SHADOWGEAR) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|Only weapons, armor and shadow gear can be changed.";
+			end;
+		}
+		if (.@parts < 0 || .@parts > 30) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|The script must arrive in 0 to 30 parts.";
+			end;
+		}
+		deletearray @irhapply_part$[0], 128;
+		@irhapply_id = .@id;
+		@irhapply_parts = .@parts;
+		@irhapply_level = .@level;
+		dispbottom "@@reply " + .@req$ + " 1/1 OK";
+		end;
+	}
+	if (.@op$ == "part") {
+		.@i = atoi(.@atcmd_parameters$[2]);
+		if (@irhapply_id < 1 || .@i < 0 || .@i >= @irhapply_parts) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|Unexpected part; start again.";
+			end;
+		}
+		// The command line was split at spaces; rejoin the words with single spaces.
+		.@t$ = "";
+		for (.@k = 3; .@k < .@atcmd_numparameters; .@k++)
+			.@t$ += (.@k > 3 ? " " : "") + .@atcmd_parameters$[.@k];
+		@irhapply_part$[.@i] = .@t$;
+		dispbottom "@@reply " + .@req$ + " 1/1 OK";
+		end;
+	}
+	if (.@op$ == "commit") {
+		.@keep = (.@atcmd_parameters$[2] == "keep");
+		.@id = @irhapply_id;
+		.@level = @irhapply_level;
+		if (.@id < 1) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|Nothing to apply; start again.";
+			end;
+		}
+		.@s$ = "";
+		for (.@i = 0; .@i < @irhapply_parts; .@i++) {
+			if (@irhapply_part$[.@i] == "") {
+				dispbottom "@@reply " + .@req$ + " 1/1 ERR|Part " + .@i + " is missing; start again.";
+				end;
+			}
+			.@s$ += (.@i ? " " : "") + @irhapply_part$[.@i];
+		}
+		@irhapply_id = 0;
+		deletearray @irhapply_part$[0], 128;
+		.@e$ = callsub(L_Guard, .@s$);
+		if (.@e$ != "") {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|Refused: " + .@e$;
+			end;
+		}
+		if (!setitemscript(.@id, "{" + .@s$ + "}")) {
+			dispbottom "@@reply " + .@req$ + " 1/1 ERR|The server could not set this item's script.";
+			end;
+		}
+		if (.@level >= 0)
+			setiteminfo(.@id, ITEMINFO_EQUIPLEVELMIN, .@level);
+		if (.@keep) {
+			.@stored = modstore_set("live." + .@id, .@s$);
+			if (.@level >= 0)
+				modstore_set "lvl." + .@id, .@level;
+		} else {
+			if (modstore_exists("live." + .@id))
+				modstore_delete "live." + .@id;
+			if (modstore_exists("lvl." + .@id))
+				modstore_delete "lvl." + .@id;
+			.@stored = 0;
+		}
+		dispbottom "@@reply " + .@req$ + " 1/1 OK|" + .@id + "|" + getstrlen(.@s$) + "|" + .@stored;
+		// Work stats out again for everyone online, so the change shows at once.
+		addrid(0, 1);
+		recalculatestat;
+		end;
+	}
+	dispbottom "@@reply " + .@req$ + " 1/1 ERR|Unknown request.";
+	end;
+
+// Returns "" when the script is allowed, or the reason it is not.
+L_Guard:
+	.@s$ = getarg(0);
+	.@len = getstrlen(.@s$);
+	if (.@len > 3600)
+		return "script is longer than 3600 characters";
+	freeloop(1);
+	.@r$ = .@s$;
+	for (.@k = 0; .@k < getstrlen(.allowed$); .@k++)
+		.@r$ = replacestr(.@r$, charat(.allowed$, .@k), "");
+	if (.@r$ != "") {
+		freeloop(0);
+		return "character not allowed: " + charat(.@r$, 0);
+	}
+	if (strpos(replacestr(.@s$, ".@", ""), "@") >= 0) {
+		freeloop(0);
+		return "@ is only allowed in .@ variables";
+	}
+	if (.@len - getstrlen(replacestr(.@s$, "{", "")) != .@len - getstrlen(replacestr(.@s$, "}", ""))) {
+		freeloop(0);
+		return "unbalanced { }";
+	}
+	if (.@len - getstrlen(replacestr(.@s$, "(", "")) != .@len - getstrlen(replacestr(.@s$, ")", ""))) {
+		freeloop(0);
+		return "unbalanced ( )";
+	}
+	.@q = .@len - getstrlen(replacestr(.@s$, "\"", ""));
+	if (.@q % 2) {
+		freeloop(0);
+		return "unbalanced quotes";
+	}
+	if (strpos(.@s$, "++") >= 0 || strpos(.@s$, "--") >= 0) {
+		freeloop(0);
+		return "++ and -- are not allowed";
+	}
+
+	// Quoted text is either a skill name (data) or an autobonus script, checked like the rest.
+	explode(.@seg$, .@s$, "\"");
+	.@scan$ = "";
+	for (.@k = 0; .@k <= .@q; .@k++) {
+		.@p$ = .@seg$[.@k];
+		if (.@k % 2 == 0) {
+			.@scan$ += " " + .@p$ + " ";
+			continue;
+		}
+		.@pl = getstrlen(.@p$);
+		.@name = (.@pl > 0 && charisalpha(.@p$, 0));
+		for (.@c = 1; .@name && .@c < .@pl; .@c++)
+			if (strpos(.idchars$, strtolower(charat(.@p$, .@c))) < 0)
+				.@name = 0;
+		if (.@name)
+			continue;
+		if (.@pl >= 2 && charat(.@p$, 0) == "{" && charat(.@p$, .@pl - 1) == "}") {
+			.@scan$ += " " + .@p$ + " ";
+			continue;
+		}
+		freeloop(0);
+		return "only skill names and { } bonus scripts may be quoted";
+	}
+
+	// Assignments only to .@ variables.
+	.@t$ = .@scan$;
+	for (.@k = 0; .@k < getarraysize(.compare$); .@k++)
+		.@t$ = replacestr(.@t$, .compare$[.@k], "  ");
+	for (.@k = 0; .@k < getarraysize(.compound$); .@k++)
+		.@t$ = replacestr(.@t$, .compound$[.@k], " =");
+	.@m = getstrlen(.@t$) - getstrlen(replacestr(.@t$, "=", ""));
+	if (.@m > 0) {
+		explode(.@eq$, .@t$, "=");
+		for (.@k = 0; .@k < .@m; .@k++) {
+			.@p$ = .@eq$[.@k];
+			.@e = getstrlen(.@p$) - 1;
+			while (.@e >= 0 && charat(.@p$, .@e) == " ")
+				.@e--;
+			.@b = .@e;
+			while (.@b >= 0 && strpos(.idchars$, strtolower(charat(.@p$, .@b))) >= 0)
+				.@b--;
+			// .@b is the character before the name; a variable name follows ".@".
+			if (.@b == .@e || .@b < 1 || charat(.@p$, .@b) != "@" || charat(.@p$, .@b - 1) != ".") {
+				freeloop(0);
+				return "only .@ variables can be assigned";
+			}
+		}
+	}
+
+	// skill grants must stay temporary: a third value of 0 or 3 would teach the skill for good.
+	.@low$ = strtolower(.@scan$);
+	.@lowlen = getstrlen(.@low$);
+	.@at = strpos(.@low$, "skill");
+	while (.@at >= 0) {
+		.@pre$ = (.@at > 0 ? charat(.@low$, .@at - 1) : "");
+		.@nxt$ = charat(.@low$, .@at + 5);
+		if (strpos(.idchars$, .@pre$) < 0 && strpos(.idchars$, .@nxt$) < 0) {
+			.@end = strpos(.@low$, ";", .@at);
+			if (.@end < 0)
+				.@end = .@lowlen;
+			.@rest$ = "";
+			if (.@end > .@at + 5)
+				.@rest$ = substr(.@low$, .@at + 5, .@end - 1);
+			.@na = getstrlen(.@rest$) - getstrlen(replacestr(.@rest$, ",", "")) + 1;
+			if (.@na >= 3) {
+				explode(.@arg$, .@rest$, ",");
+				.@f$ = replacestr(.@arg$[2], " ", "");
+				deletearray .@arg$[0], getarraysize(.@arg$);
+				if (.@f$ != "1" && .@f$ != "2") {
+					freeloop(0);
+					return "skill grants must be temporary (third value 1 or 2)";
+				}
+			}
+		}
+		.@at = strpos(.@low$, "skill", .@at + 5);
+	}
+
+	// Every identifier must be on the allow-list (names compared lowercased, as rAthena does).
+	.@t$ = .@scan$;
+	for (.@k = 0; .@k < getarraysize(.punct$); .@k++)
+		.@t$ = replacestr(.@t$, .punct$[.@k], " ");
+	.@nt = getstrlen(.@t$) - getstrlen(replacestr(.@t$, " ", ""));
+	explode(.@tok$, .@t$, " ");
+	for (.@k = 0; .@k <= .@nt; .@k++) {
+		.@w$ = .@tok$[.@k];
+		if (.@w$ == "")
+			continue;
+		.@wl = getstrlen(.@w$);
+		if (charat(.@w$, 0) == "." && charat(.@w$, 1) == "@") {
+			.@rest$ = "";
+			if (.@wl > 2)
+				.@rest$ = substr(.@w$, 2, .@wl - 1);
+			if (.@rest$ == "" || strpos(.@rest$, ".") >= 0 || strpos(.@rest$, "@") >= 0) {
+				freeloop(0);
+				return "bad variable: " + .@w$;
+			}
+			continue;
+		}
+		if (strpos(.@w$, ".") >= 0) {
+			freeloop(0);
+			return "unexpected . in " + .@w$;
+		}
+		if (strpos("0123456789", charat(.@w$, 0)) >= 0) {
+			for (.@c = 1; .@c < .@wl; .@c++)
+				if (strpos("0123456789", charat(.@w$, .@c)) < 0) {
+					freeloop(0);
+					return "bad number: " + .@w$;
+				}
+			continue;
+		}
+		.@lw$ = strtolower(.@w$);
+		if (strpos(.words$, "|" + .@lw$ + "|") >= 0)
+			continue;
+		.@ok = 0;
+		for (.@c = 0; !.@ok && .@c < getarraysize(.prefix$); .@c++) {
+			.@pl = getstrlen(.prefix$[.@c]);
+			if (.@wl > .@pl) {
+				if (substr(.@lw$, 0, .@pl - 1) == .prefix$[.@c])
+					.@ok = 1;
+			}
+		}
+		if (!.@ok) {
+			freeloop(0);
+			return "not allowed: " + .@w$;
+		}
+	}
+	freeloop(0);
+	return "";
+}
