@@ -1,4 +1,4 @@
-// Item Repair Hub v2.9.0: built-in iRO effect layer through the real editor backend (simulated client API).
+// Item Repair Hub v2.9.1: built-in iRO effect layer through the real editor backend (simulated client API).
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert/strict');
 const root=path.resolve('mod'),ed=path.join(root,'client/editor');
 const text=v=>typeof v==='string'?v:new TextDecoder().decode(v);
@@ -6,10 +6,10 @@ const LAYER='item-repair-hub/renewal/db/when/fx_iro_effects/item_db.yml';
 
 async function backend(draft){
   const events={};let files;
-  const ctx={console,Map,Set,URL:class extends URL{static createObjectURL(){return 'blob:test';}static revokeObjectURL(){}},Blob,TextEncoder,TextDecoder,Uint8Array,structuredClone,atob,btoa,setTimeout:(f,t)=>t===60000?0:setTimeout(f,t),clearTimeout,location:{href:'http://test/client/editor/index.html',origin:'http://test'},ItemRepairCompiler:require(path.join(ed,'compiler-v2.9.0.js')),HubCompat:require(path.join(ed,'compat-v2.9.0.js')),HubZip:{pack:f=>{files=f;return new Uint8Array([1]);}},document:{getElementById:()=>({checked:true}),body:{append(){}},createElement:()=>({click(){},remove(){}})}};
+  const ctx={console,Map,Set,URL:class extends URL{static createObjectURL(){return 'blob:test';}static revokeObjectURL(){}},Blob,TextEncoder,TextDecoder,Uint8Array,structuredClone,atob,btoa,setTimeout:(f,t)=>t===60000?0:setTimeout(f,t),clearTimeout,location:{href:'http://test/client/editor/index.html',origin:'http://test'},ItemRepairCompiler:require(path.join(ed,'compiler-v2.9.1.js')),HubCompat:require(path.join(ed,'compat-v2.9.1.js')),HubZip:{pack:f=>{files=f;return new Uint8Array([1]);}},document:{getElementById:()=>({checked:true}),body:{append(){}},createElement:()=>({click(){},remove(){}})}};
   ctx.window={addEventListener:(n,f)=>events[n]=f,parent:{postMessage:r=>queueMicrotask(()=>events.message({source:ctx.window.parent,origin:'http://test',data:{type:'irh-native-reply',id:r.id,value:r.op==='load'?{parameters:{},draft}:{saved:true}}}))}};
   ctx.fetch=async url=>{const u=new URL(String(url),'http://test/client/editor/');const bytes=fs.readFileSync(path.join(root,u.pathname));return {ok:true,json:async()=>JSON.parse(bytes),arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)};};
-  vm.runInNewContext(fs.readFileSync(path.join(ed,'native-backend-v2.9.0.js'),'utf8'),ctx);
+  vm.runInNewContext(fs.readFileSync(path.join(ed,'native-backend-v2.9.1.js'),'utf8'),ctx);
   const manifest=await ctx.window.modSettings.get();
   return {api:ctx.window.modSettings.itemRepairs,set:ctx.window.modSettings.set,manifest,exportZip:async()=>{await ctx.window.HubNative.exportZip();return files;}};
 }
@@ -67,7 +67,7 @@ const cast=(skill,minRefine)=>({skill,enabled:true,manual:false,level:1,chance:1
   assert(s.entries.every(e=>e.restoreRefineEffects===false));
   assert.equal(b.manifest.settings.find(x=>x.key==='fx_iro_effects').value,true);
   files=await b.exportZip();
-  assert(![...files.keys()].some(k=>k.includes('custom-autocasts')),'no autocast Lua since v2.9.0');
+  assert(![...files.keys()].some(k=>k.includes('custom-autocasts')),'no autocast Lua since v2.9.1');
   const migrated=text(files.get('item-repair-hub/renewal/db/when/zz_native_exports/item_db.yml'));
   assert.equal((migrated.match(/bonus5 bAutoSpell,"MG_COLDBOLT"/g)||[]).length,1);
   assert.doesNotMatch(migrated,/AB_JUDEX|WL_SUMMON|WL_TETRAVORTEX/);

@@ -1,11 +1,11 @@
 const assert=require('node:assert/strict');
 const root='../mod/client/editor/';
-const c=require(root+'compiler-v2.9.0.js').create(require(root+'skills-v1.7.0.json'));
+const c=require(root+'compiler-v2.9.1.js').create(require(root+'skills-v1.7.0.json'));
 const item=require(root+'items-v1.7.4.json').find(i=>i.id===500118);
 const skill=(skill,minRefine=0)=>({skill,enabled:true,manual:true,level:1,chance:10,trigger:'melee',target:'auto',minRefine});
 const e=c.validateEntry({id:item.id,autocasts:[skill('MG_FIREBOLT',12),skill('SM_MAGNUM',10),skill('MG_COLDBOLT')],equipLevelMin:99},item);
 const yaml=c.compile([e]),lua=c.compileLua([e]);
-// v2.9.0: autocasts are item bonuses in the script, each rolling on its own; no Lua.
+// v2.9.1: autocasts are item bonuses in the script, each rolling on its own; no Lua.
 assert.doesNotMatch(lua,/c:cast|item\(/);
 const script=c.parseTable(yaml).get(item.id).Script;
 assert.equal((script.match(/bonus5 bAutoSpell,/g)||[]).length,3);

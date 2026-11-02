@@ -1,12 +1,12 @@
-// Item Repair Hub v2.9.0 without a browser (runs in the mod repository's CI too):
+// Item Repair Hub v2.9.1 without a browser (runs in the mod repository's CI too):
 // effects reader and description check, saved-edit stat bonuses in the compiler, the backend's presets,
 // Keep in my saved edit and item info, presets left out of the export, and the trimmed skill tables.
-// Usage: node check-features-v2.9.0.cjs [mod folder]   (default: mod, as in the repository)
+// Usage: node check-features-v2.9.1.cjs [mod folder]   (default: mod, as in the repository)
 const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert/strict');
 const root = path.resolve(process.argv[2] || 'mod'), ed = path.join(root, 'client/editor');
-const E = require(path.join(ed, 'effects-v2.9.0.js')), G = require(path.join(ed, 'live-guard-v2.9.0.js'));
+const E = require(path.join(ed, 'effects-v2.9.1.js')), G = require(path.join(ed, 'live-guard-v2.9.1.js'));
 const skillData = JSON.parse(fs.readFileSync(path.join(ed, 'skills-v1.7.0.json'))), skills = skillData.skills;
-const compiler = require(path.join(ed, 'compiler-v2.9.0.js')).create(skillData);
+const compiler = require(path.join(ed, 'compiler-v2.9.1.js')).create(skillData);
 const items = new Map(JSON.parse(fs.readFileSync(path.join(ed, 'items-v1.7.4.json'))).map(i => [i.id, i]));
 
 // 1. Plain-English effects, worked out at a refine level.
@@ -44,7 +44,7 @@ assert.throws(() => compiler.validateEntry({id: 501, bonuses: {stats: [{stat: 's
   const ctx = {console, Map, Set, Blob, TextEncoder, TextDecoder, Uint8Array, structuredClone, atob, btoa, setTimeout: (f, t) => t === 60000 ? 0 : setTimeout(f, t), clearTimeout,
     URL: class extends URL { static createObjectURL() { return 'blob:test'; } static revokeObjectURL() {} },
     location: {href: 'http://test/client/editor/index.html', origin: 'http://test'},
-    ItemRepairCompiler: require(path.join(ed, 'compiler-v2.9.0.js')), HubCompat: require(path.join(ed, 'compat-v2.9.0.js')), HubEffects: E, HubLiveGuard: G,
+    ItemRepairCompiler: require(path.join(ed, 'compiler-v2.9.1.js')), HubCompat: require(path.join(ed, 'compat-v2.9.1.js')), HubEffects: E, HubLiveGuard: G,
     HubZip: {pack: f => { files = f; return new Uint8Array(1); }},
     document: {createElement: () => ({click() {}, remove() {}}), body: {append() {}}}};
   ctx.window = {addEventListener: (n, f) => { events[n] = f; }, parent: {postMessage: r => queueMicrotask(() => {
@@ -54,7 +54,7 @@ assert.throws(() => compiler.validateEntry({id: 501, bonuses: {stats: [{stat: 's
     events.message({source: ctx.window.parent, origin: 'http://test', data: {type: 'irh-native-reply', id: r.id, value}});
   })}};
   ctx.fetch = async url => { const u = new URL(String(url), 'http://test/client/editor/'); const bytes = fs.readFileSync(path.join(root, decodeURIComponent(u.pathname))); return {ok: true, json: async () => JSON.parse(bytes), arrayBuffer: async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)}; };
-  vm.runInNewContext(fs.readFileSync(path.join(ed, 'native-backend-v2.9.0.js'), 'utf8'), ctx);
+  vm.runInNewContext(fs.readFileSync(path.join(ed, 'native-backend-v2.9.1.js'), 'utf8'), ctx);
   await ctx.window.modSettings.get();
   const api = ctx.window.modSettings.itemRepairs;
 
@@ -78,7 +78,7 @@ assert.throws(() => compiler.validateEntry({id: 501, bonuses: {stats: [{stat: 's
   await assert.rejects(api({op: 'itemInfo', ids: ['x']}), /Invalid item list/);
 
   await ctx.window.HubNative.exportZip();
-  const seed = JSON.parse(files.get('item-repair-hub/client/seed-config-v2.9.0.json'));
+  const seed = JSON.parse(files.get('item-repair-hub/client/seed-config-v2.9.1.json'));
   assert(!('livePresets' in seed) && !('liveApplied' in seed) && !('liveExtras' in seed), 'presets and live markers stay on this PC');
   assert.match(files.get('item-repair-hub/renewal/db/when/zz_native_exports/item_db.yml'), /- Id: 420422[\s\S]*bonus bStr,120; bonus bMaxHPrate,15;/);
   assert.deepEqual(host.draft.livePresets.map(p => p.name), ['Farming']);
@@ -92,6 +92,6 @@ assert.throws(() => compiler.validateEntry({id: 501, bonuses: {stats: [{stat: 's
 
   // 6. 55 iRO repairs behind one switch, and the NPC answers the scan's gear request.
   assert.equal((fs.readFileSync(path.join(root, 'renewal/db/when/fx_iro_effects/item_db.yml'), 'utf8').match(/^ {2}- Id: /gm) || []).length, 55);
-  assert.match(fs.readFileSync(path.join(root, 'npc/live-apply-v2.9.0.txt'), 'utf8'), /if \(\.@op\$ == "gear"\)[\s\S]*getequipcardid\(\.@s, \.@c\)/);
-  console.log('PASS v2.9.0 features: plain-English effects and refine tiers, description check, saved stat bonuses compiled and guarded, presets, Keep in my saved edit, item info, presets and live markers kept out of the export, skill tables trimmed to 2 client-missing skills, 55 iRO repairs, gear scan op.');
+  assert.match(fs.readFileSync(path.join(root, 'npc/live-apply-v2.9.1.txt'), 'utf8'), /if \(\.@op\$ == "gear"\)[\s\S]*getequipcardid\(\.@s, \.@c\)/);
+  console.log('PASS v2.9.1 features: plain-English effects and refine tiers, description check, saved stat bonuses compiled and guarded, presets, Keep in my saved edit, item info, presets and live markers kept out of the export, skill tables trimmed to 2 client-missing skills, 55 iRO repairs, gear scan op.');
 })().catch(e => { console.error(e); process.exitCode = 1; });

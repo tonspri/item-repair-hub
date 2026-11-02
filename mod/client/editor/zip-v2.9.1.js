@@ -1,4 +1,4 @@
-/* Item Repair Hub v2.9.0: deterministic, uncompressed ZIP writer. */
+/* Item Repair Hub v2.9.1: deterministic, uncompressed ZIP writer. */
 (function(root){'use strict';
   const enc=new TextEncoder();
   const table=Uint32Array.from({length:256},(_,n)=>{for(let k=0;k<8;k++)n=(n&1)?0xedb88320^(n>>>1):n>>>1;return n>>>0;});

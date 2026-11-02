@@ -1,11 +1,11 @@
-//===== Item Repair Hub v2.9.0: live item changes ============================
+//===== Item Repair Hub v2.9.1: live item changes ============================
 //= Applies an item's compiled script while the server runs, from a normal
 //= (non-GM) player account, with no restart. The editor's Live changes tab
 //= sends it through @irhapply, bound at level 0 so ordinary players can use it.
 //= An item script can run any script command when stats are worked out, so
 //= every script is checked against an allow-list first (bonuses, temporary
 //= skill grants, refine/level reads, .@ variables); client/editor/
-//= live-guard-v2.9.0.js runs the same steps and must stay in step with L_Guard.
+//= live-guard-v2.9.1.js runs the same steps and must stay in step with L_Guard.
 //=
 //= Live scripts and minimum equip levels are kept in this mod's store
 //= (global "live.<item id>", "lvl.<item id>") and put back in OnInit, so they

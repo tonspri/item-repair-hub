@@ -2,10 +2,10 @@ const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('ass
 const root=path.resolve('mod'),ed=path.join(root,'client/editor');
 async function loadWith(draft){
  const events={};
- const ctx={console,Map,Set,URL,Blob,TextEncoder,TextDecoder,Uint8Array,structuredClone,atob,btoa,setTimeout,clearTimeout,location:{href:'http://test/client/editor/index.html',origin:'http://test'},ItemRepairCompiler:require(path.join(ed,'compiler-v2.9.0.js')),HubCompat:require(path.join(ed,'compat-v2.9.0.js'))};
+ const ctx={console,Map,Set,URL,Blob,TextEncoder,TextDecoder,Uint8Array,structuredClone,atob,btoa,setTimeout,clearTimeout,location:{href:'http://test/client/editor/index.html',origin:'http://test'},ItemRepairCompiler:require(path.join(ed,'compiler-v2.9.1.js')),HubCompat:require(path.join(ed,'compat-v2.9.1.js'))};
  ctx.window={addEventListener:(n,f)=>events[n]=f,parent:{postMessage:r=>queueMicrotask(()=>events.message({source:ctx.window.parent,origin:'http://test',data:{type:'irh-native-reply',id:r.id,value:r.op==='load'?{parameters:{},draft}:{saved:true}}}))}};
  ctx.fetch=async url=>{const u=new URL(String(url),'http://test/client/editor/');const bytes=fs.readFileSync(path.join(root,u.pathname));return {ok:true,json:async()=>JSON.parse(bytes),arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)};};
- vm.runInNewContext(fs.readFileSync(path.join(ed,'native-backend-v2.9.0.js'),'utf8'),ctx);
+ vm.runInNewContext(fs.readFileSync(path.join(ed,'native-backend-v2.9.1.js'),'utf8'),ctx);
  await ctx.window.modSettings.get();return ctx.window.modSettings.itemRepairs({op:'list'});
 }
 (async()=>{

@@ -240,3 +240,10 @@ and Grade bonuses are not included).
 
 Kuraokami's Feather Robe, Fairy of Eden, Authority Sandals, Stylish Silent Shoes, Legacy of Wise One, Ghost Whisper, Awaking Bloom, Twinhead Dragon Mail, Four of a Kind, Loud Park, Spenta Armaiti, Gracies Aranea now use iRO's refine levels or effects, so they get weaker at lower refines. To turn off one item only, add
 it under Add items, choose Remove item, then Save & Export.
+
+
+## v2.9.1: Save & Export keeps older renewal collections
+
+A renewal collection saved before v2.8.0 was left out of a Save & Export made from pre-renewal, so the ZIP's renewal
+side came out empty. The collection itself was never lost, and now it is included. If this happened to you, update,
+then Save & Export again from either era and install that ZIP.

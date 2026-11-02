@@ -16,14 +16,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: node tests/check-features-v2.9.0.cjs
-      - run: node tests/check-pre-renewal-v2.9.0.cjs
-      - run: node tests/check-item-hub-effects-v2.9.0.cjs
-      - run: node tests/check-item-hub-skills-v2.9.0.cjs
-      - run: node tests/check-passive-v2.9.0.cjs
-      - run: node tests/check-item-hub-export-v2.9.0.cjs
-      - run: node tests/check-item-hub-removal-v2.9.0.cjs
-      - run: node tests/check-draft-upgrade-v2.9.0.cjs
+      - run: node tests/check-features-v2.9.1.cjs
+      - run: node tests/check-pre-renewal-v2.9.1.cjs
+      - run: node tests/check-item-hub-effects-v2.9.1.cjs
+      - run: node tests/check-item-hub-skills-v2.9.1.cjs
+      - run: node tests/check-passive-v2.9.1.cjs
+      - run: node tests/check-item-hub-export-v2.9.1.cjs
+      - run: node tests/check-item-hub-removal-v2.9.1.cjs
+      - run: node tests/check-draft-upgrade-v2.9.1.cjs
       - run: python scripts/build-release.py
       - uses: actions/upload-artifact@v4
         with:

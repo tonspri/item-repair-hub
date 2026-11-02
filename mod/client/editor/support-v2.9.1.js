@@ -1,9 +1,9 @@
-/* Item Repair Hub v2.9.0 — Support the author: an optional Buy Me a Coffee button at the top of the editor.
+/* Item Repair Hub v2.9.1 — Support the author: an optional Buy Me a Coffee button at the top of the editor.
    The launcher opens the page when the host allows a new window; the desktop app does not, so the link is copied.
    The small × hides the button until the next version. */
 'use strict';
 (() => {
-  const LINK = 'https://buymeacoffee.com/miisteryap', LABEL = '☕ Support the author', VERSION = '2.9.0', HIDDEN = 'irh-support-hidden';
+  const LINK = 'https://buymeacoffee.com/miisteryap', LABEL = '☕ Support the author', VERSION = '2.9.1', HIDDEN = 'irh-support-hidden';
   const box = document.getElementById('support-author');
   if (!box) return;
   const button = box.querySelector('.coffee'), hide = box.querySelector('.coffee-hide');

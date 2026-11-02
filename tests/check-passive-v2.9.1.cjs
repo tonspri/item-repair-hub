@@ -1,6 +1,6 @@
 const assert=require('assert/strict'),fs=require('fs');
 const r='../mod/client/editor/';
-const c=require(r+'compiler-v2.9.0.js').create(require(r+'skills-v1.7.0.json'));
+const c=require(r+'compiler-v2.9.1.js').create(require(r+'skills-v1.7.0.json'));
 const item=require(r+'items-v1.7.4.json').find(i=>i.id===500118);
 const choice={skill:'MO_TRIPLEATTACK',level:10,chance:5,trigger:'both',target:'auto',enabled:false,manual:false,passive:true,minRefine:12};
 const e=c.validateEntry({id:item.id,autocasts:[choice]},item);

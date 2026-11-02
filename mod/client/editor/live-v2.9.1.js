@@ -1,7 +1,7 @@
-/* Item Repair Hub v2.9.0 — Live changes: change worn gear in the running game without a restart.
+/* Item Repair Hub v2.9.1 — Live changes: change worn gear in the running game without a restart.
    Scan what you wear (with refine and cards), pick an item, read its effects in plain English at your refine,
    check them against the in-game description, add stats (or a saved preset), Apply now.
-   The item's script (its saved edit, or its original) plus the added stats goes to npc/live-apply-v2.9.0.txt
+   The item's script (its saved edit, or its original) plus the added stats goes to npc/live-apply-v2.9.1.txt
    through @irhapply (any player account), which checks it, sets it with setitemscript, keeps it in the mod store
    and puts it back at every start. Added stats are live only unless you choose Keep in my saved edit. */
 'use strict';
@@ -10,7 +10,7 @@
   const make = (tag, text, cls) => { const n = document.createElement(tag); if (text !== undefined) n.textContent = text; if (cls) n.className = cls; return n; };
   const api = request => window.modSettings.itemRepairs(request);
   const SLOTS = ['Weapon', 'Shield', 'Armor', 'Garment', 'Shoes', 'Upper headgear', 'Middle headgear', 'Lower headgear', 'Accessory (left)', 'Accessory (right)'];
-  const VERSION = '2.9.0';
+  const VERSION = '2.9.1';
   const {STATS, statLine, readable} = E;
 
   const tabs = document.querySelector('.collection-tabs');

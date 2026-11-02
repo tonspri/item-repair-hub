@@ -1,4 +1,4 @@
-/* Item Repair Hub v2.9.0 */
+/* Item Repair Hub v2.9.1 */
 (function(g){'use strict';const rules=[["trade","Trading","NoTrade"],["storage","Personal storage","NoStorage"],["guild","Guild storage","NoGuildStorage"],["cart","Cart","NoCart"],["mail","Mail","NoMail"]],pageSize=8;
 function mode(v,prefix,code){return v[prefix+'_'+code+'_block']?'block':v[prefix+'_'+code+'_allow']?'allow':'keep';}
 function choose(v,prefix,code,mode){if(!rules.some(r=>r[0]===code)||!['allow','block','keep'].includes(mode))throw Error('Invalid permission choice');const a=prefix+'_'+code+'_allow',b=prefix+'_'+code+'_block';if(!(a in v)||!(b in v))throw Error('Missing permission setting');v[a]=mode==='allow';v[b]=mode==='block';}
