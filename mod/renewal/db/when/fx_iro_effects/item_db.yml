@@ -1,4 +1,4 @@
-# Item Repair Hub v2.9.1: iRO effect repairs (Script only; Jobs and Trade come from other layers)
+# Item Repair Hub v2.12.0: iRO effect repairs (Script only; Jobs and Trade come from other layers)
 Header:
   Type: ITEM_DB
   Version: 3
@@ -1571,3 +1571,523 @@ Body:
         bonus bSpeedRate,25;
       if (.@r >= 14)
         bonus bFixedCastrate,-70;
+  # Pursuiter Shoes: Uses iRO's +11 and +12 tiers (MHP, MSP +7%, ASPD +5% each).
+  - Id: 470057
+    AegisName: Chaser_Shoes_
+    Script: |
+      .@r = getrefine();
+      .@val = (getskilllv("SC_ESCAPE")+getskilllv("SC_FATALMENACE")+getskilllv("SC_FEINTBOMB"));
+      bonus bMdef,10;
+      bonus bMaxHPrate,3;
+      bonus bMaxSPrate,3;
+      bonus bFlee,.@val*4;
+      skill "AL_TELEPORT",1;
+      bonus2 bSkillUseSP,"SC_FATALMENACE",18;
+      bonus2 bIgnoreDefRaceRate,RC_All,20*getskilllv("SC_ESCAPE");
+      bonus2 bSkillAtk,"SC_FATALMENACE",getskilllv("GN_TRAINING_SWORD");
+      bonus2 bAddRace,RC_All,2*getskilllv("SC_FATALMENACE");
+      if (getskilllv("SC_FEINTBOMB") == 10) {
+        bonus bNoSizeFix;
+      }
+      if (.@r >= 11) {
+        bonus bAspdRate,5;
+        bonus bMaxHPrate,7;
+        bonus bMaxSPrate,7;
+      }
+      if (.@r >= 12) {
+        bonus bAspdRate,5;
+        bonus bMaxHPrate,7;
+        bonus bMaxSPrate,7;
+      }
+  # Cylinder Boots: Uses iRO's +9 and +12 tiers; defense bypass needs both Pharmacy skills.
+  - Id: 470061
+    AegisName: Cylinder_Boots_
+    Script: |
+      .@r = getrefine();
+      .@val = getskilllv("GN_CARTBOOST");
+      bonus bUnbreakableShoes;
+      bonus bMdef,10;
+      bonus bMaxHPrate,3;
+      bonus bMaxSPrate,3;
+      bonus bHit,20*.@val;
+      bonus bAspdRate,4*.@val;
+      bonus bAtkRate,4*getskilllv("GN_FIRE_EXPANSION");
+      bonus2 bSkillAtk,"GN_CART_TORNADO",10*getskilllv("GN_CRAZYWEED");
+      if (getskilllv("AM_PHARMACY") == 10 && getskilllv("GN_S_PHARMACY") == 10) {
+        bonus bIgnoreDefRace,RC_All;
+      }
+      if (.@r >= 9) {
+        bonus bMaxHPrate,7;
+        bonus bMaxSPrate,7;
+        bonus2 bVariableCastrate,"GN_CARTCANNON",-50;
+        bonus2 bSkillAtk,"GN_CARTCANNON",BaseLevel/2;
+      }
+      if (.@r >= 12) {
+        bonus bMaxHPrate,3;
+        bonus bMaxSPrate,3;
+      }
+  # Demon Hunting Shoes: Uses iRO's +11 and +14 tiers and MHP +7% per refine.
+  - Id: 470097
+    AegisName: HalfBloodPrincess_Shoes
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableShoes;
+      bonus bMdef,15;
+      bonus bAtkRate,10;
+      bonus2 bSubClass,Class_Normal,5;
+      bonus2 bSubClass,Class_Boss,5;
+      bonus bMaxHPrate,7*.@r;
+      if (.@r >= 11) {
+        bonus bAtkRate,15;
+      }
+      if (.@r >= 14) {
+        bonus bAtkRate,15;
+        bonus bDefRatioAtkClass,Class_All;
+      }
+  # Prana Boots: Uses iRO's +9 and +11 tiers; player damage reduction covers Doram too.
+  - Id: 470206
+    AegisName: Prana_Boots
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,15;
+      bonus2 bSubRace,RC_DemiHuman,5;
+      bonus bHealPower2,30;
+      bonus bAddItemHealRate,30;
+      bonus bInt,3*.@r;
+      bonus bDex,3*.@r;
+      bonus bMaxHP,1000*.@r;
+      if (.@r >= 9) {
+        bonus bDef,100;
+        bonus bMaxHPrate,15;
+        bonus2 bSubRace,RC_Player_Human,10;
+        bonus2 bSubRace,RC_Player_Doram,10;
+      }
+      if (.@r >= 11) {
+        bonus bDef,100;
+        bonus bMaxHPrate,15;
+        bonus2 bSubClass,Class_Boss,5;
+        bonus2 bSubClass,Class_Normal,5;
+      }
+  # On Bolt Magic: Adds the missing +7 and +9 bolt damage bonuses.
+  - Id: 28634
+    AegisName: iRO_28634
+    Script: |
+      bonus bMatk,135;
+      bonus bMatkRate,5;
+      if (getrefine() >= 7) {
+        bonus2 bSkillAtk,"MG_FIREBOLT",10;
+        bonus2 bSkillAtk,"MG_COLDBOLT",10;
+        bonus2 bSkillAtk,"MG_LIGHTNINGBOLT",10;
+      }
+      if (getrefine() >= 9) {
+        bonus2 bSkillAtk,"MG_FIREBOLT",10;
+        bonus2 bSkillAtk,"MG_COLDBOLT",10;
+        bonus2 bSkillAtk,"MG_LIGHTNINGBOLT",10;
+      }
+  # Wound Maker: Adds the missing +7 and +9 Throw Shuriken and Haze Slasher bonuses.
+  - Id: 28770
+    AegisName: iRO_28770
+    Script: |
+      bonus bAtkRate,5;
+      if (getrefine() >= 7) {
+        bonus2 bSkillAtk,"NJ_SYURIKEN",10;
+        bonus2 bSkillAtk,"NJ_KASUMIKIRI",10;
+      }
+      if (getrefine() >= 9) {
+        bonus2 bSkillAtk,"NJ_SYURIKEN",15;
+        bonus2 bSkillAtk,"NJ_KASUMIKIRI",15;
+      }
+  # Flush Sandals: Adds the missing +12 Merchant and Thief bonuses.
+  - Id: 470362
+    AegisName: Flush_Sandals_US
+    Script: |
+      bonus bUnbreakableShoes;
+      bonus bBaseAtk,200;
+      bonus bPow,3;
+      bonus bPow,1*getrefine();
+      bonus bMaxHPrate,15*(getrefine()/3);
+      bonus bMaxSPrate,15*(getrefine()/3);
+      bonus2 bSubEle,Ele_All,5;
+      if (getrefine() >= 10) {
+        bonus bDelayrate,-20;
+        bonus bSpeedRate,25;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bAddClass,Class_All,20;
+        bonus2 bMagicAddClass,Class_All,20;
+      }
+      if (getrefine() >= 12) {
+        if (BaseClass == Job_Merchant) {
+          bonus bStr,30;
+          bonus bInt,30;
+          bonus2 bSkillAtk,"CR_ACIDDEMONSTRATION",150;
+          bonus2 bSkillAtk,"WS_CARTTERMINATION",150;
+        }
+        if (BaseClass == Job_Thief) {
+          bonus bStr,30;
+          bonus bDex,30;
+          bonus2 bSkillAtk,"ASC_BREAKER",150;
+          bonus2 bSkillAtk,"RG_BACKSTAP",150;
+        }
+      }
+      if (getrefine() >= 13) {
+        bonus bAllTraitStats,10;
+      }
+  # Fierce Boots: Adds the missing +13 bonus: ignore 50% DEF and MDEF.
+  - Id: 470417
+    AegisName: Fierce_Kick_Boots
+    Script: |
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bDelayrate,-15;
+      bonus bFixedCast,-500;
+      bonus bSpeedRate,25;
+      bonus bVariableCastrate,-10*(getrefine()/2);
+      bonus bPatk,2*(getrefine()/3);
+      bonus bSmatk,2*(getrefine()/3);
+      if (getrefine() >= 9) {
+        bonus2 bAddRace,RC_All,15;
+        bonus2 bMagicAddRace,RC_All,15;
+      }
+      if (getrefine() >= 11) {
+        bonus bPatk,5;
+        bonus bSmatk,5;
+      }
+      if (getrefine() >= 13) {
+        bonus2 bIgnoreDefClassRate,Class_All,50;
+        bonus2 bIgnoreMdefClassRate,Class_All,50;
+      }
+  # Chaos Sword: Adds size damage +12% per refine and the missing +13 and +14 tiers.
+  - Id: 600055
+    AegisName: Chaos_Sword_US
+    Script: |
+      bonus bUnbreakableWeapon;
+      bonus bAspd,10;
+      bonus bDelayrate,-10;
+      bonus2 bSubClass,Class_All,20;
+      bonus2 bAddSize,Size_All,30+12*getrefine();
+      bonus bPow,3*(getrefine()/2);
+      bonus bMaxHPrate,3*(getrefine()/2);
+      bonus2 bSkillAtk,"RK_DRAGONBREATH",20*(getrefine()/2);
+      bonus2 bSkillAtk,"RK_DRAGONBREATH_WATER",20*(getrefine()/2);
+      bonus2 bSkillAtk,"RK_WINDCUTTER",20*(getrefine()/2);
+      if (getrefine() >= 11) {
+        bonus bDelayrate,-20;
+        bonus bPow,10;
+      }
+      if (getrefine() >= 12) {
+        bonus bAllStats,20;
+        bonus bBaseAtk,200;
+        bonus bLongAtkRate,20;
+      }
+      if (getrefine() >= 13) {
+        bonus bMaxHPrate,20;
+        bonus2 bSubClass,Class_All,40;
+      }
+      if (getrefine() >= 14) {
+        bonus bLongAtkDef,30;
+      }
+      if (getenchantgrade(EQI_HAND_R) >= ENCHANTGRADE_A) {
+        bonus bLongAtkRate,30;
+      }
+  # Purity Shadow Shield: Damage +5% now starts at +9 as on iRO; adds the +10 fixed cast bonus.
+  - Id: 1270047
+    AegisName: Clear_Shield_Shadow1_TW
+    Script: |
+      bonus bMaxHPrate,1*(getrefine()/2);
+      bonus bMaxSPrate,1*(getrefine()/2);
+      if (getrefine() >= 7) {
+        bonus bAllTraitStats,2;
+      }
+      if (getrefine() >= 9) {
+        bonus bShortAtkRate,5;
+        bonus bLongAtkRate,5;
+        bonus2 bMagicAtkEle,Ele_All,5;
+      }
+      if (getrefine() >= 10) {
+        bonus bFixedCast,-100;
+      }
+  # Corrupted Shadow Shield: Damage +5% now starts at +9 as on iRO; adds the +10 fixed cast bonus.
+  - Id: 1270048
+    AegisName: Clear_Shield_Shadow2_TW
+    Script: |
+      bonus bMaxHPrate,1*(getrefine()/2);
+      bonus bMaxSPrate,1*(getrefine()/2);
+      if (getrefine() >= 7) {
+        bonus bAllStats,2;
+      }
+      if (getrefine() >= 9) {
+        bonus bShortAtkRate,5;
+        bonus bLongAtkRate,5;
+        bonus2 bMagicAtkEle,Ele_All,5;
+      }
+      if (getrefine() >= 10) {
+        bonus bFixedCast,-100;
+      }
+  # 'Merica Hat: Adds the missing +7 bonus: LUK +10, FLEE +10.
+  - Id: 5877
+    AegisName: IRO_Flag_Hat
+    Script: |
+      bonus bSpeedRate,25;
+      if (getrefine() >= 7) {
+        bonus bLuk,10;
+        bonus bFlee,10;
+      }
+  # Varmundt Energy Suit: Adds the missing +13 bonus: melee, ranged and magic damage +15%.
+  - Id: 450431
+    AegisName: Bar_Ab_E_Suits
+    Script: |
+      bonus bMdef,30;
+      bonus bAllTraitStats,3;
+      bonus bBaseAtk,150;
+      bonus bMatk,150;
+      bonus bBaseAtk,15*(getrefine()/2);
+      bonus bMatk,15*(getrefine()/2);
+      bonus bDef,30*(getrefine()/2);
+      bonus2 bAddRace,RC_All,3*(getrefine()/3);
+      bonus2 bMagicAddRace,RC_All,3*(getrefine()/3);
+      if (getrefine() >= 7) {
+        bonus bAtkRate,5;
+        bonus bMatkRate,5;
+        bonus bPatk,2;
+        bonus bSmatk,2;
+      }
+      if (getrefine() >= 9) {
+        bonus bPatk,5;
+        bonus bSmatk,5;
+      }
+      if (getrefine() >= 11) {
+        bonus bDelayrate,-15;
+      }
+      if (getrefine() >= 13) {
+        bonus bShortAtkRate,15;
+        bonus bLongAtkRate,15;
+        bonus2 bMagicAtkEle,Ele_All,15;
+      }
+      if (getenchantgrade() >= ENCHANTGRADE_D) {
+        bonus bBaseAtk,25;
+        bonus bMatk,25;
+        bonus bAtkRate,5;
+        bonus bMatkRate,5;
+      }
+  # Rasgand's Soutane: Adds the missing +13 bonus: after cast delay -20%.
+  - Id: 450583
+    AegisName: Rasgand_Soutane_US
+    Script: |
+      bonus bUnbreakableArmor;
+      bonus bMdef,10;
+      bonus bAllStats,20;
+      bonus bMaxHPrate,20;
+      bonus bMaxSPrate,20;
+      bonus bBaseAtk,30*(BaseLevel/30);
+      bonus bMatk,30*(BaseLevel/30);
+      bonus bBaseAtk,30*(getrefine()/2);
+      bonus bMatk,30*(getrefine()/2);
+      bonus bPow,2*(getrefine()/3);
+      bonus bSpl,2*(getrefine()/3);
+      if (getrefine() >= 9) {
+        bonus2 bAddSize,Size_All,20;
+        bonus2 bMagicAddSize,Size_All,20;
+      }
+      if (getrefine() >= 11) {
+        bonus2 bAddSize,Size_All,20;
+        bonus2 bMagicAddSize,Size_All,20;
+      }
+      if (getrefine() >= 13) {
+        bonus bDelayrate,-20;
+      }
+      if (getrefine() >= 14) {
+        bonus bPatk,15;
+        bonus bSmatk,15;
+      }
+  # Grudge: Adds the missing +7 bonus: ASPD +10%.
+  - Id: 28139
+    AegisName: iRO_28139
+    Script: |
+      bonus bUnbreakableWeapon;
+      bonus bAtkRate,5;
+      bonus bCritical,5;
+      if (getrefine() >= 7) {
+        bonus bAspdRate,10;
+      }
+      if (getrefine() >= 9) {
+        bonus bCritAtkRate,10;
+      }
+  # Wolf Rayet: Adds the missing +10 bonus: Perfect Hit +25, after cast delay -20%.
+  - Id: 400582
+    AegisName: Wolf_Rayet
+    Script: |
+      bonus bPow,3+getrefine();
+      bonus2 bSubRace,RC_Player_Doram,13;
+      bonus2 bSubRace,RC_Player_Human,13;
+      bonus2 bSubClass,Class_Boss,20;
+      bonus2 bSubClass,Class_Normal,20;
+      bonus bAtkRate,40;
+      bonus2 bSkillAtk,"IG_OVERSLASH",BaseLevel/10;
+      bonus2 bSkillAtk,"IG_GRAND_JUDGEMENT",BaseLevel/10;
+      bonus2 bSkillAtk,"IG_SHIELD_SHOOTING",BaseLevel/10;
+      if (getrefine() >= 10) {
+        bonus bPerfectHitAddRate,25;
+        bonus bDelayrate,-20;
+      }
+  # Boitata Cap: Adds Perfect Hit +20, the +9 tier, and +5% damage per 2 refines.
+  - Id: 401002
+    AegisName: Boitata_Cap_US
+    Script: |
+      bonus bUnbreakableHelm;
+      bonus bPow,5;
+      bonus bCrt,5;
+      bonus bPerfectHitAddRate,20;
+      skill "AS_ENCHANTPOISON",5;
+      bonus2 bAddSize,Size_All,5*getrefine();
+      bonus bStr,5*(getrefine()/2);
+      bonus bDex,5*(getrefine()/2);
+      bonus bLuk,5*(getrefine()/2);
+      bonus bShortAtkRate,5*(getrefine()/2);
+      bonus bLongAtkRate,5*(getrefine()/2);
+      if (getrefine() >= 9) {
+        bonus bBaseAtk,50;
+        bonus bPerfectHitAddRate,30;
+      }
+      if (getrefine() >= 10) {
+        bonus bVariableCastrate,-15;
+        bonus bDelayrate,-15;
+      }
+      if (getrefine() >= 11) {
+        skill "GC_VENOMIMPRESS",5;
+        bonus bCritAtkRate,15;
+      }
+      if (getrefine() >= 12) {
+        bonus bCritAtkRate,20;
+        bonus bShortAtkRate,20;
+        bonus bLongAtkRate,20;
+      }
+      if (getrefine() >= 13) {
+        bonus bCritAtkRate,30;
+        bonus bCritical,30;
+      }
+  # Alpha Beast Armor: Adds the Hawk Rush bonus, +9 knockback immunity and the +10 skill damage.
+  - Id: 450360
+    AegisName: Alphabeast_Armor_US
+    Script: |
+      bonus bLongAtkRate,15;
+      bonus bAspd,2;
+      bonus2 bSkillAtk,"RA_WUGSTRIKE",30*getskilllv("HT_BEASTBANE");
+      bonus2 bSkillAtk,"WH_HAWKRUSH",30*getskilllv("HT_STEELCROW");
+      bonus bDex,10*getskilllv("RA_WUGRIDER");
+      bonus bBaseAtk,50*getskilllv("RA_WUGRIDER");
+      bonus bLongAtkRate,10*getskilllv("WH_HAWKRUSH");
+      if (getrefine() >= 8) {
+        bonus bPerfectHitAddRate,30;
+        bonus bAspdRate,3;
+      }
+      if (getrefine() >= 9) {
+        bonus bNoKnockback;
+        bonus bUnbreakableArmor;
+      }
+      if (getrefine() >= 10) {
+        bonus bDef,200;
+        bonus2 bSkillAtk,"RA_WUGSTRIKE",60;
+        bonus2 bSkillAtk,"WH_HAWKRUSH",60;
+      }
+      if (getrefine() >= 11) {
+        bonus bCon,3;
+        skill "TF_DOUBLE",10;
+      }
+      if (getenchantgrade() >= ENCHANTGRADE_C) {
+        bonus bCon,6;
+        bonus bAtkRate,20;
+      }
+      if (getenchantgrade() >= ENCHANTGRADE_B) {
+        bonus2 bSkillAtk,"WH_HAWKBOOMERANG",200;
+      }
+      if (getenchantgrade() >= ENCHANTGRADE_A) {
+        bonus bCon,2*(getrefine()/3);
+        bonus bPatk,3*(getrefine()/3);
+      }
+  # Speculation: The +9 bonus now applies to Crimson Arrow; adds the +12 tier.
+  - Id: 450401
+    AegisName: Speculation
+    Script: |
+      .@r = getrefine();
+      bonus2 bSubRace,RC_Player_Doram,7;
+      bonus2 bSubRace,RC_Player_Human,7;
+      bonus2 bSkillAtk,"AG_CRIMSON_ARROW",BaseLevel/10;
+      bonus2 bSkillAtk,"AG_CRIMSON_ARROW_ATK",BaseLevel/10;
+      bonus2 bSkillAtk,"AG_FROZEN_SLASH",BaseLevel/10;
+      bonus2 bSkillAtk,"AG_STORM_CANNON",BaseLevel/10;
+      bonus2 bSkillAtk,"AG_ROCK_DOWN",BaseLevel/10;
+      bonus2 bMagicAddSize,Size_All,7*.@r;
+      if (.@r >= 7) {
+        bonus bAspdRate,10;
+        bonus2 bSubClass,Class_Boss,5;
+        bonus2 bSubClass,Class_Normal,5;
+      }
+      if (.@r >= 9) {
+        bonus bUnbreakableArmor;
+        bonus2 bFixedCastrate,"AG_CRIMSON_ARROW",-100;
+      }
+      if (.@r >= 12) {
+        bonus bMatk,100;
+        bonus bSpl,10;
+      }
+  # Bougainvillea: Adds the +12 tier; drops a +10 bonus iRO does not list.
+  - Id: 450404
+    AegisName: Bougainvillea
+    Script: |
+      .@r = getrefine();
+      bonus2 bSubRace,RC_Player_Doram,7;
+      bonus2 bSubRace,RC_Player_Human,7;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_BLUE_DRAGON",BaseLevel/10;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_WHITE_TIGER",BaseLevel/10;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_RED_PHOENIX",BaseLevel/10;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_BLACK_TORTOISE",BaseLevel/10;
+      bonus2 bSkillAtk,"SOA_TALISMAN_OF_FOUR_BEARING_GOD",BaseLevel/10;
+      bonus2 bSkillAtk,"SOA_CIRCLE_OF_DIRECTIONS_AND_ELEMENTALS",BaseLevel/10;
+      bonus2 bMagicAddSize,Size_All,7*.@r;
+      if (.@r >= 7) {
+        bonus bAspdRate,10;
+        bonus2 bSubClass,Class_Boss,5;
+        bonus2 bSubClass,Class_Normal,5;
+      }
+      if (.@r >= 9) {
+        bonus bUnbreakableArmor;
+        bonus2 bSkillCooldown,"SP_CURSEEXPLOSION",-500;
+      }
+      if (.@r >= 12) {
+        bonus bMatk,150;
+        bonus bSpl,15;
+      }
+  # Tir na nog: The +9 bonus now cuts the spirit summon cooldowns; adds the +12 tier.
+  - Id: 450411
+    AegisName: Tirnanog
+    Script: |
+      .@r = getrefine();
+      bonus2 bSubRace,RC_Player_Doram,7;
+      bonus2 bSubRace,RC_Player_Human,7;
+      bonus2 bSkillAtk,"EM_CONFLAGRATION",BaseLevel/10;
+      bonus2 bSkillAtk,"EM_DIAMOND_STORM",BaseLevel/10;
+      bonus2 bSkillAtk,"EM_LIGHTNING_LAND",BaseLevel/10;
+      bonus2 bSkillAtk,"EM_TERRA_DRIVE",BaseLevel/10;
+      bonus2 bSkillAtk,"EM_VENOM_SWAMP",BaseLevel/10;
+      bonus2 bSkillAtk,"EM_ELEMENTAL_BUSTER",BaseLevel/10;
+      bonus2 bMagicAddSize,Size_All,7*.@r;
+      if (.@r >= 7) {
+        bonus bAspdRate,10;
+        bonus2 bSubClass,Class_Boss,5;
+        bonus2 bSubClass,Class_Normal,5;
+      }
+      if (.@r >= 9) {
+        bonus bUnbreakableArmor;
+        bonus2 bSkillCooldown,"SO_SUMMON_AGNI",-25000;
+        bonus2 bSkillCooldown,"SO_SUMMON_AQUA",-25000;
+        bonus2 bSkillCooldown,"SO_SUMMON_VENTUS",-25000;
+        bonus2 bSkillCooldown,"SO_SUMMON_TERA",-25000;
+      }
+      if (.@r >= 10) {
+        bonus2 bMagicAddEle,Ele_All,15;
+      }
+      if (.@r >= 12) {
+        bonus bMatk,150;
+        bonus bSpl,15;
+      }
